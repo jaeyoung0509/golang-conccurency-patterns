@@ -9,6 +9,10 @@ Channels look simple at the surface, but the runtime work behind them is careful
 
 This page is about *why* channel-based code behaves the way it does, not just how to use `chan T`.
 
+:::tip Quick takeaway
+Channels are not just queues. They combine synchronization, queueing, parking, wakeup, and lifecycle signaling. Most channel bugs come from a weak protocol, not from the syntax.
+:::
+
 :::info Version note
 This page is aligned with the Go 1.26 runtime sources `runtime/chan.go` and `runtime/select.go`.
 :::

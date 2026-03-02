@@ -7,6 +7,10 @@ description: Understand the G-M-P scheduler, run queues, netpoller, sysmon, pree
 
 If you want to know why Go concurrency patterns are practical, start with the runtime.
 
+:::tip Quick takeaway
+If you only remember one thing from this page, remember this: the runtime makes goroutines cheap and schedulable, but it does not know your service limits, queue policy, or failure semantics. That part is still your job.
+:::
+
 Go can afford patterns such as worker pools, pipelines, actors, and request-scoped fan-out because:
 
 - goroutines are cheaper than OS threads,

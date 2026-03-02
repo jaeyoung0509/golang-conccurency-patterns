@@ -9,6 +9,10 @@ description: errgroup과 context로 goroutine lifetime을 부모 작업 범위 �
 
 Go에서 이를 가장 실용적으로 표현하는 도구는 `golang.org/x/sync/errgroup`입니다.
 
+:::tip 빠른 요약
+이 패턴의 핵심은 parallelism보다 lifetime discipline입니다. 함께 성공하고, 함께 실패하고, 함께 취소돼야 하는 작업은 하나의 구조화된 subtree로 표현하는 편이 맞습니다.
+:::
+
 ## 왜 중요한가
 
 구조가 없으면 goroutine은 시작하기는 쉽지만 잊어버리기도 쉽습니다.

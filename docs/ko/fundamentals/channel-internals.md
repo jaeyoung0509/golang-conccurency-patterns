@@ -9,6 +9,10 @@ description: hchan, wait queue, sudog parking, direct handoff, close semantics, 
 
 이 문서는 `chan T` 사용법이 아니라, 채널 기반 코드가 왜 그런 성질을 갖는지 설명하는 문서입니다.
 
+:::tip 빠른 요약
+채널은 단순 queue가 아닙니다. synchronization, queueing, parking, wakeup, lifecycle signaling이 함께 들어 있는 추상화입니다. 대부분의 채널 버그는 문법보다 프로토콜이 약해서 생깁니다.
+:::
+
 :::info 버전 기준
 이 문서는 Go 1.26의 `runtime/chan.go`, `runtime/select.go`를 기준으로 정리했습니다.
 :::

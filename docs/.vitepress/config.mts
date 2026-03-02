@@ -11,6 +11,7 @@ const enSidebar = [
   {
     text: "Fundamentals",
     items: [
+      { text: "Overview", link: "/fundamentals/" },
       { text: "Go Runtime and Scheduler", link: "/fundamentals/go-runtime-scheduler" },
       { text: "Channels, Select, and the Memory Model", link: "/fundamentals/channels-memory-model" },
       { text: "Channel Internals", link: "/fundamentals/channel-internals" },
@@ -20,6 +21,7 @@ const enSidebar = [
   {
     text: "Patterns",
     items: [
+      { text: "Overview", link: "/patterns/" },
       { text: "Worker Pool", link: "/patterns/worker-pool" },
       { text: "Pipeline", link: "/patterns/pipeline" },
       { text: "Fan-Out / Fan-In", link: "/patterns/fan-out-fan-in" },
@@ -29,6 +31,7 @@ const enSidebar = [
   {
     text: "Advanced",
     items: [
+      { text: "Overview", link: "/advanced/" },
       { text: "Structured Concurrency", link: "/advanced/structured-concurrency" },
       { text: "Weighted Semaphore", link: "/advanced/weighted-semaphore" },
       { text: "Singleflight", link: "/advanced/singleflight" },
@@ -50,6 +53,7 @@ const koSidebar = [
   {
     text: "기초 원리",
     items: [
+      { text: "개요", link: "/ko/fundamentals/" },
       { text: "Go 런타임과 스케줄러", link: "/ko/fundamentals/go-runtime-scheduler" },
       { text: "Channels, Select, 그리고 Memory Model", link: "/ko/fundamentals/channels-memory-model" },
       { text: "채널 내부 동작", link: "/ko/fundamentals/channel-internals" },
@@ -59,6 +63,7 @@ const koSidebar = [
   {
     text: "패턴",
     items: [
+      { text: "개요", link: "/ko/patterns/" },
       { text: "워커 풀", link: "/ko/patterns/worker-pool" },
       { text: "파이프라인", link: "/ko/patterns/pipeline" },
       { text: "팬아웃 / 팬인", link: "/ko/patterns/fan-out-fan-in" },
@@ -68,6 +73,7 @@ const koSidebar = [
   {
     text: "고급 주제",
     items: [
+      { text: "개요", link: "/ko/advanced/" },
       { text: "구조화된 동시성", link: "/ko/advanced/structured-concurrency" },
       { text: "가중 세마포어", link: "/ko/advanced/weighted-semaphore" },
       { text: "Singleflight", link: "/ko/advanced/singleflight" },
@@ -126,9 +132,9 @@ export default defineConfig({
       themeConfig: {
         nav: [
           { text: "Guide", link: "/guide/getting-started" },
-          { text: "Fundamentals", link: "/fundamentals/go-runtime-scheduler" },
-          { text: "Patterns", link: "/patterns/worker-pool" },
-          { text: "Advanced", link: "/advanced/actor-pattern" },
+          { text: "Fundamentals", link: "/fundamentals/" },
+          { text: "Patterns", link: "/patterns/" },
+          { text: "Advanced", link: "/advanced/" },
           {
             text: "GitHub",
             link: "https://github.com/jaeyoung0509/golang-conccurency-patterns",
@@ -158,9 +164,9 @@ export default defineConfig({
       themeConfig: {
         nav: [
           { text: "가이드", link: "/ko/guide/getting-started" },
-          { text: "기초 원리", link: "/ko/fundamentals/go-runtime-scheduler" },
-          { text: "패턴", link: "/ko/patterns/worker-pool" },
-          { text: "고급 주제", link: "/ko/advanced/actor-pattern" },
+          { text: "기초 원리", link: "/ko/fundamentals/" },
+          { text: "패턴", link: "/ko/patterns/" },
+          { text: "고급 주제", link: "/ko/advanced/" },
           {
             text: "GitHub",
             link: "https://github.com/jaeyoung0509/golang-conccurency-patterns",
