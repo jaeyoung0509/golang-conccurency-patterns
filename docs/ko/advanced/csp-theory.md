@@ -112,3 +112,5 @@ CSP는 조합 방식을 설명해주지만, 다음 같은 실전 문제를 대�
 CSP를 이해하면 Go의 채널 중심 관용구가 임의의 스타일이 아니라 일관된 설계 언어로 보이기 시작합니다.
 
 그러면 파이프라인, 워커 풀, [액터 패턴](/ko/advanced/actor-pattern) 중 무엇을 쓸지 더 의식적으로 선택할 수 있습니다.
+
+이걸 Rust의 future/executor 스타일과 직접 비교하고 싶다면 [Go CSP vs Rust Tokio](/ko/extras/go-csp-vs-rust-tokio)로 이어서 읽어보세요.

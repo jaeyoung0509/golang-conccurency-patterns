@@ -12,10 +12,14 @@ const enSidebar = [
     text: "Fundamentals",
     items: [
       { text: "Overview", link: "/fundamentals/" },
+      { text: "Runtime Evolution", link: "/fundamentals/runtime-evolution" },
       { text: "Go Runtime and Scheduler", link: "/fundamentals/go-runtime-scheduler" },
+      { text: "Netpoller, Timers, and Syscalls", link: "/fundamentals/netpoller-timers-syscalls" },
       { text: "Channels, Select, and the Memory Model", link: "/fundamentals/channels-memory-model" },
       { text: "Channel Internals", link: "/fundamentals/channel-internals" },
       { text: "Mutex and Runtime Semaphore Internals", link: "/fundamentals/mutex-semaphore-internals" },
+      { text: "Map Internals and Swiss Tables", link: "/fundamentals/map-internals" },
+      { text: "Garbage Collector and Green Tea GC", link: "/fundamentals/garbage-collector" },
     ],
   },
   {
@@ -26,6 +30,9 @@ const enSidebar = [
       { text: "Pipeline", link: "/patterns/pipeline" },
       { text: "Fan-Out / Fan-In", link: "/patterns/fan-out-fan-in" },
       { text: "Context Cancellation", link: "/patterns/context-cancellation" },
+      { text: "Channel of Channels", link: "/patterns/channel-of-channels" },
+      { text: "Graceful Shutdown", link: "/patterns/graceful-shutdown" },
+      { text: "Or-Done, Tee, and Bridge", link: "/patterns/or-done-tee-bridge" },
     ],
   },
   {
@@ -38,6 +45,23 @@ const enSidebar = [
       { text: "Backpressure and Load Shedding", link: "/advanced/backpressure-load-shedding" },
       { text: "Actor Pattern", link: "/advanced/actor-pattern" },
       { text: "CSP Theory in Go", link: "/advanced/csp-theory" },
+    ],
+  },
+  {
+    text: "Testing",
+    items: [
+      { text: "Overview", link: "/testing/" },
+      { text: "Race Detector", link: "/testing/race-detector" },
+      { text: "Deterministic Tests with synctest", link: "/testing/synctest" },
+      { text: "Leak, Shutdown, and Timeout Testing", link: "/testing/leaks-and-shutdowns" },
+      { text: "Tracing and Contention Observability", link: "/testing/tracing-and-profiling" },
+    ],
+  },
+  {
+    text: "Extras",
+    items: [
+      { text: "Overview", link: "/extras/" },
+      { text: "Go CSP vs Rust Tokio", link: "/extras/go-csp-vs-rust-tokio" },
     ],
   },
 ] as const;
@@ -54,10 +78,14 @@ const koSidebar = [
     text: "기초 원리",
     items: [
       { text: "개요", link: "/ko/fundamentals/" },
+      { text: "런타임 진화", link: "/ko/fundamentals/runtime-evolution" },
       { text: "Go 런타임과 스케줄러", link: "/ko/fundamentals/go-runtime-scheduler" },
+      { text: "Netpoller, 타이머, 그리고 Syscall", link: "/ko/fundamentals/netpoller-timers-syscalls" },
       { text: "Channels, Select, 그리고 Memory Model", link: "/ko/fundamentals/channels-memory-model" },
       { text: "채널 내부 동작", link: "/ko/fundamentals/channel-internals" },
       { text: "Mutex와 런타임 세마포어 내부", link: "/ko/fundamentals/mutex-semaphore-internals" },
+      { text: "맵 내부 구조와 Swiss Tables", link: "/ko/fundamentals/map-internals" },
+      { text: "가비지 컬렉터와 Green Tea GC", link: "/ko/fundamentals/garbage-collector" },
     ],
   },
   {
@@ -68,6 +96,9 @@ const koSidebar = [
       { text: "파이프라인", link: "/ko/patterns/pipeline" },
       { text: "팬아웃 / 팬인", link: "/ko/patterns/fan-out-fan-in" },
       { text: "컨텍스트 취소", link: "/ko/patterns/context-cancellation" },
+      { text: "Channel of Channels", link: "/ko/patterns/channel-of-channels" },
+      { text: "Graceful Shutdown", link: "/ko/patterns/graceful-shutdown" },
+      { text: "Or-Done, Tee, Bridge", link: "/ko/patterns/or-done-tee-bridge" },
     ],
   },
   {
@@ -80,6 +111,23 @@ const koSidebar = [
       { text: "역압력과 로드 셰딩", link: "/ko/advanced/backpressure-load-shedding" },
       { text: "액터 패턴", link: "/ko/advanced/actor-pattern" },
       { text: "Go에서의 CSP 이론", link: "/ko/advanced/csp-theory" },
+    ],
+  },
+  {
+    text: "테스트",
+    items: [
+      { text: "개요", link: "/ko/testing/" },
+      { text: "Race Detector", link: "/ko/testing/race-detector" },
+      { text: "synctest로 결정적 테스트", link: "/ko/testing/synctest" },
+      { text: "리크, 종료, 타임아웃 테스트", link: "/ko/testing/leaks-and-shutdowns" },
+      { text: "트레이싱과 경합 관측", link: "/ko/testing/tracing-and-profiling" },
+    ],
+  },
+  {
+    text: "비교 / 확장",
+    items: [
+      { text: "개요", link: "/ko/extras/" },
+      { text: "Go CSP vs Rust Tokio", link: "/ko/extras/go-csp-vs-rust-tokio" },
     ],
   },
 ] as const;
@@ -135,6 +183,8 @@ export default defineConfig({
           { text: "Fundamentals", link: "/fundamentals/" },
           { text: "Patterns", link: "/patterns/" },
           { text: "Advanced", link: "/advanced/" },
+          { text: "Testing", link: "/testing/" },
+          { text: "Extras", link: "/extras/" },
           {
             text: "GitHub",
             link: "https://github.com/jaeyoung0509/golang-conccurency-patterns",
@@ -167,6 +217,8 @@ export default defineConfig({
           { text: "기초 원리", link: "/ko/fundamentals/" },
           { text: "패턴", link: "/ko/patterns/" },
           { text: "고급 주제", link: "/ko/advanced/" },
+          { text: "테스트", link: "/ko/testing/" },
+          { text: "비교 / 확장", link: "/ko/extras/" },
           {
             text: "GitHub",
             link: "https://github.com/jaeyoung0509/golang-conccurency-patterns",

@@ -141,6 +141,60 @@ Go 런타임에는 보통 `sysmon`이라고 부르는 background monitor thread�
 
 외부 API에 동시 호출 8개만 허용해야 한다면 `GOMAXPROCS`가 아니라 worker pool, semaphore, structured concurrency limit을 써야 합니다.
 
+## 단순화한 스케줄러 스케치
+
+`runtime/proc.go`를 읽을 때는 머릿속에 이런 루프를 두는 편이 좋습니다.
+
+```go
+func schedule(p *P) {
+	for {
+		if g := runqget(p); g != nil {
+			execute(g)
+			continue
+		}
+		if g := globrunqget(); g != nil {
+			execute(g)
+			continue
+		}
+		if ready := netpoll(0); !ready.empty() {
+			injectglist(ready)
+			continue
+		}
+		if g := steal(); g != nil {
+			execute(g)
+			continue
+		}
+		parkm()
+	}
+}
+```
+
+실제 런타임은 spinning thread, timer, GC work, syscall handoff까지 다루지만, 이 기본 구조를 설명할 수 있으면 `proc.go`가 훨씬 덜 어렵습니다.
+
+## 왜 Go 1.14가 그렇게 중요했나
+
+예전에는 CPU-heavy goroutine이 좋은 preemption point를 지나지 않으면 fairness를 늦출 수 있었습니다.
+
+Go 1.14의 asynchronous preemption은 tight loop, GC responsiveness, scheduler fairness를 실질적으로 바꿨습니다.
+
+그래서 오래된 scheduler folklore는 현재 Go에 그대로 적용하면 틀릴 때가 많습니다.
+
+## 런타임 소스 읽기 순서
+
+1. [runtime/proc.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/proc.go)
+2. [runtime/netpoll.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/netpoll.go)
+3. [runtime/time.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/time.go)
+
+특히 `proc.go` 상단의 scheduler comment는 런타임 전체에서 가장 좋은 high-level design 설명 중 하나입니다.
+
+## 어떻게 관측할까
+
+- `GODEBUG=schedtrace=1000,scheddetail=1`
+- `go test -trace=trace.out ./...`
+- `go tool trace trace.out`
+
+이 도구들을 보면 이론이 실제 run queue, blocking, wakeup으로 어떻게 보이는지 확인할 수 있습니다.
+
 ## 이 저장소 패턴과의 연결
 
 | 패턴 | 의존하는 런타임 속성 |

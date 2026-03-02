@@ -27,13 +27,17 @@ description: VitePress 기반 Go 동시성 문서 저장소의 구조와 실행 
 │   ├── advanced/
 │   ├── guide/
 │   ├── patterns/
+│   ├── testing/
+│   ├── extras/
 │   └── ko/
 ├── examples/
 │   ├── actor/
 │   ├── contexttimeout/
 │   ├── errgroupbatch/
 │   ├── fanoutfanin/
+│   ├── gracefulshutdown/
 │   ├── pipeline/
+│   ├── requestreply/
 │   ├── singleflightcache/
 │   ├── weightedsemaphore/
 │   └── workerpool/
@@ -62,9 +66,9 @@ go test ./...
 ## 처음 읽는 사람을 위한 빠른 경로
 
 1. [기초 원리 개요](/ko/fundamentals/)부터 읽습니다.
-2. [패턴 개요](/ko/patterns/)에서 자기 문제와 가장 가까운 패턴 하나를 고릅니다.
-3. 구현 디테일에 들어가기 전에 `examples/`의 테스트 파일을 먼저 읽습니다.
-4. 그 다음에 [고급 주제 개요](/ko/advanced/)로 넘어갑니다.
+2. [패턴 개요](/ko/patterns/)와 `examples/` 대응 패키지를 같이 읽습니다.
+3. timeout과 shutdown 경로를 믿기 전에 [테스트 개요](/ko/testing/)를 읽습니다.
+4. 그 다음에 [고급 주제 개요](/ko/advanced/), [비교 / 확장 개요](/ko/extras/)로 넘어갑니다.
 
 ## 예제 패키지 구성 원칙
 
@@ -76,6 +80,7 @@ go test ./...
 
 액터 예제는 여기에 한 가지를 더 보여줍니다. 외부 mutex 공유 없이 상태 소유권을 직렬화하는 방식입니다.
 새 고급 예제들은 `errgroup` 기반 구조화된 동시성, 가중 세마포어, `singleflight` 기반 중복 억제를 같이 보여줍니다.
+새 패턴 예제들은 embedded reply channel 기반 request/reply와 graceful drain shutdown도 함께 보여줍니다.
 
 :::tip 중요한 기준
 테스트가 "어떤 동시성 보장을 증명하는지" 설명할 수 없으면, 그 패턴을 아직 충분히 이해한 것이 아닙니다.
@@ -91,6 +96,7 @@ go test ./...
 4. 실제 서비스에 넣기 전에 무엇을 테스트해야 하는가?
 
 여기에 새로 추가된 기초 원리 문서는 다섯 번째 질문을 다룹니다. 왜 Go 런타임이 이런 패턴을 현실적으로 가능하게 하는가입니다.
+테스트 문서는 여섯 번째 질문을 다룹니다. 이 동작을 설명이 아니라 검증으로 어떻게 증명할 것인가입니다.
 
 ## 배포 방식
 

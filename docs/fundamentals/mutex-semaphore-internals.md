@@ -39,6 +39,31 @@ The uncontended path is simple:
 
 This is why mutexes are extremely cheap when uncontended.
 
+## Simplified internal sketch
+
+```go
+type Mutex struct {
+	state int32
+	sema  uint32
+}
+
+func Lock(m *Mutex) {
+	if CAS(&m.state, 0, mutexLocked) {
+		return
+	}
+	lockSlow(m)
+}
+
+func Unlock(m *Mutex) {
+	if atomicAdd(&m.state, -mutexLocked) == 0 {
+		return
+	}
+	unlockSlow(m)
+}
+```
+
+This is the core mental model: a very cheap fast path with a much richer slow path once contention appears.
+
 ## Slow path: spin, queue, or sleep
 
 If the fast path fails, the mutex enters `lockSlow()`.
@@ -105,6 +130,23 @@ The goal is similar to a futex:
 - every sleep is paired with one wakeup,
 - wakeup should not be lost even if races occur around the sleep,
 - blocking primitives like mutexes and wait groups can build on top of it.
+
+## Runtime source walk
+
+Start here:
+
+- [internal/sync/mutex.go](https://github.com/golang/go/blob/go1.26.0/src/internal/sync/mutex.go)
+- [runtime/sema.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/sema.go)
+
+The mutex source is the best place to understand the throughput vs fairness trade. `runtime/sema.go` explains how sleeping and waking are built.
+
+## How to observe contention
+
+- mutex profile
+- block profile
+- `go test -trace=trace.out ./...`
+
+If a service "looks fine in code review" but has high tail latency, contention is often the missing dimension.
 
 ## How waiters are tracked
 

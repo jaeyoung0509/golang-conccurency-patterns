@@ -27,13 +27,17 @@ That split matters because the site explains the patterns, but the Go packages p
 │   ├── advanced/
 │   ├── guide/
 │   ├── patterns/
+│   ├── testing/
+│   ├── extras/
 │   └── ko/
 ├── examples/
 │   ├── actor/
 │   ├── contexttimeout/
 │   ├── errgroupbatch/
 │   ├── fanoutfanin/
+│   ├── gracefulshutdown/
 │   ├── pipeline/
+│   ├── requestreply/
 │   ├── singleflightcache/
 │   ├── weightedsemaphore/
 │   └── workerpool/
@@ -61,9 +65,9 @@ Use the commands above before pushing changes. The first validates the static si
 ## Fast path for first-time readers
 
 1. Read [Fundamentals Overview](/fundamentals/).
-2. Pick one practical pattern from [Patterns Overview](/patterns/).
-3. Read the corresponding test file in `examples/` before reading every implementation detail.
-4. Only then move into [Advanced Overview](/advanced/).
+2. Move through [Patterns Overview](/patterns/) with the matching package under `examples/`.
+3. Read [Testing Overview](/testing/) before trusting any timeout or shutdown path.
+4. Only then move into [Advanced Overview](/advanced/) and [Extras Overview](/extras/).
 
 ## What is inside each example
 
@@ -75,6 +79,7 @@ Each package in `examples/` follows the same structure:
 
 The actor example adds one more angle: serialized state ownership without external mutex sharing.
 The advanced examples add three more angles: structured cancellation with `errgroup`, weighted concurrency with semaphores, and duplicate suppression with `singleflight`.
+The newer patterns add request/reply with embedded reply channels and graceful draining on shutdown.
 
 :::tip Why this is useful
 If you cannot explain what a test is proving about goroutine behavior, you probably do not understand the pattern well enough to use it in production.
@@ -90,6 +95,7 @@ The pattern pages are written to answer four questions:
 4. What should you test before copying this structure into a service?
 
 The new fundamentals pages answer a fifth question: why can Go support these patterns efficiently in the first place?
+The testing pages answer a sixth: how do you prove the behavior rather than merely describe it?
 
 ## Deployment model
 
