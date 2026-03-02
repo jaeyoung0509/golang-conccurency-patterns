@@ -51,6 +51,21 @@ flowchart LR
 - follower는 기다리기만 하되,
 - waiting policy는 자기 timeout에 맞출 수 있습니다.
 
+## 단순화한 통합 스케치
+
+```go
+value, ok := cache.Get(key)
+if ok {
+    return value, nil
+}
+
+resCh := group.DoChan(key, func() (any, error) {
+    return loadFromBackend(key)
+})
+```
+
+singleflight는 보통 cache lookup과 실제 backend load 사이에 들어갑니다.
+
 ## 테스트가 증명하는 것
 
 테스트는 다음을 검증합니다.
@@ -75,6 +90,15 @@ singleflight는 여러 caller의 context를 자동으로 "완벽하게 합친" s
 
 ## 흔한 실수
 
+### 실패 패턴: 에러 경로를 성공처럼 cache하는 경우
+
+```go
+v, err, _ := group.Do(key, load)
+cache.Set(key, v) // err 체크 없이 쓰면 잘못됨
+```
+
+중복 억제와 성공은 같은 것이 아닙니다. cache write는 여전히 제대로 된 error check가 필요합니다.
+
 ### singleflight가 cache를 대체한다고 착각하기
 
 아닙니다. singleflight는 진행 중인 중복 작업만 줄입니다. 호출이 끝나면 결과를 따로 저장하지 않는 이상 다음 요청은 다시 backend를 칩니다.
@@ -86,6 +110,10 @@ singleflight는 여러 caller의 context를 자동으로 "완벽하게 합친" s
 ### stampede 일부만 해결하고 overload는 그대로 두기
 
 singleflight는 같은 key에 대한 herd를 줄여줍니다. 서로 다른 수많은 key에 대한 폭주까지 막아주진 않습니다.
+
+### leader의 deadline이 전체 load lifetime을 좌우한다는 점을 무시하기
+
+leader가 너무 짧은 deadline을 쓰면 follower도 그 load를 공유하다가 너무 일찍 실패할 수 있습니다. 이건 구현 세부사항이 아니라 정책 결정입니다.
 
 ## 실전 요약
 

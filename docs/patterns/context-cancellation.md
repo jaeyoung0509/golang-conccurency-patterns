@@ -63,6 +63,19 @@ Two details matter here:
 1. The result channel is buffered, so goroutines are not left hanging on a send if the collector exits early.
 2. The collector owns cancellation, because it has enough context to decide whether an error should abort the whole workflow.
 
+## Simplified cancellation sketch
+
+```go
+ctx, cancel := context.WithCancel(parent)
+defer cancel()
+
+go func() { results <- loadA(ctx) }()
+go func() { results <- loadB(ctx) }()
+go func() { results <- loadC(ctx) }()
+```
+
+That small shape already carries the whole idea: one parent lifetime, many children, one shared stop signal.
+
 ## What the tests prove
 
 The tests verify:
@@ -72,6 +85,14 @@ The tests verify:
 - caller deadlines surface as `context.DeadlineExceeded`.
 
 ## Common mistakes
+
+### Failure pattern: detached child goroutine
+
+```go
+go loadProfile(context.Background(), userID, results) // detached from request lifetime
+```
+
+This turns request cancellation into a lie. The caller may leave, but the child work keeps running.
 
 ### Forgetting to pass the derived context downstream
 
@@ -84,6 +105,10 @@ If the collector exits after the first error, an unbuffered channel can leave si
 ### Hiding cancellation in helper functions
 
 Keep the cancellation decision near the aggregation point. That is where the business contract is visible.
+
+### Returning before senders can escape
+
+If child goroutines have no buffered send path, no select on `ctx.Done()`, and no external shutdown path, an early return from the collector can leave them wedged forever.
 
 ## Use this pattern when
 

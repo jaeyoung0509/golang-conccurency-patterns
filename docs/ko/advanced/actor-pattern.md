@@ -58,6 +58,23 @@ func (actor *InventoryActor) loop(state *inventoryState) {
 }
 ```
 
+## 단순화한 mailbox 스케치
+
+```go
+type envelope struct {
+    cmd   Command
+    reply chan Result
+}
+
+func loop(state *State, mailbox <-chan envelope) {
+    for env := range mailbox {
+        env.reply <- env.cmd.Apply(state)
+    }
+}
+```
+
+가장 작은 유효 actor 형태는 이것입니다. mailbox 하나, owner loop 하나, state machine 하나.
+
 안전성은 한 가지 규칙에서 나옵니다. `inventoryState`를 실제로 변경하는 곳이 액터 루프 하나뿐이라는 점입니다.
 
 즉,
@@ -96,6 +113,16 @@ func (actor *InventoryActor) loop(state *inventoryState) {
 
 ## 주의할 점
 
+### 실패 패턴: 내부 상태를 바깥에 노출하기
+
+```go
+func (actor *InventoryActor) UnsafeState() *inventoryState {
+    return actor.state // ownership boundary 붕괴
+}
+```
+
+바깥 코드가 내부 포인터를 직접 만질 수 있으면 actor 보장은 거의 사라집니다.
+
 ### mailbox에도 역압력이 필요하다
 
 호출자가 액터 처리 속도보다 빠르게 enqueue할 수 있으면 bounded mailbox, 거절 정책, 상위 레벨 throttling이 필요합니다.
@@ -107,6 +134,10 @@ func (actor *InventoryActor) loop(state *inventoryState) {
 ### supervision은 직접 설계해야 한다
 
 Go는 Erlang OTP 같은 supervisor를 기본 제공하지 않습니다. 재시작 정책, mailbox 내구성, 수명 주기 관리가 모두 애플리케이션 책임입니다.
+
+### reply channel의 수명도 설계해야 한다
+
+caller가 요청을 포기할 수 있다면, reply path가 actor loop를 wedge시키지 않아야 합니다. 그래서 one-shot buffered reply channel이 shared response path보다 안전한 경우가 많습니다.
 
 ## 실전 요약
 

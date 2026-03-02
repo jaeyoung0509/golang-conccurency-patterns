@@ -25,6 +25,7 @@ That split matters because the site explains the patterns, but the Go packages p
 │   ├── .vitepress/
 │   ├── fundamentals/
 │   ├── advanced/
+│   ├── production/
 │   ├── guide/
 │   ├── patterns/
 │   ├── testing/
@@ -67,7 +68,8 @@ Use the commands above before pushing changes. The first validates the static si
 1. Read [Fundamentals Overview](/fundamentals/).
 2. Move through [Patterns Overview](/patterns/) with the matching package under `examples/`.
 3. Read [Testing Overview](/testing/) before trusting any timeout or shutdown path.
-4. Only then move into [Advanced Overview](/advanced/) and [Extras Overview](/extras/).
+4. Read [Production Overview](/production/) once you care about operating rules and large-scale system tradeoffs.
+5. Only then move into [Advanced Overview](/advanced/) and [Extras Overview](/extras/).
 
 ## What is inside each example
 

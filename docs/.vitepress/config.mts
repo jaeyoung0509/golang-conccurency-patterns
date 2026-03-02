@@ -48,6 +48,14 @@ const enSidebar = [
     ],
   },
   {
+    text: "Production",
+    items: [
+      { text: "Overview", link: "/production/" },
+      { text: "Large-Scale Go Systems", link: "/production/large-scale-go-systems" },
+      { text: "Open-Source Case Studies", link: "/production/open-source-case-studies" },
+    ],
+  },
+  {
     text: "Testing",
     items: [
       { text: "Overview", link: "/testing/" },
@@ -111,6 +119,14 @@ const koSidebar = [
       { text: "역압력과 로드 셰딩", link: "/ko/advanced/backpressure-load-shedding" },
       { text: "액터 패턴", link: "/ko/advanced/actor-pattern" },
       { text: "Go에서의 CSP 이론", link: "/ko/advanced/csp-theory" },
+    ],
+  },
+  {
+    text: "프로덕션",
+    items: [
+      { text: "개요", link: "/ko/production/" },
+      { text: "대규모 Go 시스템", link: "/ko/production/large-scale-go-systems" },
+      { text: "오픈소스 사례", link: "/ko/production/open-source-case-studies" },
     ],
   },
   {
@@ -183,6 +199,7 @@ export default defineConfig({
           { text: "Fundamentals", link: "/fundamentals/" },
           { text: "Patterns", link: "/patterns/" },
           { text: "Advanced", link: "/advanced/" },
+          { text: "Production", link: "/production/" },
           { text: "Testing", link: "/testing/" },
           { text: "Extras", link: "/extras/" },
           {
@@ -217,6 +234,7 @@ export default defineConfig({
           { text: "기초 원리", link: "/ko/fundamentals/" },
           { text: "패턴", link: "/ko/patterns/" },
           { text: "고급 주제", link: "/ko/advanced/" },
+          { text: "프로덕션", link: "/ko/production/" },
           { text: "테스트", link: "/ko/testing/" },
           { text: "비교 / 확장", link: "/ko/extras/" },
           {

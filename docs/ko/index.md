@@ -13,6 +13,9 @@ hero:
       text: 패턴 둘러보기
       link: /ko/patterns/
     - theme: alt
+      text: 프로덕션 가이드
+      link: /ko/production/
+    - theme: alt
       text: 테스트 플레이북
       link: /ko/testing/
     - theme: alt
@@ -30,6 +33,8 @@ features:
     details: "`go test`로 순서 보장, 취소 전파, 동시성 제한, 실패 정책을 실제로 확인합니다."
   - title: 고급 운영 주제 포함
     details: "구조화된 동시성, 가중 세마포어, singleflight, 액터, 로드 셰딩까지 운영 관점의 주제를 다룹니다."
+  - title: 프로덕션 운영 규칙 포함
+    details: "admission control, queue budget, lifetime ownership, 대규모 시스템 동시성 tradeoff를 별도 섹션으로 다룹니다."
   - title: 테스트와 관측도 포함
     details: "Race detector, synctest, leak test, trace, contention profile을 동시성 역량의 일부로 다룹니다."
   - title: 영어/한국어 지원
@@ -67,7 +72,12 @@ features:
     <p><a href="/ko/testing/">테스트 보기</a></p>
   </div>
   <div class="path-card">
-    <h3>5. 비교 / 확장</h3>
+    <h3>5. 프로덕션</h3>
+    <p>queue budget, overload policy, goroutine ownership, 실제 오픈소스의 concurrency 구조를 같이 봅니다.</p>
+    <p><a href="/ko/production/">프로덕션 보기</a></p>
+  </div>
+  <div class="path-card">
+    <h3>6. 비교 / 확장</h3>
     <p>Go의 CSP 계열 모델을 Rust Tokio와 비교해 mental model을 더 넓힙니다.</p>
     <p><a href="/ko/extras/">비교 / 확장 보기</a></p>
   </div>
@@ -84,6 +94,7 @@ features:
 | 같은 cache miss 요청을 어떻게 하나로 합치는지 | [Singleflight](/ko/advanced/singleflight) |
 | 과부하를 늦게 터뜨리지 않고 초기에 제어하는 법 | [역압력과 로드 셰딩](/ko/advanced/backpressure-load-shedding) |
 | timeout-heavy 코드를 실제 sleep 없이 어떻게 테스트하는지 | [synctest로 결정적 테스트](/ko/testing/synctest) |
+| 토이 패턴을 넘어 대규모 Go 운영에서 무엇이 중요한지 | [대규모 Go 시스템](/ko/production/large-scale-go-systems) |
 | Go와 Rust Tokio의 async runtime 모델이 어떻게 다른지 | [Go CSP vs Rust Tokio](/ko/extras/go-csp-vs-rust-tokio) |
 
 ## 이 사이트가 다른 이유
@@ -110,4 +121,5 @@ features:
 3. [기초 원리 개요](/ko/fundamentals/)부터 읽습니다.
 4. 자기 workload에 맞는 패턴을 [패턴 개요](/ko/patterns/)에서 고릅니다.
 5. concurrent component를 production-ready로 보기 전에 [테스트 개요](/ko/testing/)를 읽습니다.
-6. 운영 설계와 비교 관점까지 확장할 때 [고급 주제 개요](/ko/advanced/), [비교 / 확장 개요](/ko/extras/)로 넘어갑니다.
+6. 운영 규칙과 오픈소스 사례를 보려면 [프로덕션 개요](/ko/production/)를 읽습니다.
+7. 운영 설계와 비교 관점까지 확장할 때 [고급 주제 개요](/ko/advanced/), [비교 / 확장 개요](/ko/extras/)로 넘어갑니다.

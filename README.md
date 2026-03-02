@@ -69,6 +69,11 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 - CSP theory in Go
 - Backpressure and load shedding
 
+## Included production topics
+
+- Large-scale Go systems: admission control, goroutine ownership, memory budgets, and shutdown policy
+- Open-source case studies from Kubernetes, etcd/raft, Prometheus, and NATS
+
 ## Included testing topics
 
 - Race detector strategy

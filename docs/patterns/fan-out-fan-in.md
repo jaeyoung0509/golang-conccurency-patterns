@@ -60,6 +60,25 @@ func CollectInventory(ctx context.Context, sku string, lookups map[string]Wareho
 }
 ```
 
+## Simplified aggregation sketch
+
+```go
+results := make(chan result, len(backends))
+
+for _, backend := range backends {
+    go func(backend Backend) {
+        value, err := backend.Lookup(ctx, key)
+        results <- result{value: value, err: err}
+    }(backend)
+}
+
+for range backends {
+    merge(<-results)
+}
+```
+
+The important production question is not "did fan-out happen?" The important question is "what counts as an acceptable aggregate when some branches fail?"
+
 That contract is practical because warehouse outages are common, but that does not mean the caller should lose all availability information.
 
 ## What the tests prove
@@ -79,6 +98,16 @@ If your product can work with partial inventory visibility, keep partial results
 
 ## Common mistakes
 
+### Failure pattern: accidental all-or-nothing policy
+
+```go
+if item.err != nil {
+    return InventoryReport{}, item.err // throws away useful partial success
+}
+```
+
+That policy may be correct in some systems, but it should be a conscious choice rather than the default reflex.
+
 ### Treating all downstream errors equally
 
 Some systems need "all or nothing". Others need "best effort". Decide which one you are building before you write the code.
@@ -90,3 +119,7 @@ Concurrent completion order is rarely the same as business priority. Sort after 
 ### Unbounded fan-out
 
 This example fans out once per warehouse. That is usually small and known. If the target set can grow large, combine this pattern with a worker pool or semaphore.
+
+### Closing the shared results channel from a worker
+
+The aggregator should usually own the receive loop and the final close condition. If multiple workers might close the same shared channel, the design is already in danger.

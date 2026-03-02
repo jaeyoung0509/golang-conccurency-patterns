@@ -50,6 +50,21 @@ That is an important practical detail:
 - the leader's function decides the shared work,
 - followers may still need independent timeout behavior while they wait.
 
+## Simplified integration sketch
+
+```go
+value, ok := cache.Get(key)
+if ok {
+    return value, nil
+}
+
+resCh := group.DoChan(key, func() (any, error) {
+    return loadFromBackend(key)
+})
+```
+
+The key idea is that singleflight usually lives between a cache check and a real backend load.
+
 ## What the tests prove
 
 The tests verify that:
@@ -74,6 +89,15 @@ Each choice is defensible in different systems. The important part is to make it
 
 ## Common mistakes
 
+### Failure pattern: caching an error path as success
+
+```go
+v, err, _ := group.Do(key, load)
+cache.Set(key, v) // wrong if err != nil
+```
+
+Duplicate suppression is not the same as success. Cache writes still need real error checks.
+
 ### Assuming singleflight replaces caching
 
 It only suppresses duplicate *in-flight* work. Once the call finishes, future callers will invoke the function again unless you also store the result somewhere.
@@ -85,6 +109,10 @@ If your keys explode in cardinality and every request uses a unique key, singlef
 ### Hiding stampedes but not overload
 
 Singleflight helps a thundering herd on the same key. It does not protect you from a thundering herd across many distinct keys.
+
+### Forgetting that the leader decides the load lifetime
+
+If the leader uses a very short deadline, all followers may end up sharing a load that dies too early. That is a policy decision, not an implementation accident you should ignore.
 
 ## Practical takeaway
 

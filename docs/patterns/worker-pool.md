@@ -74,6 +74,30 @@ func GenerateQuotes(ctx context.Context, orders []Order, workers int, quoteFn Qu
 }
 ```
 
+## Simplified implementation sketch
+
+The smallest useful worker-pool mental model looks like this:
+
+```go
+jobs := make(chan Job)
+results := make(chan Result, workers)
+
+for range workers {
+    go func() {
+        for job := range jobs {
+            results <- process(job)
+        }
+    }()
+}
+```
+
+The real production version adds:
+
+- context cancellation,
+- index tracking for stable output order,
+- worker shutdown coordination,
+- explicit error policy.
+
 Three design choices matter here:
 
 1. Results carry the original input index, so the collector can restore input order.
@@ -92,6 +116,18 @@ They prove:
 
 ## Common mistakes
 
+### Failure pattern: early return with an unbuffered results channel
+
+```go
+results := make(chan result) // risky in early-return flows
+
+if err != nil {
+    return nil, err // workers may now block forever on send
+}
+```
+
+If the collector can exit before all workers finish sending, an unbuffered results channel is one of the fastest ways to leak goroutines.
+
 ### Returning completion order when callers expect input order
 
 This is one of the easiest regressions to ship. If your API contract needs stable ordering, attach the original index to each job.
@@ -103,6 +139,10 @@ If workers do not receive a shared derived context, a failed batch keeps burning
 ### Using a worker pool for tiny request sizes
 
 If the batch is usually one or two items, the extra complexity may not buy you anything. Measure first.
+
+### Letting workers outlive the batch contract
+
+If workers do not watch a shared context or another shutdown signal, the pool can keep consuming downstream capacity after the caller no longer cares about the result.
 
 ## Use this pattern when
 
