@@ -31,6 +31,19 @@ The `runtime/trace` package and `go test -trace=trace.out` let you inspect:
 
 This is the best first tool when the question is "what is the runtime actually doing?"
 
+## Tiny instrumentation sketch
+
+```go
+ctx, task := trace.NewTask(ctx, "rebuild-cache")
+defer task.End()
+
+trace.WithRegion(ctx, "load-metadata", func() {
+    loadMetadata()
+})
+```
+
+That kind of annotation makes traces dramatically easier to read once a workflow spans several goroutines or phases.
+
 ## Block and mutex profiles
 
 If a service feels "concurrent but slow," the real issue may be:
@@ -61,6 +74,14 @@ go tool trace trace.out
 ```
 
 Then escalate to block or mutex profiles when the problem smells like contention.
+
+## Failure pattern
+
+```go
+// Only looking at request latency metrics, no trace, no block profile.
+```
+
+That is not enough once the issue is scheduler state, lock contention, queue delay, or GC interaction. Runtime behavior needs runtime-facing tools.
 
 ## Official reading
 

@@ -34,6 +34,26 @@ That leads to:
 
 Recent versions also support `SetLimit`, which makes structured concurrency practical even for larger finite task sets.
 
+## Simplified implementation sketch
+
+```go
+group, ctx := errgroup.WithContext(parent)
+group.SetLimit(limit)
+
+for _, tenant := range tenants {
+    tenant := tenant
+    group.Go(func() error {
+        return backfillTenant(ctx, tenant)
+    })
+}
+
+if err := group.Wait(); err != nil {
+    return err
+}
+```
+
+That is the core shape: one parent context, one bounded task set, one wait point.
+
 ## Example scenario
 
 `examples/errgroupbatch` runs tenant backfills for a fixed batch:
@@ -88,15 +108,31 @@ The package source is explicit about this. Treat the limit as part of group cons
 
 Even with nice helpers like `errgroup`, you still need the standard Go pattern of rebinding loop variables inside the loop before launching goroutines.
 
-## Common failure mode
+## Failure patterns
 
-The most common mistake is mixing structured and unstructured lifetimes:
+### Mixing structured and unstructured lifetimes
 
-- one task is in the group,
-- another goroutine is spawned outside the group,
-- cancellation stops only part of the real workflow.
+```go
+group.Go(func() error {
+    return runPrimary(ctx)
+})
 
-That defeats the main benefit.
+go fireAndForgetAudit(ctx) // outside the group
+```
+
+Now cancellation stops only part of the real workflow. That defeats the main benefit of the pattern.
+
+### Forgetting loop-variable rebinding
+
+```go
+for _, tenant := range tenants {
+    group.Go(func() error {
+        return backfillTenant(ctx, tenant) // risky if tenant is not rebound
+    })
+}
+```
+
+`errgroup` improves lifetime control. It does not remove the standard Go closure rules.
 
 ## Practical takeaway
 

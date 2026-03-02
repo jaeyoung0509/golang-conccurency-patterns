@@ -93,6 +93,21 @@ func TestContextTimeout(t *testing.T) {
 - trace / profile 분석
 - 외부 시스템과 얽힌 leak test
 
+## 실패 패턴
+
+wall-clock sleep에 기대는 순간 동시성 테스트는 다시 flaky해집니다.
+
+```go
+go func() {
+	time.Sleep(100 * time.Millisecond)
+	done <- struct{}{}
+}()
+
+time.Sleep(10 * time.Millisecond) // bad: 그냥 timing guess
+```
+
+`testing/synctest`는 이런 내부 timer / scheduling 동작을 운에 맡기지 않고 deterministic하게 다루기 위해 존재합니다.
+
 ## 공식 자료
 
 - [Testing Time (Go Blog)](https://go.dev/blog/testing-time)

@@ -113,6 +113,18 @@ Takeaway:
 
 Do not force every production concurrency design into channels if a condition variable plus clear ownership gives a tighter fit.
 
+## Failure pattern
+
+A common misread of production Go code is to copy the goroutines and forget the boundaries around them:
+
+```go
+for _, msg := range batch {
+	go process(msg) // bad: no queue, no limit, no shutdown contract
+}
+```
+
+The systems above work because they add queues, ownership loops, signaling edges, and lifecycle rules around concurrency. Those boundaries matter more than the raw presence of goroutines.
+
 ## How to read these systems well
 
 When you study production Go code, ask:

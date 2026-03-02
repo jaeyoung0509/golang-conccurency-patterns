@@ -59,6 +59,25 @@ flowchart LR
     Q --> D["Receiver"]
 ```
 
+## Tiny code sketch
+
+```go
+func producer(out chan<- Item) {
+    for _, item := range items {
+        out <- item
+    }
+    close(out)
+}
+
+func consumer(in <-chan Item) {
+    for item := range in {
+        handle(item)
+    }
+}
+```
+
+That is the CSP-shaped intuition in everyday Go: independent processes connected by explicit communication edges.
+
 ## Why this matters in practice
 
 The patterns in this repository become easier to classify once you see the CSP influence:
@@ -104,6 +123,15 @@ CSP gives you a way to think about composition. It does not remove the need for 
 - observability.
 
 Those are the places where production systems either stay clean or become fragile.
+
+## Failure pattern
+
+```go
+go func() { state.count++ }()
+go func() { state.count++ }()
+```
+
+This is precisely the kind of shared-memory mutation CSP-influenced Go style tries to make you question. Once shared state escapes the communication protocol, the conceptual simplicity disappears quickly.
 
 ## Practical takeaway
 

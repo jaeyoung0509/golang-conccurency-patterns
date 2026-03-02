@@ -158,6 +158,25 @@ False.
 
 If the same state is also read or written outside the synchronized channel protocol, you can still have a data race. Channels help only when the state transition protocol is actually built around them.
 
+## Failure pattern
+
+This still races even though a channel exists:
+
+```go
+var cfg Config
+ready := make(chan struct{})
+
+go func() {
+	cfg = loadConfig()
+	close(ready)
+}()
+
+fmt.Println(cfg.Timeout) // bad: read happens before the synchronization edge
+<-ready
+```
+
+Receiving from `ready` would synchronize visibility, but the read above happens too early. The rule is not "a channel exists somewhere"; the rule is "the relevant read happens after the synchronizing operation."
+
 ## Practical takeaway
 
 Correct Go concurrency depends on explicit synchronization, not just goroutine count.

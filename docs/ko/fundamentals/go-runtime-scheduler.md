@@ -225,6 +225,18 @@ Go 1.14의 asynchronous preemption은 tight loop, GC responsiveness, scheduler f
 스케줄러는 runnable goroutine을 언제 실행할지 정할 뿐입니다.
 외부 API 한도, 메모리 예산, latency SLO, backpressure 정책은 모릅니다.
 
+## 실패 패턴
+
+스케줄러는 unbounded fan-out을 안전한 설계로 바꿔주지 않습니다.
+
+```go
+for _, req := range requests {
+	go handle(req) // bad: limit도 queue도 admission control도 없음
+}
+```
+
+이 코드는 CPU, 메모리, downstream 서비스가 감당할 수 있는 속도보다 훨씬 빠르게 goroutine을 만들어낼 수 있습니다. runtime은 그 일을 multiplex할 뿐이고, 시스템 예산을 대신 정해주지는 않습니다.
+
 ## 실전 요약
 
 런타임은 Go 동시성 패턴을 가능하게 해주지만, 소유권 모델과 실패 정책은 대신 정해주지 않습니다.

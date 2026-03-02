@@ -225,6 +225,22 @@ Buffered channel은 다음에 매우 좋습니다.
 - blocked goroutine이 탈출할 수 있도록 context cancellation을 둘 것
 - overload가 중요하면 bounded queue를 사용할 것
 
+## 실패 패턴
+
+공유 output channel을 여러 producer가 쓰는데, 그중 한 producer가 `close`까지 자기 책임이라고 생각하면 프로토콜이 바로 깨지기 시작합니다.
+
+```go
+func producer(out chan<- Job, jobs []Job, wg *sync.WaitGroup) {
+	defer wg.Done()
+	for _, job := range jobs {
+		out <- job
+	}
+	close(out) // bad: 여러 producer 중 하나가 shared channel을 닫음
+}
+```
+
+다른 producer가 나중에 send하거나 또 `close`하려는 순간 panic이 납니다. 겉으로는 runtime panic이지만, 본질은 lifecycle ownership을 명확히 정하지 않은 설계입니다.
+
 ## 실전 요약
 
 채널은 효율적이지만 단순한 추상화는 아닙니다. queueing, synchronization, parking, wakeup, lifecycle signaling을 한 추상화 안에 같이 담고 있습니다.

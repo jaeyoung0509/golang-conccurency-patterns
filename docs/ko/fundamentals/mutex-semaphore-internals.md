@@ -200,6 +200,23 @@ mutex는 throughput과 fairness를 동시에 조절하므로 contention은 다�
 - 공유 메모리보다 explicit ownership이 낫다면 actor나 channel을 고려하고,
 - 상태가 로컬하고 프로토콜이 단순하면 mutex를 쓰는 편이 낫습니다.
 
+## 실패 패턴
+
+이 코드는 컴파일은 잘 되지만 latency를 망가뜨리기 딱 좋습니다.
+
+```go
+mu.Lock()
+defer mu.Unlock()
+
+resp, err := http.Get(url) // bad: lock을 잡은 채 느린 I/O 수행
+if err != nil {
+	return err
+}
+defer resp.Body.Close()
+```
+
+이런 코드 뒤에 waiter가 쌓이기 시작하면, 문제는 단순한 코드 냄새가 아니라 scheduler와 tail latency 전체에 영향을 주는 contention 이슈가 됩니다.
+
 ## 실전 요약
 
 Go의 public synchronization primitive가 간단해 보이는 이유는, 런타임이 상당한 복잡도를 대신 흡수하고 있기 때문입니다.

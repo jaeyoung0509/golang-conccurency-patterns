@@ -158,6 +158,25 @@ Go는 CSP 영향을 받았지만 "채널만 써라"는 언어는 아닙니다.
 
 동일한 상태를 채널 프로토콜 바깥에서도 읽거나 쓴다면 여전히 data race가 생길 수 있습니다. 채널은 상태 전이를 실제로 그 프로토콜 안에 넣었을 때만 도움이 됩니다.
 
+## 실패 패턴
+
+채널이 있다고 해서 자동으로 안전해지는 것은 아닙니다.
+
+```go
+var cfg Config
+ready := make(chan struct{})
+
+go func() {
+	cfg = loadConfig()
+	close(ready)
+}()
+
+fmt.Println(cfg.Timeout) // bad: synchronization edge 전에 읽음
+<-ready
+```
+
+`<-ready`는 visibility를 동기화하지만, 위 코드는 읽기가 너무 이르게 일어납니다. 규칙은 "어딘가에 채널이 있다"가 아니라 "관련된 읽기가 동기화 연산 뒤에 있다"입니다.
+
 ## 실전 요약
 
 정확한 Go 동시성은 고루틴 개수보다 명시적 동기화에 달려 있습니다.

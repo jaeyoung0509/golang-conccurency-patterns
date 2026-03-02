@@ -42,6 +42,26 @@ flowchart LR
 - `errgroup.WithContext`로 structured cancellation을 하고,
 - `x/sync/semaphore`로 weighted admission control을 합니다.
 
+## 단순화한 구현 스케치
+
+```go
+sem := semaphore.NewWeighted(int64(capacityMB))
+
+for _, job := range jobs {
+    job := job
+    group.Go(func() error {
+        if err := sem.Acquire(ctx, int64(job.WeightMB)); err != nil {
+            return err
+        }
+        defer sem.Release(int64(job.WeightMB))
+
+        return render(job)
+    })
+}
+```
+
+세마포어는 한 가지 질문에만 답합니다. 이 작업이 이만큼의 예산을 지금 써도 되는가.
+
 ## 테스트가 증명하는 것
 
 테스트는 다음을 검증합니다.
@@ -78,6 +98,20 @@ flowchart LR
 ### semaphore를 workflow 전체로 착각하기
 
 semaphore는 "이 작업을 지금 시작해도 되는가"를 말해줍니다. error aggregation이나 cancel policy까지 대신해주지는 않습니다.
+
+### 실패 패턴: Acquire 후 Release를 보장하지 않는 경우
+
+```go
+if err := sem.Acquire(ctx, weight); err != nil {
+    return err
+}
+
+if err := render(job); err != nil {
+    return err // Release를 빼먹으면 예산이 새어 나감
+}
+```
+
+성공한 acquire마다 모든 경로에서 matching release가 있어야 합니다. 그렇지 않으면 시스템은 점점 죽어갑니다.
 
 ## 실전 요약
 

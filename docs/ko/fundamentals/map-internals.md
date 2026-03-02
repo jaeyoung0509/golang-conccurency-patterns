@@ -132,6 +132,19 @@ hot map 하나를 lock으로 감싸고 많은 goroutine이 때리면, 병목은 
 
 좋아진 설계와 별개로, pointer-rich large map은 heap scan과 retention 비용을 바꿉니다.
 
+## 실패 패턴
+
+Swiss Table이 들어왔다고 concurrent mutation이 안전해진 것은 아닙니다.
+
+```go
+counts := map[string]int{}
+
+go func() { counts["ok"]++ }()
+go func() { counts["fail"]++ }()
+```
+
+이 코드는 여전히 race이며 concurrent map write panic으로 이어질 수 있습니다. 내부 구현이 빨라졌다는 사실은 ownership 규칙을 없애주지 않습니다.
+
 ## 런타임 소스 포인터
 
 - [runtime/map.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/map.go)

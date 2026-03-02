@@ -128,6 +128,21 @@ Go 1.25에서는 Green Tea가 실험 기능이었고, Go 1.26에서 기본 활�
 
 accidental heap growth보다 명시적 메모리 예산이 있는 서비스가 운영하기 쉽습니다.
 
+## 실패 패턴
+
+allocation이 무거운 fan-out은 GC 비용을 request latency 안으로 끌어들입니다.
+
+```go
+for _, req := range batch {
+	go func(req Request) {
+		payload := make([]byte, 1<<20) // fan-out 경로에서 큰 allocation
+		_ = process(req, payload)
+	}(req)
+}
+```
+
+Go의 GC는 concurrent지만, allocation이 많은 goroutine은 assist 비용을 치르고 heap pressure도 올립니다. "goroutine이 싸다"는 말은 "allocation burst가 공짜다"라는 뜻이 아닙니다.
+
 ## Practical takeaway
 
 Go의 동시성 모델이 실용적인 이유 중 하나는 GC가 늘 켜져 있는 서버 workload를 염두에 두고 설계되었기 때문입니다.

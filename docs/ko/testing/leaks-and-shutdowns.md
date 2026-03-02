@@ -60,6 +60,19 @@ goroutine 수를 전역적으로 세기보다:
 
 같은 completion protocol을 더 선호하는 편이 안정적입니다.
 
+## 실패 패턴
+
+이런 테스트는 마음만 편하게 해주고 실제 종료를 증명하지는 못합니다.
+
+```go
+func TestWorkerStops(t *testing.T) {
+	startWorker()
+	time.Sleep(50 * time.Millisecond) // bad: sleep은 shutdown 증거가 아님
+}
+```
+
+잠깐 기다렸더니 조용하다는 사실은 goroutine이 채널, 타이머, lock에 여전히 parked 되어 있지 않다는 뜻이 아닙니다. 종료 테스트에는 explicit completion signal이나 bounded `Shutdown` contract가 필요합니다.
+
 ## 흔한 실수
 
 ### happy path만 테스트하는 것

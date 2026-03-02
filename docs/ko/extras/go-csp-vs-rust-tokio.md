@@ -104,6 +104,32 @@ Tokio에서는:
 - cancellation token이나 `select!` 패턴이 흔하며,
 - structured composition이 더 library layer에서 드러납니다.
 
+## 작은 비교 스케치
+
+Go 버전:
+
+```go
+for req := range requests {
+	go func(req Request) {
+		replies <- handle(req)
+	}(req)
+}
+```
+
+Tokio 버전:
+
+```rust
+while let Some(req) = requests.recv().await {
+    let replies = replies.clone();
+    tokio::spawn(async move {
+        let res = handle(req).await;
+        let _ = replies.send(res).await;
+    });
+}
+```
+
+표면적으로는 같은 문제를 푸는 코드처럼 보이지만, control point는 다릅니다. Go는 goroutine과 `select` 쪽으로 기울고, Tokio는 async boundary, task spawn, channel ownership을 더 명시적으로 드러냅니다.
+
 ## Go가 더 편하게 느껴질 때
 
 - direct-style network service code를 쓰고 싶을 때
@@ -115,6 +141,20 @@ Tokio에서는:
 - ownership / lifetime 제약을 타입 시스템에 더 밀어 넣고 싶을 때
 - async boundary를 더 명시적으로 보고 싶을 때
 - Rust 생태계의 zero-cost abstraction 감각을 함께 가져가고 싶을 때
+
+## 실패 패턴
+
+goroutine 습관을 Tokio에 그대로 옮기면 backpressure나 cancellation handle 없이 task를 마구 분리해 버리기 쉽습니다.
+
+```rust
+for req in requests {
+    tokio::spawn(async move {
+        let _ = handle(req).await;
+    });
+}
+```
+
+개념적으로는 Go에서도 익숙한 실수지만, Go는 CSP 기본 도구가 더 앞쪽에 있어서 coordination을 조금 더 빨리 의식하게 만듭니다. Tokio는 그것을 충분히 표현할 수 있지만, 암묵적으로 제공하지는 않습니다.
 
 ## 공식 자료
 

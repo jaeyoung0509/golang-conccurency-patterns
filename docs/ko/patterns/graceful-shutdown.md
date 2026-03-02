@@ -50,6 +50,32 @@ flowchart TD
 
 이 순서가 중요한 이유는, "그냥 전부 cancel"보다 운영 계약을 더 잘 반영하기 때문입니다.
 
+## 단순화한 구현 스케치
+
+```go
+func (p *Processor) Shutdown(ctx context.Context) error {
+    p.mu.Lock()
+    p.closed = true
+    close(p.jobs)
+    p.mu.Unlock()
+
+    done := make(chan struct{})
+    go func() {
+        defer close(done)
+        p.wg.Wait()
+    }()
+
+    select {
+    case <-done:
+        return nil
+    case <-ctx.Done():
+        return ctx.Err()
+    }
+}
+```
+
+핵심 계약은 단순합니다. admission 중단, queue close, worker drain 대기, deadline 강제.
+
 ## 예제가 증명하는 것
 
 `examples/gracefulshutdown/gracefulshutdown_test.go`는 다음을 검증합니다.
@@ -81,6 +107,16 @@ Graceful shutdown은 결국 정책 문제이기도 합니다.
 ### outer shutdown deadline이 없는 것
 
 deadline 없는 graceful shutdown은 결국 graceful hang이 될 수 있습니다.
+
+### 실패 패턴: closed 상태만 보고 send를 따로 하는 경우
+
+```go
+if !p.closed {
+    p.jobs <- event // 이 사이 다른 goroutine이 jobs를 닫을 수 있음
+}
+```
+
+이게 "테스트에서는 되던데?"가 production에서 `send on closed channel`로 바뀌는 전형적인 방식입니다.
 
 ## Use this pattern when
 

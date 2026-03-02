@@ -97,6 +97,18 @@ one-shot reply라면 굳이 channel을 닫을 필요가 없는 경우가 많습�
 
 broker boundary가 없고 concurrency boundary도 없다면 channel protocol은 과할 수 있습니다.
 
+## 실패 패턴
+
+caller가 이미 떠난 뒤 unbuffered per-request reply channel로 응답하면 broker가 그대로 wedge될 수 있습니다.
+
+```go
+func respond(req Request, result Result) {
+	req.Reply <- result // bad: caller가 timeout으로 떠났다면 여기서 멈춤
+}
+```
+
+one-shot request/reply라면 size-1 buffered reply channel이나 caller cancellation을 함께 보는 `select`가 훨씬 안전합니다.
+
 ## Use this pattern when
 
 per-call ownership이 분명한 brokered request/reply가 필요할 때 쓰면 좋습니다.

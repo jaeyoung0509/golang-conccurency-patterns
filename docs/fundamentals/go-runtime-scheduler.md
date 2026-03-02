@@ -225,6 +225,18 @@ Every goroutine still carries:
 The scheduler decides *when* runnable goroutines execute.
 It does not know your external service limits, memory budget, latency SLOs, or backpressure policy.
 
+## Failure pattern
+
+The scheduler does not turn unbounded fan-out into a safe design:
+
+```go
+for _, req := range requests {
+	go handle(req) // bad: no limit, no queue, no admission control
+}
+```
+
+This can create runnable or blocked goroutines far faster than CPUs, memory, or downstream services can absorb. The runtime multiplexes work; it does not invent a concurrency budget for you.
+
 ## Practical takeaway
 
 The runtime makes Go concurrency patterns viable, but the runtime does not choose your ownership model or failure policy for you.

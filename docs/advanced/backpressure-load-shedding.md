@@ -50,6 +50,21 @@ Common building blocks are:
 - request deadlines and context cancellation,
 - degraded responses instead of full failure when possible.
 
+## Simplified admission sketch
+
+```go
+func TryEnqueue(job Job) error {
+    select {
+    case queue <- job:
+        return nil
+    default:
+        return ErrOverloaded
+    }
+}
+```
+
+That tiny pattern is often more honest than silently accepting work your system has no realistic chance of serving on time.
+
 ```mermaid
 flowchart LR
     A["incoming work"] --> B{"capacity available?"}
@@ -71,6 +86,14 @@ flowchart LR
 - [Weighted Semaphore](/advanced/weighted-semaphore): bounds resource weight.
 - [Structured Concurrency](/advanced/structured-concurrency): keeps canceled work from lingering.
 - [Singleflight](/advanced/singleflight): reduces duplicate backend pressure for the same key.
+
+## Failure pattern
+
+```go
+go handle(job) // one goroutine per incoming unit, no bound, no queue policy
+```
+
+This is the classic overload trap. The code looks responsive at first because admission is instant. Under pressure it converts load into goroutine count, memory growth, and tail-latency collapse.
 
 ## Practical takeaway
 

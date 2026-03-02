@@ -81,6 +81,20 @@ Use them when the *composition problem* is the hard part.
 
 If the real difficulty is ownership or backpressure, these helpers will not save a weak design by themselves.
 
+## Failure pattern
+
+Small forwarding helpers become leak factories when they ignore cancellation:
+
+```go
+func forward(in <-chan Item, out chan<- Item) {
+	for v := range in {
+		out <- v // bad: blocks forever if downstream stops reading
+	}
+}
+```
+
+`or-done` exists precisely because real pipelines do not always drain every stage to completion.
+
 ## Practical takeaway
 
 These are "advanced small patterns." They do not dominate architecture decisions, but they often clean up the hardest edges in channel-heavy code.

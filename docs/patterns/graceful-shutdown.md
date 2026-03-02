@@ -52,6 +52,32 @@ The crucial sequencing is:
 
 That sequencing is safer than "just cancel everything immediately" when your service contract says accepted work should finish.
 
+## Simplified implementation sketch
+
+```go
+func (p *Processor) Shutdown(ctx context.Context) error {
+    p.mu.Lock()
+    p.closed = true
+    close(p.jobs)
+    p.mu.Unlock()
+
+    done := make(chan struct{})
+    go func() {
+        defer close(done)
+        p.wg.Wait()
+    }()
+
+    select {
+    case <-done:
+        return nil
+    case <-ctx.Done():
+        return ctx.Err()
+    }
+}
+```
+
+That small shape captures the whole contract: stop admission, close the queue, wait, enforce a deadline.
+
 ## What the example proves
 
 The tests in `examples/gracefulshutdown/gracefulshutdown_test.go` verify:
@@ -83,6 +109,16 @@ The bug to watch for is "submit sees queue open, shutdown closes it, submit pani
 ### No outer shutdown deadline
 
 A graceful shutdown without a final timeout can become an infinite shutdown.
+
+### Failure pattern: checking closed state without coordinating the send
+
+```go
+if !p.closed {
+    p.jobs <- event // another goroutine may close jobs right here
+}
+```
+
+This is how "works in tests" becomes "send on closed channel" in production.
 
 ## Use this pattern when
 

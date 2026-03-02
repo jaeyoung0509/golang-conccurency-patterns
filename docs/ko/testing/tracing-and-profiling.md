@@ -31,6 +31,19 @@ description: runtime trace, block profile, mutex profile, scheduler debug output
 
 즉, "runtime이 실제로 뭘 하고 있는가"를 보기에 가장 좋은 출발점입니다.
 
+## 작은 instrumentation 스케치
+
+```go
+ctx, task := trace.NewTask(ctx, "rebuild-cache")
+defer task.End()
+
+trace.WithRegion(ctx, "load-metadata", func() {
+    loadMetadata()
+})
+```
+
+이 정도 annotation만 있어도 여러 goroutine과 단계가 섞인 trace를 읽기가 훨씬 쉬워집니다.
+
 ## block / mutex profile
 
 서비스가 "동시성은 많은데 느리다"면 실제 문제는 다음일 수 있습니다.
@@ -61,6 +74,14 @@ go tool trace trace.out
 ```
 
 그다음 contention 냄새가 나면 block / mutex profile로 넘어가면 됩니다.
+
+## 실패 패턴
+
+```go
+// request latency metric만 보고 있고, trace도 block profile도 없는 상태
+```
+
+이 정도 관측으로는 scheduler state, lock contention, queue delay, GC interaction을 제대로 볼 수 없습니다. runtime 문제는 runtime-facing tool이 필요합니다.
 
 ## 공식 자료
 

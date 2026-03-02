@@ -42,6 +42,26 @@ The example combines:
 - `errgroup.WithContext` for structured cancellation,
 - `x/sync/semaphore` for weighted admission control.
 
+## Simplified implementation sketch
+
+```go
+sem := semaphore.NewWeighted(int64(capacityMB))
+
+for _, job := range jobs {
+    job := job
+    group.Go(func() error {
+        if err := sem.Acquire(ctx, int64(job.WeightMB)); err != nil {
+            return err
+        }
+        defer sem.Release(int64(job.WeightMB))
+
+        return render(job)
+    })
+}
+```
+
+The semaphore answers one narrow question: may this job consume that much budget right now?
+
 ## What the tests prove
 
 The tests verify that:
@@ -78,6 +98,20 @@ If a request needs more capacity than the system can ever provide, fail early. D
 ### Treating a semaphore like a whole workflow
 
 A semaphore answers "may this job proceed?" It does not answer "how should I aggregate errors?" Pair it with structured concurrency or explicit cancellation.
+
+### Failure pattern: acquiring without guaranteed release
+
+```go
+if err := sem.Acquire(ctx, weight); err != nil {
+    return err
+}
+
+if err := render(job); err != nil {
+    return err // leaked budget if Release is forgotten
+}
+```
+
+If every successful acquire does not have a matching release on every path, your limit slowly turns into a dead system.
 
 ## Practical takeaway
 
