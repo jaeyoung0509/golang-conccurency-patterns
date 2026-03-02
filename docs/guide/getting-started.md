@@ -5,6 +5,13 @@ description: Repository structure, commands, and study approach for this VitePre
 
 # Getting Started
 
+<div class="lead-panel">
+  <p>
+    If the site feels large, do not start by clicking random deep pages.
+    Start here, understand the repository shape, then use the overview pages to enter the right section.
+  </p>
+</div>
+
 This repository is a documentation site and a Go example repository at the same time.
 
 The documentation lives in `docs/`, while the runnable examples and tests live in `examples/`.
@@ -51,6 +58,13 @@ go test ./...
 
 Use the commands above before pushing changes. The first validates the static site build. The second validates the Go examples.
 
+## Fast path for first-time readers
+
+1. Read [Fundamentals Overview](/fundamentals/).
+2. Pick one practical pattern from [Patterns Overview](/patterns/).
+3. Read the corresponding test file in `examples/` before reading every implementation detail.
+4. Only then move into [Advanced Overview](/advanced/).
+
 ## What is inside each example
 
 Each package in `examples/` follows the same structure:
@@ -79,7 +93,7 @@ The new fundamentals pages answer a fifth question: why can Go support these pat
 
 ## Deployment model
 
-The repository includes a GitHub Pages workflow that builds VitePress on every push to `main`.
+The repository includes a GitHub Pages workflow that builds VitePress on pushes to `develop`.
 The configured base path is `/golang-conccurency-patterns/`, which matches the current repository name.
 
 If you rename the repository later, update the `base` value in `docs/.vitepress/config.mts`.

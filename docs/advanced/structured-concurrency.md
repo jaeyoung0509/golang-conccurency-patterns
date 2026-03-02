@@ -9,6 +9,10 @@ Structured concurrency means child goroutines should belong to a clear parent ta
 
 In Go, the most common practical tool for this is `golang.org/x/sync/errgroup`.
 
+:::tip Quick takeaway
+This pattern is about lifetime discipline. If work should succeed, fail, and cancel together, it should usually be represented as one structured subtree instead of a pile of unrelated goroutines.
+:::
+
 ## Why this pattern matters
 
 Without structure, goroutines are easy to start and easy to forget.
