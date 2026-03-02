@@ -17,6 +17,19 @@ nontrivial한 동시성 코드라면 가장 먼저 돌려야 하는 도구가 ra
 - channel protocol이 보호해야 할 상태를 바깥에서 따로 읽거나 쓰는 경우,
 - cache update에 lock을 빠뜨린 경우.
 
+## 작은 race 예시
+
+```go
+func TestRacyMap(t *testing.T) {
+    cache := map[string]int{}
+
+    go func() { cache["a"] = 1 }()
+    go func() { _ = cache["a"] }()
+}
+```
+
+이 코드는 casual run에서는 조용히 지나갈 수도 있습니다. `-race`를 돌리면 바로 잡아야 하는 버그라는 점이 드러납니다.
+
 ## 무엇을 보장하지 않나
 
 `-race`가 깨끗하다고 해서 다음이 보장되지는 않습니다.
@@ -46,6 +59,17 @@ go test -race ./...
 - 리팩터링이 ownership contract를 깨뜨렸는가
 
 하지만 이것만으로 validation을 끝내면 안 됩니다.
+
+## 실패 패턴
+
+```go
+func TestSomething(t *testing.T) {
+    go mutateSharedState()
+    time.Sleep(10 * time.Millisecond)
+}
+```
+
+이런 테스트는 한동안은 통과하면서 잘못된 자신감만 줍니다. `-race`로 돌리고, 그다음 timing luck을 실제 synchronization으로 바꿔야 합니다.
 
 ## 공식 자료
 

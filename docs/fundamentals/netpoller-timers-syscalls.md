@@ -152,6 +152,24 @@ Use traces when you want to answer questions such as:
 - Are timeouts waking goroutines or are requests just stalling?
 - Is the process limited by downstream I/O or by CPU?
 
+## Failure pattern
+
+The netpoller makes blocked I/O scalable, but it does not rescue a server with no deadline or overload policy:
+
+```go
+for {
+	conn, _ := ln.Accept()
+	go func(c net.Conn) {
+		defer c.Close()
+		buf := make([]byte, 4096)
+		_, _ = c.Read(buf) // bad: a dead peer can park this forever
+		handleSlowRequest(buf)
+	}(conn)
+}
+```
+
+Without deadlines and admission limits, slow or stalled clients still consume file descriptors, heap, and scheduler attention.
+
 ## Practical takeaway
 
 The netpoller is a core part of Go's concurrency model, not an implementation footnote.

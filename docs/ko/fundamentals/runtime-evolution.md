@@ -117,6 +117,19 @@ Green Tea는 작은 객체 marking에서 span 단위 batching을 통해 locality
 - cache behavior를 개선하며,
 - allocation-heavy 서버에서 marking 효율을 높입니다.
 
+## 실패 패턴
+
+오래된 스케줄러 folklore가 cargo-cult 형태로 남아 있는 경우가 많습니다.
+
+```go
+for {
+	doCPUHeavyChunk()
+	runtime.Gosched() // bad: 진짜 cancellation과 work budgeting을 대신할 수 없음
+}
+```
+
+현대 Go에는 async preemption이 있지만, 그렇다고 끝없는 work loop가 좋은 설계가 되지는 않습니다. 런타임 발전을 배운다는 것은 예전 조언을 반복하는 게 아니라 mental model을 업데이트하는 일입니다.
+
 ## 런타임 소스 포인터
 
 - [runtime/proc.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/proc.go)

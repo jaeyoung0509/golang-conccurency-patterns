@@ -97,6 +97,18 @@ The request owner creates the reply channel, but the broker usually owns the sen
 
 If there is no concurrency boundary and no broker loop, do not force a channel protocol just because it looks elegant.
 
+## Failure pattern
+
+The broker can wedge if it replies on an unbuffered per-request channel after the caller has already left:
+
+```go
+func respond(req Request, result Result) {
+	req.Reply <- result // bad: caller may have timed out and stopped receiving
+}
+```
+
+In one-shot request/reply flows, a size-1 buffered reply channel or a `select` on caller cancellation usually makes the protocol much safer.
+
 ## Use this pattern when
 
 Use channel-of-channels when you need a brokered request/reply protocol with clear per-call ownership.

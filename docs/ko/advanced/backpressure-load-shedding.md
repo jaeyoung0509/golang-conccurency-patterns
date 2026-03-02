@@ -50,6 +50,21 @@ description: bounded queue, admission control, 거절 정책으로 과부하 상
 - request deadline과 context cancellation
 - full failure 대신 degraded response
 
+## 단순화한 admission 스케치
+
+```go
+func TryEnqueue(job Job) error {
+    select {
+    case queue <- job:
+        return nil
+    default:
+        return ErrOverloaded
+    }
+}
+```
+
+이 작은 패턴 하나가, 처리 불가능한 일을 조용히 받아들이는 것보다 훨씬 정직합니다.
+
 ```mermaid
 flowchart LR
     A["incoming work"] --> B{"capacity available?"}
@@ -71,6 +86,14 @@ flowchart LR
 - [가중 세마포어](/ko/advanced/weighted-semaphore): resource weight를 제한
 - [구조화된 동시성](/ko/advanced/structured-concurrency): cancel된 작업이 계속 남지 않게 함
 - [Singleflight](/ko/advanced/singleflight): 같은 key에 대한 중복 backend pressure를 줄임
+
+## 실패 패턴
+
+```go
+go handle(job) // bound도 없고 queue policy도 없음
+```
+
+이게 전형적인 overload trap입니다. 초반에는 admission이 즉시 되니 빨라 보이지만, 부하가 커지면 goroutine 수, 메모리, tail latency가 같이 무너집니다.
 
 ## 실전 요약
 

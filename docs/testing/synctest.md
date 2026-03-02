@@ -87,6 +87,21 @@ It does not replace:
 - trace and profile analysis,
 - leak tests for code that interacts with external systems.
 
+## Failure pattern
+
+Wall-clock sleeps are still the most common reason concurrency tests stay flaky:
+
+```go
+go func() {
+	time.Sleep(100 * time.Millisecond)
+	done <- struct{}{}
+}()
+
+time.Sleep(10 * time.Millisecond) // bad: timing guess
+```
+
+`testing/synctest` exists so internal timers and scheduling behavior can be driven deterministically instead of by luck.
+
 ## Official reading
 
 - [Testing Time (Go Blog)](https://go.dev/blog/testing-time)

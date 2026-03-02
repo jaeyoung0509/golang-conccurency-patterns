@@ -17,6 +17,19 @@ Typical examples:
 - mutating shared state outside the channel protocol that is supposed to protect it,
 - forgetting to lock around a cache update.
 
+## Tiny race example
+
+```go
+func TestRacyMap(t *testing.T) {
+    cache := map[string]int{}
+
+    go func() { cache["a"] = 1 }()
+    go func() { _ = cache["a"] }()
+}
+```
+
+That code may appear to "work" in a casual run. Under `-race`, it is exactly the kind of bug you want flagged immediately.
+
 ## What it does not prove
 
 A clean `-race` run does **not** prove:
@@ -46,6 +59,17 @@ Use the race detector to answer:
 - did a refactor break a previously safe ownership boundary?
 
 Do **not** use it as your only concurrency validation step.
+
+## Failure pattern
+
+```go
+func TestSomething(t *testing.T) {
+    go mutateSharedState()
+    time.Sleep(10 * time.Millisecond)
+}
+```
+
+Tests like this often pass just long enough to create false confidence. Run them with `-race`, then replace timing luck with real synchronization.
 
 ## Good design patterns under `-race`
 

@@ -104,6 +104,32 @@ In Tokio:
 - cancellation tokens or select-based cancellation are common,
 - structured task composition is more explicit in the library layer.
 
+## Tiny comparison sketch
+
+Go version:
+
+```go
+for req := range requests {
+	go func(req Request) {
+		replies <- handle(req)
+	}(req)
+}
+```
+
+Tokio version:
+
+```rust
+while let Some(req) = requests.recv().await {
+    let replies = replies.clone();
+    tokio::spawn(async move {
+        let res = handle(req).await;
+        let _ = replies.send(res).await;
+    });
+}
+```
+
+The surface problem is similar. The control points differ: Go leans on goroutines and `select`, while Tokio makes async boundaries, task spawning, and channel ownership more explicit in the library layer.
+
 ## When Go feels better
 
 Go often feels better when:
@@ -119,6 +145,20 @@ Tokio often feels better when:
 - ownership and lifetime constraints should be pushed into the type system,
 - you want explicit async boundaries,
 - you want the broader Rust ecosystem around zero-cost abstractions and tight control over allocation and layout.
+
+## Failure pattern
+
+Porting goroutine habits directly into Tokio usually means detaching work without a clear backpressure or cancellation handle:
+
+```rust
+for req in requests {
+    tokio::spawn(async move {
+        let _ = handle(req).await;
+    });
+}
+```
+
+The mistake is conceptually familiar to Go engineers too, but Go's CSP defaults often push you toward explicit coordination earlier. Tokio makes that coordination possible, but not implicit.
 
 ## Official reading
 

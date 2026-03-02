@@ -200,6 +200,23 @@ Understanding these internals should change how you design:
 - choose actors or channels when explicit ownership is clearer than shared-memory locking,
 - choose mutexes when the state is local and the protocol is trivial.
 
+## Failure pattern
+
+This compiles cleanly and still destroys latency:
+
+```go
+mu.Lock()
+defer mu.Unlock()
+
+resp, err := http.Get(url) // bad: slow I/O while the lock is held
+if err != nil {
+	return err
+}
+defer resp.Body.Close()
+```
+
+Once waiters queue behind a lock like this, contention becomes a scheduler and tail-latency problem, not just a local code smell.
+
 ## Practical takeaway
 
 Go's public synchronization primitives look small because the runtime absorbs a lot of complexity on your behalf.

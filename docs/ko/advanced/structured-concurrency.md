@@ -36,6 +36,26 @@ Go에서 이를 가장 실용적으로 표현하는 도구는 `golang.org/x/sync
 
 최근 버전은 `SetLimit`도 지원해서, 유한한 task set에 대한 구조화된 동시성을 실무적으로 쓰기 좋습니다.
 
+## 단순화한 구현 스케치
+
+```go
+group, ctx := errgroup.WithContext(parent)
+group.SetLimit(limit)
+
+for _, tenant := range tenants {
+    tenant := tenant
+    group.Go(func() error {
+        return backfillTenant(ctx, tenant)
+    })
+}
+
+if err := group.Wait(); err != nil {
+    return err
+}
+```
+
+핵심 형태는 이것입니다. 하나의 parent context, 하나의 bounded task set, 하나의 wait point.
+
 ## 예제 시나리오
 
 `examples/errgroupbatch`는 tenant backfill batch를 실행합니다.
@@ -92,13 +112,29 @@ worker pool은 channel 기반의 reusable dispatch 구조가 필요할 때 좋�
 
 ## 흔한 실패 패턴
 
-가장 흔한 실수는 structured lifetime과 unstructured lifetime을 섞는 것입니다.
+### structured lifetime과 unstructured lifetime을 섞는 경우
 
-- 일부 작업은 group 안에 있고,
-- 다른 goroutine은 group 밖에서 따로 생성되고,
-- cancellation이 실제 workflow의 일부에만 적용됩니다.
+```go
+group.Go(func() error {
+    return runPrimary(ctx)
+})
 
-그러면 이 패턴의 핵심 장점이 사라집니다.
+go fireAndForgetAudit(ctx) // group 바깥
+```
+
+이제 cancellation은 실제 workflow의 일부에만 적용됩니다. 그러면 이 패턴의 핵심 장점이 사라집니다.
+
+### loop variable rebinding을 빼먹는 경우
+
+```go
+for _, tenant := range tenants {
+    group.Go(func() error {
+        return backfillTenant(ctx, tenant) // tenant rebinding이 없으면 위험
+    })
+}
+```
+
+`errgroup`은 lifetime control을 좋게 해주지만, Go의 closure rule까지 없애주지는 않습니다.
 
 ## 실전 요약
 

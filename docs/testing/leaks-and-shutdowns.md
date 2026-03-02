@@ -62,6 +62,19 @@ Instead of counting goroutines globally, prefer explicit completion signals:
 
 These are usually more robust than asserting raw goroutine counts.
 
+## Failure pattern
+
+This kind of test is comforting and nearly useless:
+
+```go
+func TestWorkerStops(t *testing.T) {
+	startWorker()
+	time.Sleep(50 * time.Millisecond) // bad: sleep is not evidence of shutdown
+}
+```
+
+A sleeping test can pass while goroutines remain parked on channels, timers, or locks. Good shutdown tests need an explicit completion signal or a bounded `Shutdown` contract they can assert on.
+
 ## Common mistakes
 
 ### Tests that only check the happy path

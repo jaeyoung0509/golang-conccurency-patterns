@@ -138,6 +138,21 @@ Pointer-rich long-lived structures cost more to scan than flat numeric buffers.
 
 GC is easier to operate when the service has explicit memory expectations rather than accidental heap growth.
 
+## Failure pattern
+
+Allocation-heavy fan-out turns GC work into part of request latency:
+
+```go
+for _, req := range batch {
+	go func(req Request) {
+		payload := make([]byte, 1<<20) // hot allocation in the fan-out path
+		_ = process(req, payload)
+	}(req)
+}
+```
+
+Go's GC is concurrent, but heavy allocators still pay assist costs and increase heap pressure. "Goroutines are cheap" does not mean "allocation bursts are free."
+
 ## Practical takeaway
 
 Go's concurrency model is strong partly because the GC is engineered for always-on server workloads.

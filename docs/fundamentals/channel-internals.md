@@ -227,6 +227,22 @@ These internals explain several surface-level best practices:
 - use context cancellation so blocked goroutines have a clear escape path,
 - prefer bounded queues when overload matters.
 
+## Failure pattern
+
+One of the most common protocol bugs is letting one producer decide it also owns `close` for a shared output channel:
+
+```go
+func producer(out chan<- Job, jobs []Job, wg *sync.WaitGroup) {
+	defer wg.Done()
+	for _, job := range jobs {
+		out <- job
+	}
+	close(out) // bad: one of many producers closes a shared channel
+}
+```
+
+This works only until another producer sends later or also decides to close. The visible panic is just the runtime enforcing a protocol that the application failed to define clearly.
+
 ## Practical takeaway
 
 Channels are efficient, but they are not simplistic. They combine queueing, synchronization, parking, wakeup, and lifecycle signaling in one abstraction.

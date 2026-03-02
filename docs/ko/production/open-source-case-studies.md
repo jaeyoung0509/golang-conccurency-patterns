@@ -113,6 +113,18 @@ NATS는 socket read와 write를 분리하고, busy waiting 대신 명시적 sign
 
 프로덕션 Go에서는 channel만이 정답이 아닙니다. `sync.Cond`와 명확한 owner loop가 더 적합한 경우가 분명히 있습니다.
 
+## 실패 패턴
+
+프로덕션 Go 코드를 잘못 읽으면 goroutine만 복사하고 그 주변 경계는 빠뜨리기 쉽습니다.
+
+```go
+for _, msg := range batch {
+	go process(msg) // bad: queue도 limit도 shutdown contract도 없음
+}
+```
+
+위에서 본 시스템들이 실제로 강한 이유는 queue, owner loop, signaling edge, lifecycle rule을 같이 갖고 있기 때문입니다. goroutine의 존재 자체보다 그 경계가 더 중요합니다.
+
 ## 어떻게 읽어야 하나
 
 오픈소스 Go 코드를 읽을 때는 이렇게 물어보면 좋습니다.

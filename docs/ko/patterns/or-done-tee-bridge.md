@@ -83,6 +83,20 @@ flowchart LR
 
 반대로 ownership이나 backpressure가 핵심인데 이것만 넣는다고 설계가 좋아지지는 않습니다.
 
+## 실패 패턴
+
+아주 작은 forwarding helper도 cancellation을 무시하면 leak factory가 됩니다.
+
+```go
+func forward(in <-chan Item, out chan<- Item) {
+	for v := range in {
+		out <- v // bad: downstream이 멈추면 여기서 영원히 block
+	}
+}
+```
+
+`or-done`이 필요한 이유는 실제 파이프라인이 항상 모든 stage를 끝까지 drain하지 않기 때문입니다.
+
 ## Practical takeaway
 
 이건 "작지만 고급인 패턴"입니다. 전체 아키텍처를 지배하진 않지만, channel-heavy 코드의 가장 까다로운 모서리를 정리하는 데 자주 쓰입니다.

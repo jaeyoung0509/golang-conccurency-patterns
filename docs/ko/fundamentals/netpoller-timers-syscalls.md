@@ -140,6 +140,24 @@ deadline이 없으면 goroutine은 I/O에서 영원히 park될 수 있습니다.
 - `GODEBUG=schedtrace=1000,scheddetail=1`
 - connection / timeout 관련 서비스 메트릭
 
+## 실패 패턴
+
+netpoller는 blocked I/O를 확장 가능하게 만들지만, deadline이나 overload 정책이 없는 서버를 구해주지는 않습니다.
+
+```go
+for {
+	conn, _ := ln.Accept()
+	go func(c net.Conn) {
+		defer c.Close()
+		buf := make([]byte, 4096)
+		_, _ = c.Read(buf) // bad: 죽은 peer면 영원히 park될 수 있음
+		handleSlowRequest(buf)
+	}(conn)
+}
+```
+
+deadline과 admission limit이 없으면, 느리거나 멈춘 클라이언트는 여전히 file descriptor, heap, scheduler attention을 계속 잡아먹습니다.
+
 ## Practical takeaway
 
 Netpoller는 Go I/O 구현의 부가 기능이 아니라 동시성 모델의 핵심입니다.

@@ -134,6 +134,19 @@ When updates are protocol-heavy, a single owner goroutine can be easier to reaso
 
 Even with a better table design, a large pointer-rich map changes heap size, scan work, and cache behavior.
 
+## Failure pattern
+
+Swiss Tables improved layout and probing. They did not make concurrent mutation safe:
+
+```go
+counts := map[string]int{}
+
+go func() { counts["ok"]++ }()
+go func() { counts["fail"]++ }()
+```
+
+This is still a race and may panic with concurrent map write errors. Faster internals do not remove the need for a clear ownership model.
+
 ## Runtime source walk
 
 Start here:

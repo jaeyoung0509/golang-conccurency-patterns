@@ -122,6 +122,19 @@ That means:
 - better cache behavior during marking,
 - more efficient throughput in allocation-heavy services.
 
+## Failure pattern
+
+Old scheduler folklore often survives as cargo-cult yielding:
+
+```go
+for {
+	doCPUHeavyChunk()
+	runtime.Gosched() // bad: outdated substitute for real cancellation and work budgeting
+}
+```
+
+Modern Go has async preemption, but that does not make endless work loops a good design. Runtime evolution should update your mental model, not replace explicit boundaries.
+
 ## Runtime source walk
 
 If you want to verify the story in code, start here:

@@ -59,6 +59,25 @@ flowchart LR
     Q --> D["Receiver"]
 ```
 
+## 작은 코드 스케치
+
+```go
+func producer(out chan<- Item) {
+    for _, item := range items {
+        out <- item
+    }
+    close(out)
+}
+
+func consumer(in <-chan Item) {
+    for item := range in {
+        handle(item)
+    }
+}
+```
+
+이게 everyday Go에서 보이는 CSP 감각입니다. 독립된 process들이 명시적인 communication edge로 연결됩니다.
+
 ## 실전 패턴과의 연결
 
 이 저장소 패턴도 CSP 관점으로 보면 더 명확해집니다.
@@ -106,6 +125,15 @@ CSP는 조합 방식을 설명해주지만, 다음 같은 실전 문제를 대�
 - 관측 가능성
 
 실제 시스템이 깔끔할지 취약할지는 대부분 여기서 갈립니다.
+
+## 실패 패턴
+
+```go
+go func() { state.count++ }()
+go func() { state.count++ }()
+```
+
+이건 CSP 영향을 받은 Go 스타일이 경계하라고 말하는 shared-memory mutation입니다. communication protocol 밖으로 상태가 새는 순간 개념적 단순성이 빠르게 사라집니다.
 
 ## 실전 요약
 
