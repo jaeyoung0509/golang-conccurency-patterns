@@ -35,6 +35,39 @@ Important fields include:
 
 The lock matters. Channel operations are not magic lock-free fairy dust. Fast paths avoid locking when possible, but the full protocol is guarded carefully.
 
+## Simplified runtime sketch
+
+The following sketch is much smaller than the real runtime, but it is the right shape:
+
+```go
+type hchan struct {
+	qcount   uint
+	dataqsiz uint
+	buf      unsafe.Pointer
+	sendx    uint
+	recvx    uint
+	recvq    waitq
+	sendq    waitq
+	closed   uint32
+	lock     mutex
+}
+
+func chansend(c *hchan, value *T) {
+	lock(&c.lock)
+	switch {
+	case recvqHasWaiter(c):
+		directHandoff(c, value)
+	case c.qcount < c.dataqsiz:
+		bufferedEnqueue(c, value)
+	default:
+		enqueueSenderAndPark(c, value)
+	}
+	unlock(&c.lock)
+}
+```
+
+If you can follow this sketch, the real `runtime/chan.go` becomes much easier to read.
+
 ## Send has three meaningful paths
 
 When you execute `c <- v`, the runtime tries these cases in order:
@@ -156,6 +189,16 @@ flowchart LR
     F -- yes --> G["perform operation and unlock"]
     F -- no --> H["enqueue sudogs on all cases and park"]
 ```
+
+## Runtime source walk
+
+Read these files in this order:
+
+1. [runtime/chan.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/chan.go)
+2. [runtime/select.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/select.go)
+3. [Go Memory Model](https://go.dev/ref/mem)
+
+The type and field names in the runtime are stable enough that learning them pays off: `hchan`, `waitq`, `sudog`, `closechan`, `selectgo`.
 
 ## What buffered channels are good at and bad at
 

@@ -1,6 +1,6 @@
 # Go Concurrency Patterns
 
-Practical Go concurrency patterns documented with VitePress.
+Expert-level Go concurrency fundamentals, practical patterns, testing guidance, and bilingual English/Korean documentation built with VitePress.
 
 ## Where to view it
 
@@ -41,6 +41,9 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 - Pipeline
 - Fan-out / fan-in
 - Context cancellation
+- Channel of channels
+- Graceful shutdown
+- Or-done / tee / bridge
 - Structured concurrency (`errgroup`)
 - Weighted semaphore
 - Singleflight request coalescing
@@ -48,10 +51,14 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 
 ## Included foundations
 
+- Go runtime evolution and release-history checkpoints
 - Go runtime and scheduler
+- Netpoller, timers, and syscalls
 - Channels, `select`, and the memory model
 - Channel internals
 - Mutex and runtime semaphore internals
+- Map internals and Swiss Tables
+- Garbage collector and Green Tea GC
 
 ## Included advanced topics
 
@@ -61,3 +68,14 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 - Actor pattern
 - CSP theory in Go
 - Backpressure and load shedding
+
+## Included testing topics
+
+- Race detector strategy
+- Deterministic tests with `testing/synctest`
+- Leak, shutdown, and timeout testing
+- Tracing, contention, and profiling workflow
+
+## Included extras
+
+- Go CSP vs Rust Tokio comparison

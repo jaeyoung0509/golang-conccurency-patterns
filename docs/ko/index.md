@@ -13,6 +13,9 @@ hero:
       text: 패턴 둘러보기
       link: /ko/patterns/
     - theme: alt
+      text: 테스트 플레이북
+      link: /ko/testing/
+    - theme: alt
       text: Read in English
       link: /
 
@@ -27,6 +30,8 @@ features:
     details: "`go test`로 순서 보장, 취소 전파, 동시성 제한, 실패 정책을 실제로 확인합니다."
   - title: 고급 운영 주제 포함
     details: "구조화된 동시성, 가중 세마포어, singleflight, 액터, 로드 셰딩까지 운영 관점의 주제를 다룹니다."
+  - title: 테스트와 관측도 포함
+    details: "Race detector, synctest, leak test, trace, contention profile을 동시성 역량의 일부로 다룹니다."
   - title: 영어/한국어 지원
     details: "영문 `/`와 국문 `/ko/`가 같은 구조를 공유해서 팀 단위 학습에 맞습니다."
 ---
@@ -56,6 +61,16 @@ features:
     <p>자원 예산, 수명 관리, 중복 억제, 소유권 모델, 과부하 제어까지 확장합니다.</p>
     <p><a href="/ko/advanced/">고급 주제 보기</a></p>
   </div>
+  <div class="path-card">
+    <h3>4. 테스트</h3>
+    <p>cancellation, shutdown, race safety, timeout behavior를 lucky sleep 없이 검증하는 법을 익힙니다.</p>
+    <p><a href="/ko/testing/">테스트 보기</a></p>
+  </div>
+  <div class="path-card">
+    <h3>5. 비교 / 확장</h3>
+    <p>Go의 CSP 계열 모델을 Rust Tokio와 비교해 mental model을 더 넓힙니다.</p>
+    <p><a href="/ko/extras/">비교 / 확장 보기</a></p>
+  </div>
 </div>
 
 ## 문제에 맞게 바로 들어가기
@@ -68,6 +83,8 @@ features:
 | 하나의 요청 안에서 여러 sibling task를 어떻게 관리하는지 | [구조화된 동시성](/ko/advanced/structured-concurrency) |
 | 같은 cache miss 요청을 어떻게 하나로 합치는지 | [Singleflight](/ko/advanced/singleflight) |
 | 과부하를 늦게 터뜨리지 않고 초기에 제어하는 법 | [역압력과 로드 셰딩](/ko/advanced/backpressure-load-shedding) |
+| timeout-heavy 코드를 실제 sleep 없이 어떻게 테스트하는지 | [synctest로 결정적 테스트](/ko/testing/synctest) |
+| Go와 Rust Tokio의 async runtime 모델이 어떻게 다른지 | [Go CSP vs Rust Tokio](/ko/extras/go-csp-vs-rust-tokio) |
 
 ## 이 사이트가 다른 이유
 
@@ -92,4 +109,5 @@ features:
 2. [예제 읽는 법](/ko/guide/how-to-read)으로 읽는 기준을 맞춥니다.
 3. [기초 원리 개요](/ko/fundamentals/)부터 읽습니다.
 4. 자기 workload에 맞는 패턴을 [패턴 개요](/ko/patterns/)에서 고릅니다.
-5. 운영 설계로 확장할 때 [고급 주제 개요](/ko/advanced/)로 넘어갑니다.
+5. concurrent component를 production-ready로 보기 전에 [테스트 개요](/ko/testing/)를 읽습니다.
+6. 운영 설계와 비교 관점까지 확장할 때 [고급 주제 개요](/ko/advanced/), [비교 / 확장 개요](/ko/extras/)로 넘어갑니다.

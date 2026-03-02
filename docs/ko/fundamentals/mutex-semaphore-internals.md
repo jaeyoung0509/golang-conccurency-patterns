@@ -39,6 +39,31 @@ Go 동시성을 깊게 이해하려면 다음 둘을 함께 이해해야 합니�
 
 그래서 uncontended mutex는 매우 쌉니다.
 
+## 단순화한 내부 스케치
+
+```go
+type Mutex struct {
+	state int32
+	sema  uint32
+}
+
+func Lock(m *Mutex) {
+	if CAS(&m.state, 0, mutexLocked) {
+		return
+	}
+	lockSlow(m)
+}
+
+func Unlock(m *Mutex) {
+	if atomicAdd(&m.state, -mutexLocked) == 0 {
+		return
+	}
+	unlockSlow(m)
+}
+```
+
+핵심 mental model은 이것입니다. 아주 싼 fast path와, contention이 생겼을 때 훨씬 풍부한 slow path.
+
 ## Slow path: spin, queue, sleep
 
 fast path가 실패하면 `lockSlow()`로 들어갑니다.
@@ -107,6 +132,21 @@ waiter가 없으면 그걸로 끝납니다.
 - 각 sleep은 정확한 wakeup과 짝이 맞아야 하고,
 - race가 있어도 wakeup이 유실되면 안 되며,
 - mutex, wait group 같은 상위 primitive가 그 위에 구축될 수 있어야 합니다.
+
+## 런타임 소스 포인터
+
+- [internal/sync/mutex.go](https://github.com/golang/go/blob/go1.26.0/src/internal/sync/mutex.go)
+- [runtime/sema.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/sema.go)
+
+mutex 소스는 throughput vs fairness trade를 이해하기 가장 좋고, `runtime/sema.go`는 sleeping / waking의 기반을 보여줍니다.
+
+## contention은 어떻게 관측하나
+
+- mutex profile
+- block profile
+- `go test -trace=trace.out ./...`
+
+코드 리뷰상 멀쩡해 보여도 tail latency가 높다면, contention이 빠진 차원인 경우가 많습니다.
 
 ## Waiter는 어떻게 추적되는가
 

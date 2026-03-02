@@ -110,3 +110,5 @@ Those are the places where production systems either stay clean or become fragil
 If you understand CSP, Go's channel-based idioms stop looking like random style choices. They become a coherent way to model process boundaries and synchronization.
 
 Then you can choose more deliberately between a pipeline, a worker pool, or an [Actor Pattern](/advanced/actor-pattern).
+
+If you want to compare that directly with Rust's future-and-executor style, continue to [Go CSP vs Rust Tokio](/extras/go-csp-vs-rust-tokio).

@@ -35,6 +35,39 @@ description: hchan, wait queue, sudog parking, direct handoff, close semantics, 
 
 중요한 포인트는 이것입니다. 채널은 "완전히 lock-free 마법"이 아닙니다. 빠른 경로에서는 lock을 피하려고 하지만, 전체 프로토콜은 매우 엄격하게 보호됩니다.
 
+## 단순화한 런타임 스케치
+
+다음 스케치는 실제 런타임보다 훨씬 작지만, 구조는 정확합니다.
+
+```go
+type hchan struct {
+	qcount   uint
+	dataqsiz uint
+	buf      unsafe.Pointer
+	sendx    uint
+	recvx    uint
+	recvq    waitq
+	sendq    waitq
+	closed   uint32
+	lock     mutex
+}
+
+func chansend(c *hchan, value *T) {
+	lock(&c.lock)
+	switch {
+	case recvqHasWaiter(c):
+		directHandoff(c, value)
+	case c.qcount < c.dataqsiz:
+		bufferedEnqueue(c, value)
+	default:
+		enqueueSenderAndPark(c, value)
+	}
+	unlock(&c.lock)
+}
+```
+
+이 스케치를 따라갈 수 있으면 실제 `runtime/chan.go`도 훨씬 읽기 쉬워집니다.
+
 ## Send의 세 가지 핵심 경로
 
 `c <- v`를 실행하면 런타임은 대략 다음 순서로 처리합니다.
@@ -156,6 +189,14 @@ flowchart LR
     F -- yes --> G["해당 연산 수행 후 unlock"]
     F -- no --> H["모든 case에 sudog enqueue 후 park"]
 ```
+
+## 런타임 소스 읽기 순서
+
+1. [runtime/chan.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/chan.go)
+2. [runtime/select.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/select.go)
+3. [Go Memory Model](https://go.dev/ref/mem)
+
+`hchan`, `waitq`, `sudog`, `closechan`, `selectgo` 같은 이름은 한 번 익혀 두면 계속 도움이 됩니다.
 
 ## Buffered channel이 잘하는 것과 못하는 것
 

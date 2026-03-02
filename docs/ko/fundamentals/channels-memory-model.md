@@ -7,6 +7,10 @@ description: 채널, select, mutex, happens-before 규칙이 Go 동시성의 정
 
 동시성은 단순히 "동시에 실행된다"가 아닙니다. 동시에 실행될 때도 결과가 올바른가가 핵심입니다.
 
+:::tip 빠른 요약
+핵심 질문은 "이 goroutine들이 concurrent한가?"가 아니라 "어떤 이벤트가 한 goroutine의 write를 다른 goroutine에게 보이게 만드는가?"입니다.
+:::
+
 Go의 memory model은 한 고루틴의 쓰기가 다른 고루틴에 언제 보장되게 보이는지를 설명합니다. 언어는 그 보장을 만드는 동기화 지점을 제공합니다.
 
 ## 가장 중요한 규칙
@@ -40,6 +44,26 @@ sequenceDiagram
     C->>R: deliver value
     Note over S,R: send 이전 쓰기는 matching receive 이후에 보이게 된다
 ```
+
+## 단순화한 happens-before 스케치
+
+작은 예제를 머릿속에 두면 좋습니다.
+
+```go
+var cfg Config
+ready := make(chan struct{})
+
+go func() {
+	cfg.Timeout = 2 * time.Second
+	cfg.MaxBatch = 32
+	close(ready)
+}()
+
+<-ready
+use(cfg)
+```
+
+중요한 것은 `close` 문법이 아니라, receiver가 channel close를 관측했다는 사실이 synchronization edge를 만든다는 점입니다. 이 edge가 없으면 `use(cfg)`는 writer와 race할 수 있습니다.
 
 ## `select`가 실제로 주는 것
 
@@ -86,6 +110,28 @@ Go는 CSP 영향을 받았지만 "채널만 써라"는 언어는 아닙니다.
 - 단계별 스트리밍
 - 액터 mailbox
 - 취소와 종료 신호 전달
+
+## 내부 구현 관점
+
+이 보장은 낙관론이 아니라 런타임 메커니즘과 언어 스펙에서 나옵니다.
+
+크게 보면:
+
+- channel operation은 `runtime/chan.go`,
+- `select`는 `runtime/select.go`,
+- mutex는 lock state와 runtime semaphore wakeup,
+- memory model은 어떤 이벤트가 happens-before를 만드는지
+
+를 정의합니다.
+
+그래서 "goroutine을 썼다"는 사실 자체는 별 의미가 없습니다. edge가 중요합니다.
+
+## 스펙 / 소스 포인터
+
+- [Go Memory Model](https://go.dev/ref/mem)
+- [runtime/chan.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/chan.go)
+- [runtime/select.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/select.go)
+- [internal/sync/mutex.go](https://github.com/golang/go/blob/go1.26.0/src/internal/sync/mutex.go)
 
 ## 액터 패턴도 이것에 의존한다
 

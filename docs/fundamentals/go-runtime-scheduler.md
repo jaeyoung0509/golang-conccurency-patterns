@@ -141,6 +141,62 @@ That means:
 
 If your service should only hit an external API with 8 concurrent calls, `GOMAXPROCS` is the wrong tool. Use a worker pool, semaphore, or structured concurrency limit.
 
+## Simplified scheduler sketch
+
+One of the best ways to understand `runtime/proc.go` is to carry a simplified loop in your head:
+
+```go
+func schedule(p *P) {
+	for {
+		if g := runqget(p); g != nil {
+			execute(g)
+			continue
+		}
+		if g := globrunqget(); g != nil {
+			execute(g)
+			continue
+		}
+		if ready := netpoll(0); !ready.empty() {
+			injectglist(ready)
+			continue
+		}
+		if g := steal(); g != nil {
+			execute(g)
+			continue
+		}
+		parkm()
+	}
+}
+```
+
+The real runtime has spinning threads, timer checks, GC work, syscall handoff, and much more. But if you cannot explain this simplified loop, `proc.go` will feel much harder than it actually is.
+
+## Why Go 1.14 mattered so much
+
+Historically, one of the scheduler's most visible limitations was that CPU-heavy goroutines could delay fairness if they did not hit good preemption points.
+
+Go 1.14 introduced asynchronous preemption. That changed the practical behavior of tight loops, GC responsiveness, and scheduler fairness.
+
+This is one of the most important runtime-history checkpoints for modern Go engineers because it explains why older scheduler folklore is often outdated.
+
+## Runtime source walk
+
+Read these in order:
+
+1. [runtime/proc.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/proc.go)
+2. [runtime/netpoll.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/netpoll.go)
+3. [runtime/time.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/time.go)
+
+Start with the large scheduler comment at the top of `proc.go`. It is one of the best high-level design explanations in the runtime.
+
+## How to observe the scheduler
+
+- `GODEBUG=schedtrace=1000,scheddetail=1`
+- `go test -trace=trace.out ./...`
+- `go tool trace trace.out`
+
+These tools let you connect the theory to real run queues, blocking, and wakeup behavior.
+
 ## How this connects to the patterns in this repository
 
 | Pattern | Runtime property it depends on |

@@ -7,6 +7,10 @@ description: Learn how channel operations, select, mutexes, and happens-before r
 
 Concurrency is not just about making things run at the same time. It is about making the result correct when things run at the same time.
 
+:::tip Quick takeaway
+The key question is not "are these goroutines concurrent?" The key question is "what event makes one goroutine's writes visible to another?"
+:::
+
 Go's memory model explains when one goroutine is guaranteed to observe writes from another goroutine. The language gives you synchronization events that create those guarantees.
 
 ## The rule that matters most
@@ -40,6 +44,26 @@ sequenceDiagram
     C->>R: deliver value
     Note over S,R: Writes before send become visible after matching receive
 ```
+
+## Simplified happens-before sketch
+
+Keep a tiny example in mind:
+
+```go
+var cfg Config
+ready := make(chan struct{})
+
+go func() {
+	cfg.Timeout = 2 * time.Second
+	cfg.MaxBatch = 32
+	close(ready)
+}()
+
+<-ready
+use(cfg)
+```
+
+The important property is not the syntax of `close`. The important property is that observing the channel close gives the receiver a synchronization edge. Without that edge, `use(cfg)` could race with the writer.
 
 ## What `select` actually gives you
 
@@ -86,6 +110,26 @@ Sometimes a channel is clearer:
 - streaming stage outputs,
 - managing actor mailboxes,
 - signalling cancellation or shutdown.
+
+## Internal view
+
+These guarantees are backed by runtime machinery, not by optimism.
+
+At a high level:
+
+- channel operations go through `runtime/chan.go`,
+- `select` goes through `runtime/select.go`,
+- mutexes build their guarantees through lock state and runtime semaphore wakeups,
+- the language memory model defines which synchronization events create happens-before edges.
+
+That is why "I used goroutines" means nothing by itself. The edge matters.
+
+## Runtime and spec map
+
+- [Go Memory Model](https://go.dev/ref/mem)
+- [runtime/chan.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/chan.go)
+- [runtime/select.go](https://github.com/golang/go/blob/go1.26.0/src/runtime/select.go)
+- [internal/sync/mutex.go](https://github.com/golang/go/blob/go1.26.0/src/internal/sync/mutex.go)
 
 ## The actor pattern depends on this too
 

@@ -20,6 +20,9 @@ description: 문제 형태, 실패 정책, 소유권 모델에 맞춰 어떤 Go 
 | 데이터가 여러 단계를 순서 있게 통과함 | [파이프라인](/ko/patterns/pipeline) |
 | 하나의 요청이 여러 백엔드 응답을 동시에 모아야 함 | [팬아웃 / 팬인](/ko/patterns/fan-out-fan-in) |
 | 여러 goroutine이 하나의 요청 lifetime에 묶여 있음 | [컨텍스트 취소](/ko/patterns/context-cancellation) |
+| 하나의 broker가 많은 caller를 받지만 각 caller가 자기 reply path를 가져야 함 | [Channel of Channels](/ko/patterns/channel-of-channels) |
+| 프로세스가 종료될 때 이미 받은 일을 함부로 버리면 안 됨 | [Graceful Shutdown](/ko/patterns/graceful-shutdown) |
+| channel-heavy pipeline을 cancellation-safe하게 조합해야 함 | [Or-Done, Tee, Bridge](/ko/patterns/or-done-tee-bridge) |
 
 ## 이 예제들이 실용적인 이유
 
@@ -35,6 +38,10 @@ description: 문제 형태, 실패 정책, 소유권 모델에 맞춰 어떤 Go 
   <div class="signal">
     <strong>트레이드오프 설명</strong>
     <span>언제 맞는 패턴인지뿐 아니라 언제 틀린 추상화인지도 같이 설명합니다.</span>
+  </div>
+  <div class="signal">
+    <strong>수명 관리 포함</strong>
+    <span>shutdown, timeout, reply ownership, leak prevention을 패턴의 일부로 같이 설명합니다.</span>
   </div>
 </div>
 
