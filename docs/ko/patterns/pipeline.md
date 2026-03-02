@@ -61,6 +61,28 @@ func RunAlertPipeline(ctx context.Context, events []CheckoutEvent, workers int, 
 }
 ```
 
+## 단순화한 단계 스케치
+
+파이프라인의 핵심 형태는 이렇습니다.
+
+```go
+in := source(ctx)
+mid := stageA(ctx, in)
+out := stageB(ctx, mid)
+
+for item := range out {
+    consume(item)
+}
+```
+
+각 단계는 책임이 하나여야 합니다.
+
+- 읽기,
+- 변환,
+- 필터링,
+- 집계,
+- 취소 판단.
+
 이 구조의 장점은 책임이 섞이지 않는다는 데 있습니다.
 
 - `source()`는 슬라이스를 스트림으로 바꾸는 책임만 갖고,
@@ -88,6 +110,29 @@ scoring이 병렬 실행되므로 완료 순서는 안정적이지 않습니다.
 ### 에러 정책을 의식적으로 정해야 한다
 
 모든 파이프라인이 첫 오류에서 중단할 필요는 없습니다. 이 예제는 점수 계산이 실패하면 전체 결과 신뢰도가 무너진다고 보고 즉시 취소합니다.
+
+## 실패 패턴
+
+### output close를 빼먹은 단계
+
+```go
+func stage(in <-chan Event) <-chan Score {
+    out := make(chan Score)
+    go func() {
+        for event := range in {
+            out <- score(event)
+        }
+        // forgot: close(out)
+    }()
+    return out
+}
+```
+
+`close(out)` 하나를 빼먹으면 downstream collector가 영원히 block될 수 있습니다.
+
+### 긴 stage가 cancellation을 무시하는 경우
+
+비싼 remote work나 CPU work를 하는 stage가 `ctx.Done()`을 전혀 보지 않으면, 문서상 cancellable pipeline과 실제 동작이 달라집니다.
 
 ## 이 패턴을 쓸 때
 

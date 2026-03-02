@@ -58,6 +58,23 @@ func (actor *InventoryActor) loop(state *inventoryState) {
 }
 ```
 
+## Simplified mailbox sketch
+
+```go
+type envelope struct {
+    cmd   Command
+    reply chan Result
+}
+
+func loop(state *State, mailbox <-chan envelope) {
+    for env := range mailbox {
+        env.reply <- env.cmd.Apply(state)
+    }
+}
+```
+
+This is the minimum useful actor shape: one mailbox, one owner loop, one state machine.
+
 The safety comes from one rule: only the actor loop mutates `inventoryState`.
 
 That means:
@@ -96,6 +113,16 @@ You can even combine them: a worker pool might talk to many actors, or one actor
 
 ## Caveats
 
+### Failure pattern: exposing owned state back to callers
+
+```go
+func (actor *InventoryActor) UnsafeState() *inventoryState {
+    return actor.state // breaks the ownership boundary
+}
+```
+
+The whole actor guarantee collapses if outside code can mutate or even rely on internal pointers without going through the mailbox.
+
 ### Mailboxes need backpressure
 
 If callers can enqueue faster than the actor can process, you need a bounded mailbox, rejection policy, or upstream throttling.
@@ -107,6 +134,10 @@ That is often acceptable because serialization is the point. But if the state ca
 ### Supervision is manual
 
 Go does not give you Erlang-style supervisors out of the box. Restart policy, mailbox durability, and lifecycle orchestration are your responsibility.
+
+### Reply channels need lifecycle discipline
+
+If the caller can abandon a request, the reply path must not wedge the actor loop. This is why bounded or one-shot reply channels are often safer than ad hoc shared response paths.
 
 ## Practical takeaway
 

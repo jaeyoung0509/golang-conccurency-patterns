@@ -61,6 +61,25 @@ func CollectInventory(ctx context.Context, sku string, lookups map[string]Wareho
 }
 ```
 
+## 단순화한 집계 스케치
+
+```go
+results := make(chan result, len(backends))
+
+for _, backend := range backends {
+    go func(backend Backend) {
+        value, err := backend.Lookup(ctx, key)
+        results <- result{value: value, err: err}
+    }(backend)
+}
+
+for range backends {
+    merge(<-results)
+}
+```
+
+핵심 질문은 "fan-out이 일어났는가?"가 아니라 "일부 branch가 실패했을 때 어떤 aggregate가 허용 가능한가?"입니다.
+
 창고 한 곳이 장애라고 해서 전체 가용성 정보를 버리는 것은 실무적으로 과한 경우가 많습니다.
 이 예제는 그 점을 반영합니다.
 
@@ -80,6 +99,16 @@ func CollectInventory(ctx context.Context, sku string, lookups map[string]Wareho
 
 ## 흔한 실수
 
+### 실패 패턴: 무의식적인 all-or-nothing 정책
+
+```go
+if item.err != nil {
+    return InventoryReport{}, item.err // 유용한 partial success까지 버림
+}
+```
+
+그 정책이 맞을 수도 있지만, 기본 반사 동작이면 안 됩니다. 계약으로 정해야 합니다.
+
 ### 모든 오류를 같은 방식으로 취급하기
 
 어떤 시스템은 "전부 성공해야 한다"가 맞고, 어떤 시스템은 "최대한 많이 가져오자"가 맞습니다. 먼저 계약을 정해야 합니다.
@@ -91,3 +120,7 @@ func CollectInventory(ctx context.Context, sku string, lookups map[string]Wareho
 ### 팬아웃 대상을 무제한으로 늘리기
 
 이 예제는 창고 수가 작고 고정적이라는 전제입니다. 대상 수가 커질 수 있다면 워커 풀이나 세마포어와 결합해야 합니다.
+
+### worker가 shared results 채널을 닫아버리는 경우
+
+shared channel의 close 조건은 보통 aggregator가 소유해야 합니다. 여러 worker가 같은 채널을 닫을 수 있는 구조면 이미 위험합니다.

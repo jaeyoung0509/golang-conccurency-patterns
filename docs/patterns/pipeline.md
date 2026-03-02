@@ -61,6 +61,28 @@ func RunAlertPipeline(ctx context.Context, events []CheckoutEvent, workers int, 
 }
 ```
 
+## Simplified stage sketch
+
+The core pipeline shape is:
+
+```go
+in := source(ctx)
+mid := stageA(ctx, in)
+out := stageB(ctx, mid)
+
+for item := range out {
+    consume(item)
+}
+```
+
+Each stage should have one clear responsibility:
+
+- read,
+- transform,
+- filter,
+- aggregate,
+- or decide cancellation.
+
 That structure keeps each decision in one place:
 
 - `source()` is responsible for turning a slice into a stream,
@@ -88,6 +110,29 @@ The scoring stage runs concurrently, so completion order is not stable. The exam
 ### Error handling must be intentional
 
 Not every pipeline should stop on the first error. In this example, a failed risk score means the whole alert set is unreliable, so the collector cancels the run.
+
+## Failure patterns
+
+### A stage that never closes its output
+
+```go
+func stage(in <-chan Event) <-chan Score {
+    out := make(chan Score)
+    go func() {
+        for event := range in {
+            out <- score(event)
+        }
+        // forgot: close(out)
+    }()
+    return out
+}
+```
+
+One forgotten `close(out)` can leave the downstream collector blocked forever.
+
+### Ignoring cancellation inside a long stage
+
+If a stage performs expensive remote work or CPU work and never checks `ctx.Done()`, the pipeline looks cancellable on paper but not in reality.
 
 ## Use this pattern when
 

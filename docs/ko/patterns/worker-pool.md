@@ -73,6 +73,30 @@ func GenerateQuotes(ctx context.Context, orders []Order, workers int, quoteFn Qu
 }
 ```
 
+## 단순화한 구현 스케치
+
+워커 풀의 가장 작은 유효 mental model은 이런 형태입니다.
+
+```go
+jobs := make(chan Job)
+results := make(chan Result, workers)
+
+for range workers {
+    go func() {
+        for job := range jobs {
+            results <- process(job)
+        }
+    }()
+}
+```
+
+실전 버전은 여기에 다음이 더해집니다.
+
+- context cancellation,
+- 입력 순서 복원을 위한 index,
+- worker shutdown coordination,
+- 명시적인 error policy.
+
 여기서 중요한 선택은 세 가지입니다.
 
 1. 결과에 원래 입력 인덱스를 실어 보내서 순서를 복원합니다.
@@ -89,6 +113,18 @@ func GenerateQuotes(ctx context.Context, orders []Order, workers int, quoteFn Qu
 
 ## 흔한 실수
 
+### 실패 패턴: collector가 먼저 끝나는데 unbuffered results 채널을 쓰는 경우
+
+```go
+results := make(chan result) // 조기 반환 흐름에서는 위험
+
+if err != nil {
+    return nil, err // worker가 send에서 영원히 막힐 수 있음
+}
+```
+
+collector가 모든 worker send를 받기 전에 종료될 수 있다면, unbuffered results 채널은 goroutine leak를 만들기 가장 쉬운 구조 중 하나입니다.
+
 ### 완료 순서를 그대로 반환하기
 
 호출자가 입력 순서를 기대한다면 쉽게 버그가 납니다. 이런 계약이 필요하면 인덱스를 붙여야 합니다.
@@ -100,6 +136,10 @@ func GenerateQuotes(ctx context.Context, orders []Order, workers int, quoteFn Qu
 ### 너무 작은 작업량에 과하게 적용하기
 
 평균 요청 크기가 1~2개라면 워커 풀의 복잡도만 늘고 이득이 거의 없을 수 있습니다.
+
+### worker가 배치 수명보다 오래 살아남게 두기
+
+worker가 shared context나 shutdown signal을 보지 않으면, caller가 이미 결과를 포기한 뒤에도 downstream capacity를 계속 태울 수 있습니다.
 
 ## 이 패턴을 쓸 때
 

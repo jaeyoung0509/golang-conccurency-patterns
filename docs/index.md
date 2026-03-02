@@ -13,6 +13,9 @@ hero:
       text: Browse Patterns
       link: /patterns/
     - theme: alt
+      text: Production Guide
+      link: /production/
+    - theme: alt
       text: Testing Playbook
       link: /testing/
     - theme: alt
@@ -30,6 +33,8 @@ features:
     details: "Every example is backed by `go test` so ordering, cancellation, limits, and failure policy are verified."
   - title: Advanced production topics
     details: "Structured concurrency, weighted semaphores, singleflight, actors, and load shedding are documented alongside the basics."
+  - title: Production operating rules
+    details: "Admission control, queue budgets, lifecycle ownership, and large-system concurrency tradeoffs are documented as first-class topics."
   - title: Testing and observability
     details: "Race detection, synctest, leak testing, traces, and contention profiles are treated as first-class concurrency skills."
   - title: English and Korean
@@ -67,7 +72,12 @@ features:
     <p><a href="/testing/">Open testing</a></p>
   </div>
   <div class="path-card">
-    <h3>5. Extras</h3>
+    <h3>5. Production</h3>
+    <p>Study queue budgets, overload policy, goroutine ownership, and open-source concurrency designs from real Go systems.</p>
+    <p><a href="/production/">Open production</a></p>
+  </div>
+  <div class="path-card">
+    <h3>6. Extras</h3>
     <p>Compare Go's CSP-flavored model with Rust Tokio so your mental model holds across ecosystems.</p>
     <p><a href="/extras/">Open extras</a></p>
   </div>
@@ -84,6 +94,7 @@ features:
 | How to stop duplicate cache-miss fetches | [Singleflight](/advanced/singleflight) |
 | How to survive overload instead of just failing later | [Backpressure and Load Shedding](/advanced/backpressure-load-shedding) |
 | How to test timeout-heavy code without real sleeps | [Deterministic Tests with synctest](/testing/synctest) |
+| What large Go production systems care about beyond toy patterns | [Large-Scale Go Systems](/production/large-scale-go-systems) |
 | How Go differs from Rust Tokio's async runtime model | [Go CSP vs Rust Tokio](/extras/go-csp-vs-rust-tokio) |
 
 ## What Makes This Site Different
@@ -110,4 +121,5 @@ features:
 3. Work through [Fundamentals Overview](/fundamentals/) before jumping into implementation patterns.
 4. Pick the practical pattern that matches your workload in [Patterns Overview](/patterns/).
 5. Read [Testing Overview](/testing/) before treating any concurrent component as production-ready.
-6. Finish with [Advanced Overview](/advanced/) and [Extras Overview](/extras/) when you want stronger production and comparative context.
+6. Read [Production Overview](/production/) for operating rules and open-source case studies.
+7. Finish with [Advanced Overview](/advanced/) and [Extras Overview](/extras/) for deeper design and ecosystem comparison.
