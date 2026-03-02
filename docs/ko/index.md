@@ -3,75 +3,93 @@ layout: home
 
 hero:
   name: Go Concurrency Patterns
-  text: 실전 중심, 한영 동시 지원
-  tagline: Go 동시성을 런타임 기초부터 고급 패턴까지, 실제 코드와 테스트, Mermaid 다이어그램으로 자세히 설명합니다.
+  text: 런타임 내부부터 실전 패턴까지
+  tagline: Go 동시성을 기초 원리, 테스트된 예제, 패턴 선택 가이드, 영문/국문 동시 문서로 깊게 학습합니다.
   actions:
     - theme: brand
-      text: 문서 시작하기
-      link: /ko/guide/getting-started
+      text: 기초 원리부터 시작
+      link: /ko/fundamentals/
+    - theme: alt
+      text: 패턴 둘러보기
+      link: /ko/patterns/
     - theme: alt
       text: Read in English
       link: /
-    - theme: alt
-      text: GitHub 저장소
-      link: https://github.com/jaeyoung0509/golang-conccurency-patterns
 
 features:
-  - title: 영어/한국어 지원
-    details: "영문 루트와 `/ko/` 한글 문서를 같은 구조로 유지해서 팀 단위 학습에 맞춥니다."
-  - title: 기초 원리 포함
-    details: "GMP 스케줄러, 고루틴 비용 모델, channel, select, memory visibility 규칙까지 함께 설명합니다."
+  - title: 읽는 순서가 분명함
+    details: "섹션 개요, 학습 경로, 패턴 선택 가이드를 추가해서 처음 들어와도 어디서 시작할지 바로 보이게 만들었습니다."
+  - title: 런타임까지 깊게 설명
+    details: "스케줄러, 메모리 모델, 채널 내부, mutex/runtime semaphore까지 Go 내부 원리를 설명합니다."
   - title: 실용 예제 중심
-    details: "배송 견적, 결제 리스크 분석, 재고 조회, 대시보드 집계, 재고 액터처럼 실제 서비스에 가까운 예제를 사용합니다."
-  - title: 테스트 포함
-    details: "`go test`로 동시성 제한, 취소 전파, 데드라인 동작을 실제로 검증합니다."
-  - title: Mermaid 다이어그램
-    details: "채널 흐름과 취소 경계를 그림으로 먼저 이해한 뒤 코드를 읽을 수 있습니다."
-  - title: 고급 주제 추가
-    details: "액터 패턴과 CSP 이론을 단순 개념 소개가 아니라 Go 실전 트레이드오프와 연결해서 설명합니다."
-  - title: 높은 가독성
-    details: "긴 코드 나열보다 책임 경계, 실패 정책, 트레이드오프를 먼저 설명합니다."
+    details: "배송, 부정거래 분석, 재고, 중복 요청 억제처럼 실제 백엔드 문제에 가까운 예제를 사용합니다."
+  - title: 테스트로 검증
+    details: "`go test`로 순서 보장, 취소 전파, 동시성 제한, 실패 정책을 실제로 확인합니다."
+  - title: 고급 운영 주제 포함
+    details: "구조화된 동시성, 가중 세마포어, singleflight, 액터, 로드 셰딩까지 운영 관점의 주제를 다룹니다."
+  - title: 영어/한국어 지원
+    details: "영문 `/`와 국문 `/ko/`가 같은 구조를 공유해서 팀 단위 학습에 맞습니다."
 ---
 
-## 이 사이트의 목적
+## 여기서 어떻게 시작하면 되나
 
-많은 동시성 튜토리얼은 너무 작은 예제에서 멈춥니다. 이 저장소는 반대로 갑니다.
+<div class="lead-panel">
+  <p>
+    이 사이트는 goroutine과 channel 문법을 외우는 곳이 아니라,
+    <strong>왜 이런 패턴이 가능한지, 언제 어떤 패턴을 써야 하는지, 운영에서 어떻게 안전하게 유지할지</strong>를 배우는 곳입니다.
+  </p>
+</div>
 
-- 예제가 실제 백엔드 문제처럼 보이도록 구성했고,
-- 테스트가 동시성 보장을 증명하도록 만들었고,
-- 코드 조각만이 아니라 왜 이런 구조가 안전한지도 설명합니다.
-
-<div class="custom-card-grid">
-  <div class="custom-card">
-    <h3>기초 원리</h3>
-    <p>스케줄러, 채널, 메모리 모델을 먼저 이해해서 패턴을 왜 그렇게 짜는지까지 연결합니다.</p>
+<div class="path-grid">
+  <div class="path-card">
+    <h3>1. 기초 원리</h3>
+    <p>스케줄러, 메모리 모델, 채널 내부부터 이해해서 뒤의 패턴들이 왜 그렇게 생겼는지 연결합니다.</p>
+    <p><a href="/ko/fundamentals/">기초 원리 보기</a></p>
   </div>
-  <div class="custom-card">
-    <h3>워커 풀</h3>
-    <p>병렬 수를 제한하면서도 입력 순서를 복원하고, 첫 실패 시 빠르게 중단합니다.</p>
+  <div class="path-card">
+    <h3>2. 실전 패턴</h3>
+    <p>워커 풀, 파이프라인, 팬아웃/팬인, 컨텍스트 취소를 실제 workload 관점으로 읽습니다.</p>
+    <p><a href="/ko/patterns/">패턴 보기</a></p>
   </div>
-  <div class="custom-card">
-    <h3>파이프라인</h3>
-    <p>입력, 리스크 계산, 알림 생성처럼 서로 다른 단계를 명확하게 분리합니다.</p>
-  </div>
-  <div class="custom-card">
-    <h3>팬아웃 / 팬인</h3>
-    <p>여러 백엔드에 동시에 질의하고, 부분 실패를 버리지 않고 의미 있게 합칩니다.</p>
-  </div>
-  <div class="custom-card">
-    <h3>컨텍스트 취소</h3>
-    <p>요청 수명 주기에 묶인 여러 작업이 실패나 데드라인에 맞춰 즉시 멈추게 합니다.</p>
-  </div>
-  <div class="custom-card">
-    <h3>고급 주제</h3>
-    <p>구조화된 동시성, 가중 세마포어, singleflight, 액터 모델, 로드 셰딩까지 연결해서 고급 설계 감각을 잡게 합니다.</p>
+  <div class="path-card">
+    <h3>3. 고급 주제</h3>
+    <p>자원 예산, 수명 관리, 중복 억제, 소유권 모델, 과부하 제어까지 확장합니다.</p>
+    <p><a href="/ko/advanced/">고급 주제 보기</a></p>
   </div>
 </div>
 
-## 추천 읽기 순서
+## 문제에 맞게 바로 들어가기
 
-1. [시작하기](/ko/guide/getting-started)에서 저장소 구조와 실행 방법을 확인합니다.
-2. [예제 읽는 법](/ko/guide/how-to-read)에서 동시성 코드를 보는 기준을 맞춥니다.
-3. [기초 원리](/ko/fundamentals/go-runtime-scheduler)에서 런타임과 메모리 모델을 먼저 잡습니다.
-4. 필요한 문제에 맞춰 실전 패턴 문서를 읽습니다.
-5. 마지막에 [고급 주제](/ko/advanced/actor-pattern)에서 CSP와 액터 관점을 비교합니다.
+| 이런 게 궁금하면 | 여기부터 읽기 |
+| --- | --- |
+| 고루틴이 왜 싸고, 스케줄러가 실제로 뭘 하는지 | [Go 런타임과 스케줄러](/ko/fundamentals/go-runtime-scheduler) |
+| 채널이 왜 메모리 가시성 경계를 만드는지 | [Channels, Select, 그리고 Memory Model](/ko/fundamentals/channels-memory-model) |
+| 많은 독립 작업의 병렬 수를 어떻게 제한하는지 | [워커 풀](/ko/patterns/worker-pool) |
+| 하나의 요청 안에서 여러 sibling task를 어떻게 관리하는지 | [구조화된 동시성](/ko/advanced/structured-concurrency) |
+| 같은 cache miss 요청을 어떻게 하나로 합치는지 | [Singleflight](/ko/advanced/singleflight) |
+| 과부하를 늦게 터뜨리지 않고 초기에 제어하는 법 | [역압력과 로드 셰딩](/ko/advanced/backpressure-load-shedding) |
+
+## 이 사이트가 다른 이유
+
+<div class="signal-strip">
+  <div class="signal">
+    <strong>토이 예제가 아님</strong>
+    <span>실제 서비스에서 볼 법한 백엔드 문제 형태로 예제를 구성했습니다.</span>
+  </div>
+  <div class="signal">
+    <strong>코드만 던지지 않음</strong>
+    <span>소유권, 순서, 실패 정책, 테스트가 무엇을 보장하는지까지 설명합니다.</span>
+  </div>
+  <div class="signal">
+    <strong>이론도 표면적이지 않음</strong>
+    <span>`hchan`, `sudog`, run queue, starvation mode 같은 런타임 개념까지 내려갑니다.</span>
+  </div>
+</div>
+
+## 추천 읽기 흐름
+
+1. [시작하기](/ko/guide/getting-started)에서 저장소 구조와 검증 명령을 확인합니다.
+2. [예제 읽는 법](/ko/guide/how-to-read)으로 읽는 기준을 맞춥니다.
+3. [기초 원리 개요](/ko/fundamentals/)부터 읽습니다.
+4. 자기 workload에 맞는 패턴을 [패턴 개요](/ko/patterns/)에서 고릅니다.
+5. 운영 설계로 확장할 때 [고급 주제 개요](/ko/advanced/)로 넘어갑니다.

@@ -3,75 +3,93 @@ layout: home
 
 hero:
   name: Go Concurrency Patterns
-  text: Practical, bilingual, and production-minded
-  tagline: Learn Go concurrency from runtime fundamentals to advanced patterns through detailed explanations, tested code, and Mermaid diagrams.
+  text: From runtime internals to production-safe patterns
+  tagline: Learn Go concurrency through deep fundamentals, tested examples, decision guides, and bilingual English/Korean docs.
   actions:
     - theme: brand
-      text: Start Reading
-      link: /guide/getting-started
+      text: Start With Fundamentals
+      link: /fundamentals/
+    - theme: alt
+      text: Browse Patterns
+      link: /patterns/
     - theme: alt
       text: 한국어 보기
       link: /ko/
-    - theme: alt
-      text: GitHub Repository
-      link: https://github.com/jaeyoung0509/golang-conccurency-patterns
 
 features:
+  - title: Clear learning path
+    details: "The site now has section overviews, reading tracks, and pattern selection guides instead of throwing readers into dense pages."
+  - title: Runtime-first depth
+    details: "The fundamentals section explains the scheduler, memory model, channel internals, and mutex/runtime semaphore behavior."
+  - title: Practical examples
+    details: "Examples use realistic backend domains such as shipping, fraud analysis, inventory coordination, and cache-miss suppression."
+  - title: Tested behavior
+    details: "Every example is backed by `go test` so ordering, cancellation, limits, and failure policy are verified."
+  - title: Advanced production topics
+    details: "Structured concurrency, weighted semaphores, singleflight, actors, and load shedding are documented alongside the basics."
   - title: English and Korean
-    details: "The site ships with mirrored English and Korean navigation so teams can study in the language they prefer."
-  - title: Fundamentals included
-    details: "The site now explains the G-M-P scheduler, goroutine cost model, channels, select, and memory-visibility rules."
-  - title: Real examples
-    details: "Every section is backed by practical Go packages such as shipment quoting, checkout risk pipelines, dashboard aggregation, and inventory actors."
-  - title: Tests included
-    details: "Patterns are verified with `go test`, including worker limits, cancellation behavior, and deadline propagation."
-  - title: Mermaid diagrams
-    details: "Each pattern has a visual explanation so channel ownership and control flow are obvious before you copy code."
-  - title: Advanced topics
-    details: "Actor pattern and CSP theory are documented alongside practical Go tradeoffs, not as detached theory notes."
-  - title: Readability first
-    details: "Content is organized around tradeoffs, failure modes, and implementation boundaries instead of dumping long code listings."
+    details: "The site is mirrored across `/` and `/ko/` so mixed-language teams can study the same structure."
 ---
 
-## What this site is for
+## Start Here
 
-Most concurrency tutorials stop at toy examples. This project takes the opposite approach:
+<div class="lead-panel">
+  <p>
+    This site is built for engineers who want to do more than memorize goroutines and channels.
+    The goal is to understand <strong>why Go concurrency works, when each pattern is the right fit, and how to keep it safe in production</strong>.
+  </p>
+</div>
 
-- the examples solve operational problems that look like real backend work,
-- the tests prove the concurrency guarantees instead of assuming them,
-- the documents explain why a pattern is safe, not just how to type it.
-
-<div class="custom-card-grid">
-  <div class="custom-card">
-    <h3>Fundamentals</h3>
-    <p>Understand the scheduler, channels, and memory model before copying any concurrency pattern into production.</p>
+<div class="path-grid">
+  <div class="path-card">
+    <h3>1. Fundamentals</h3>
+    <p>Start with the scheduler, memory model, and channel internals so the rest of the site has a solid mental foundation.</p>
+    <p><a href="/fundamentals/">Open fundamentals</a></p>
   </div>
-  <div class="custom-card">
-    <h3>Worker Pool</h3>
-    <p>Bound parallelism while preserving order and cancelling on the first failure.</p>
+  <div class="path-card">
+    <h3>2. Practical Patterns</h3>
+    <p>Move into worker pools, pipelines, fan-out/fan-in, and context cancellation when you are mapping code to real workloads.</p>
+    <p><a href="/patterns/">Browse patterns</a></p>
   </div>
-  <div class="custom-card">
-    <h3>Pipeline</h3>
-    <p>Compose stages so ingestion, scoring, and alert generation stay readable under load.</p>
-  </div>
-  <div class="custom-card">
-    <h3>Fan-Out / Fan-In</h3>
-    <p>Query multiple backends concurrently and combine partial results without losing useful signal.</p>
-  </div>
-  <div class="custom-card">
-    <h3>Context Cancellation</h3>
-    <p>Build request-scoped workflows that stop fast when deadlines or sibling failures happen.</p>
-  </div>
-  <div class="custom-card">
-    <h3>Advanced Topics</h3>
-    <p>Go beyond basics with structured concurrency, weighted semaphores, singleflight, actor-style ownership, and load shedding.</p>
+  <div class="path-card">
+    <h3>3. Advanced Topics</h3>
+    <p>Study resource budgeting, structured lifetimes, duplicate suppression, ownership models, and overload behavior.</p>
+    <p><a href="/advanced/">Go deeper</a></p>
   </div>
 </div>
 
-## Reading order
+## Choose The Right Starting Point
 
-1. Start with [Getting Started](/guide/getting-started) for repository layout and commands.
-2. Read [How to Read the Examples](/guide/how-to-read) to understand the review checklist.
-3. Build the runtime mental model in [Fundamentals](/fundamentals/go-runtime-scheduler).
-4. Move into the practical pattern pages based on the problem you are solving.
-5. Finish with [Advanced](/advanced/actor-pattern) when you want to compare communication-first and ownership-first designs.
+| If you need to understand... | Start with |
+| --- | --- |
+| Why goroutines are cheap and how the scheduler actually runs them | [Go Runtime and Scheduler](/fundamentals/go-runtime-scheduler) |
+| Why channels synchronize memory visibility | [Channels, Select, and the Memory Model](/fundamentals/channels-memory-model) |
+| How to cap parallelism across many independent tasks | [Worker Pool](/patterns/worker-pool) |
+| How to structure one request with several sibling tasks | [Structured Concurrency](/advanced/structured-concurrency) |
+| How to stop duplicate cache-miss fetches | [Singleflight](/advanced/singleflight) |
+| How to survive overload instead of just failing later | [Backpressure and Load Shedding](/advanced/backpressure-load-shedding) |
+
+## What Makes This Site Different
+
+<div class="signal-strip">
+  <div class="signal">
+    <strong>Not toy examples</strong>
+    <span>The examples are shaped like backend systems you would actually maintain.</span>
+  </div>
+  <div class="signal">
+    <strong>Not just code dumps</strong>
+    <span>The pages explain ownership, ordering, failure policy, and what the tests are proving.</span>
+  </div>
+  <div class="signal">
+    <strong>Not surface-level theory</strong>
+    <span>The fundamentals section goes down to runtime source concepts such as `hchan`, `sudog`, run queues, and starvation mode.</span>
+  </div>
+</div>
+
+## Recommended Reading Flow
+
+1. Read [Getting Started](/guide/getting-started) to understand the repo layout and validation commands.
+2. Read [How to Read the Examples](/guide/how-to-read) to set the review lens.
+3. Work through [Fundamentals Overview](/fundamentals/) before jumping into implementation patterns.
+4. Pick the practical pattern that matches your workload in [Patterns Overview](/patterns/).
+5. Finish with [Advanced Overview](/advanced/) when you need stronger production control.
