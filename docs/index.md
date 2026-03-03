@@ -3,18 +3,18 @@ layout: home
 
 hero:
   name: Go Concurrency Patterns
-  text: From runtime internals to production-safe patterns
-  tagline: Learn Go concurrency through deep fundamentals, tested examples, decision guides, and bilingual English/Korean docs.
+  text: From compiler internals to production-safe concurrency
+  tagline: Learn Go through deep fundamentals, systems internals, tested examples, decision guides, and bilingual English/Korean docs.
   actions:
     - theme: brand
       text: Start With Fundamentals
       link: /fundamentals/
     - theme: alt
+      text: Open Internals
+      link: /internals/
+    - theme: alt
       text: Browse Patterns
       link: /patterns/
-    - theme: alt
-      text: Production Guide
-      link: /production/
     - theme: alt
       text: Testing Playbook
       link: /testing/
@@ -27,6 +27,8 @@ features:
     details: "The site now has section overviews, reading tracks, and pattern selection guides instead of throwing readers into dense pages."
   - title: Runtime-first depth
     details: "The fundamentals section explains the scheduler, memory model, channel internals, and mutex/runtime semaphore behavior."
+  - title: Systems-level internals
+    details: "The site now covers escape analysis, SSA, allocator internals, generics, interface layout, unsafe, cgo, PGO, and sync.Pool internals."
   - title: Practical examples
     details: "Examples use realistic backend domains such as shipping, fraud analysis, inventory coordination, and cache-miss suppression."
   - title: Tested behavior
@@ -57,27 +59,32 @@ features:
     <p><a href="/fundamentals/">Open fundamentals</a></p>
   </div>
   <div class="path-card">
-    <h3>2. Practical Patterns</h3>
+    <h3>2. Internals</h3>
+    <p>Study escape analysis, SSA, allocator design, generics, interfaces, unsafe boundaries, and modern performance tooling.</p>
+    <p><a href="/internals/">Open internals</a></p>
+  </div>
+  <div class="path-card">
+    <h3>3. Practical Patterns</h3>
     <p>Move into worker pools, pipelines, fan-out/fan-in, and context cancellation when you are mapping code to real workloads.</p>
     <p><a href="/patterns/">Browse patterns</a></p>
   </div>
   <div class="path-card">
-    <h3>3. Advanced Topics</h3>
+    <h3>4. Advanced Topics</h3>
     <p>Study resource budgeting, structured lifetimes, duplicate suppression, ownership models, and overload behavior.</p>
     <p><a href="/advanced/">Go deeper</a></p>
   </div>
   <div class="path-card">
-    <h3>4. Testing</h3>
+    <h3>5. Testing</h3>
     <p>Learn how to prove cancellation, shutdown, race safety, and timeout behavior instead of relying on lucky sleeps.</p>
     <p><a href="/testing/">Open testing</a></p>
   </div>
   <div class="path-card">
-    <h3>5. Production</h3>
+    <h3>6. Production</h3>
     <p>Study queue budgets, overload policy, goroutine ownership, and open-source concurrency designs from real Go systems.</p>
     <p><a href="/production/">Open production</a></p>
   </div>
   <div class="path-card">
-    <h3>6. Extras</h3>
+    <h3>7. Extras</h3>
     <p>Compare Go's CSP-flavored model with Rust Tokio so your mental model holds across ecosystems.</p>
     <p><a href="/extras/">Open extras</a></p>
   </div>
@@ -88,6 +95,8 @@ features:
 | If you need to understand... | Start with |
 | --- | --- |
 | Why goroutines are cheap and how the scheduler actually runs them | [Go Runtime and Scheduler](/fundamentals/go-runtime-scheduler) |
+| Why a local value still ends up on the heap | [Compiler and Toolchain](/internals/compiler-and-toolchain) |
+| Why one allocation pattern hurts GC more than another | [Allocator and Hybrid Write Barrier](/internals/allocator-and-write-barrier) |
 | Why channels synchronize memory visibility | [Channels, Select, and the Memory Model](/fundamentals/channels-memory-model) |
 | How to cap parallelism across many independent tasks | [Worker Pool](/patterns/worker-pool) |
 | How to structure one request with several sibling tasks | [Structured Concurrency](/advanced/structured-concurrency) |
@@ -110,7 +119,7 @@ features:
   </div>
   <div class="signal">
     <strong>Not surface-level theory</strong>
-    <span>The fundamentals section goes down to runtime source concepts such as `hchan`, `sudog`, run queues, and starvation mode.</span>
+    <span>The site now goes from runtime source concepts such as `hchan`, `sudog`, run queues, and starvation mode down to compiler SSA, allocator tiers, and interface metadata.</span>
   </div>
 </div>
 
@@ -119,7 +128,8 @@ features:
 1. Read [Getting Started](/guide/getting-started) to understand the repo layout and validation commands.
 2. Read [How to Read the Examples](/guide/how-to-read) to set the review lens.
 3. Work through [Fundamentals Overview](/fundamentals/) before jumping into implementation patterns.
-4. Pick the practical pattern that matches your workload in [Patterns Overview](/patterns/).
-5. Read [Testing Overview](/testing/) before treating any concurrent component as production-ready.
-6. Read [Production Overview](/production/) for operating rules and open-source case studies.
-7. Finish with [Advanced Overview](/advanced/) and [Extras Overview](/extras/) for deeper design and ecosystem comparison.
+4. Read [Internals Overview](/internals/) when you want compiler, allocator, and type-system cost models rather than only runtime APIs.
+5. Pick the practical pattern that matches your workload in [Patterns Overview](/patterns/).
+6. Read [Testing Overview](/testing/) before treating any concurrent component as production-ready.
+7. Read [Production Overview](/production/) for operating rules and open-source case studies.
+8. Finish with [Advanced Overview](/advanced/) and [Extras Overview](/extras/) for deeper design and ecosystem comparison.
