@@ -60,6 +60,16 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 - Map internals and Swiss Tables
 - Garbage collector and Green Tea GC
 
+## Included internals
+
+- Compiler and toolchain internals: escape analysis, SSA, and Plan 9 assembly
+- Allocator hierarchy and hybrid write barrier
+- Memory layout, padding, and false sharing
+- Generics implementation and interface runtime layout
+- unsafe, cgo, and `runtime.Pinner`
+- Modern performance tuning with PGO, execution tracing, and zero-copy I/O
+- Standard library anatomy for `sync.Pool` and `reflect`
+
 ## Included advanced topics
 
 - Structured concurrency with `errgroup`

@@ -23,6 +23,19 @@ const enSidebar = [
     ],
   },
   {
+    text: "Internals",
+    items: [
+      { text: "Overview", link: "/internals/" },
+      { text: "Compiler and Toolchain", link: "/internals/compiler-and-toolchain" },
+      { text: "Allocator and Hybrid Write Barrier", link: "/internals/allocator-and-write-barrier" },
+      { text: "Layout, Padding, and False Sharing", link: "/internals/layout-padding-false-sharing" },
+      { text: "Generics and Interfaces", link: "/internals/generics-and-interfaces" },
+      { text: "unsafe, cgo, and Pinner", link: "/internals/unsafe-cgo-pinner" },
+      { text: "Modern Performance Tuning", link: "/internals/modern-performance-tuning" },
+      { text: "Standard Library Anatomy", link: "/internals/stdlib-anatomy" },
+    ],
+  },
+  {
     text: "Patterns",
     items: [
       { text: "Overview", link: "/patterns/" },
@@ -94,6 +107,19 @@ const koSidebar = [
       { text: "Mutex와 런타임 세마포어 내부", link: "/ko/fundamentals/mutex-semaphore-internals" },
       { text: "맵 내부 구조와 Swiss Tables", link: "/ko/fundamentals/map-internals" },
       { text: "가비지 컬렉터와 Green Tea GC", link: "/ko/fundamentals/garbage-collector" },
+    ],
+  },
+  {
+    text: "내부 구조",
+    items: [
+      { text: "개요", link: "/ko/internals/" },
+      { text: "컴파일러와 툴체인", link: "/ko/internals/compiler-and-toolchain" },
+      { text: "할당기와 하이브리드 write barrier", link: "/ko/internals/allocator-and-write-barrier" },
+      { text: "레이아웃, 패딩, false sharing", link: "/ko/internals/layout-padding-false-sharing" },
+      { text: "제네릭과 인터페이스", link: "/ko/internals/generics-and-interfaces" },
+      { text: "unsafe, cgo, 그리고 Pinner", link: "/ko/internals/unsafe-cgo-pinner" },
+      { text: "현대 Go 성능 튜닝", link: "/ko/internals/modern-performance-tuning" },
+      { text: "표준 라이브러리 해부", link: "/ko/internals/stdlib-anatomy" },
     ],
   },
   {
@@ -197,6 +223,7 @@ export default defineConfig({
         nav: [
           { text: "Guide", link: "/guide/getting-started" },
           { text: "Fundamentals", link: "/fundamentals/" },
+          { text: "Internals", link: "/internals/" },
           { text: "Patterns", link: "/patterns/" },
           { text: "Advanced", link: "/advanced/" },
           { text: "Production", link: "/production/" },
@@ -232,6 +259,7 @@ export default defineConfig({
         nav: [
           { text: "가이드", link: "/ko/guide/getting-started" },
           { text: "기초 원리", link: "/ko/fundamentals/" },
+          { text: "내부 구조", link: "/ko/internals/" },
           { text: "패턴", link: "/ko/patterns/" },
           { text: "고급 주제", link: "/ko/advanced/" },
           { text: "프로덕션", link: "/ko/production/" },
