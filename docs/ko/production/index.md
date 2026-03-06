@@ -14,7 +14,7 @@ description: Go 코드가 실제 대규모 트래픽을 받을 때 중요해지�
 | 주제 | 왜 중요한가 |
 | --- | --- |
 | [대규모 Go 시스템](/ko/production/large-scale-go-systems) | 런타임 지식을 실제 latency, memory, overload, shutdown 규칙으로 바꿉니다 |
-| [오픈소스 사례](/ko/production/open-source-case-studies) | 대표적인 Go 오픈소스가 concurrency를 어떻게 구조화하는지 소스와 함께 봅니다 |
+| [오픈소스 사례](/ko/production/open-source-case-studies) | Kubernetes, etcd, Prometheus, NATS, gRPC-Go, CockroachDB, go-redis가 concurrency policy를 어떻게 코드에 드러내는지 봅니다 |
 
 ## 프로덕션에서 질문이 달라진다
 
