@@ -99,6 +99,7 @@ const enSidebar = [
     text: "Testing",
     items: [
       { text: "Overview", link: "/testing/" },
+      { text: "AI-Assisted Go Safety", link: "/testing/ai-assisted-go-safety" },
       { text: "Race Detector", link: "/testing/race-detector" },
       { text: "Deterministic Tests with synctest", link: "/testing/synctest" },
       { text: "Leak, Shutdown, and Timeout Testing", link: "/testing/leaks-and-shutdowns" },
@@ -214,6 +215,7 @@ const koSidebar = [
     text: "테스트",
     items: [
       { text: "개요", link: "/ko/testing/" },
+      { text: "AI 보조 Go 안전성", link: "/ko/testing/ai-assisted-go-safety" },
       { text: "Race Detector", link: "/ko/testing/race-detector" },
       { text: "synctest로 결정적 테스트", link: "/ko/testing/synctest" },
       { text: "리크, 종료, 타임아웃 테스트", link: "/ko/testing/leaks-and-shutdowns" },

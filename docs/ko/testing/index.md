@@ -21,6 +21,7 @@ description: race, leak, time, cancellation, scheduler behavior까지 Go 동시�
 
 | 이런 걸 검증하고 싶다면 | 여기부터 |
 | --- | --- |
+| AI가 만든 Go 코드가 컴파일은 되는데 안전한지 검증 | [AI 보조 Go 안전성](/ko/testing/ai-assisted-go-safety) |
 | 동기화 없는 shared memory 접근 | [Race Detector](/ko/testing/race-detector) |
 | timeout/timer 로직을 실제 sleep 없이 검증 | [synctest로 결정적 테스트](/ko/testing/synctest) |
 | goroutine leak와 shutdown behavior | [리크, 종료, 타임아웃 테스트](/ko/testing/leaks-and-shutdowns) |
@@ -34,18 +35,21 @@ description: race, leak, time, cancellation, scheduler behavior까지 Go 동시�
 2. 실패 경로가 끝나는가
 3. timeout 경로가 결정적인가
 4. 구현이 goroutine이나 작업을 leak하지 않는가
+5. AI/LLM이 만든 회귀를 조기에 잡는 검증 체인이 있는가
 
 ## 추천 읽기 순서
 
 1. [Race Detector](/ko/testing/race-detector)
-2. [synctest로 결정적 테스트](/ko/testing/synctest)
-3. [리크, 종료, 타임아웃 테스트](/ko/testing/leaks-and-shutdowns)
-4. [트레이싱과 경합 관측](/ko/testing/tracing-and-profiling)
+2. [AI 보조 Go 안전성](/ko/testing/ai-assisted-go-safety)
+3. [synctest로 결정적 테스트](/ko/testing/synctest)
+4. [리크, 종료, 타임아웃 테스트](/ko/testing/leaks-and-shutdowns)
+5. [트레이싱과 경합 관측](/ko/testing/tracing-and-profiling)
 
 ## Practical takeaway
 
 동시성 테스트는 한 가지 도구로 끝나지 않습니다.
 
+- compile/unit test와 정적 검사를 먼저 두고
 - `-race`
 - `synctest`
 - leak / shutdown 테스트

@@ -136,6 +136,7 @@ features:
 | 하나의 요청 안에서 여러 sibling task를 어떻게 관리하는지 | [구조화된 동시성](/ko/advanced/structured-concurrency) |
 | 같은 cache miss 요청을 어떻게 하나로 합치는지 | [Singleflight](/ko/advanced/singleflight) |
 | 과부하를 늦게 터뜨리지 않고 초기에 제어하는 법 | [역압력과 로드 셰딩](/ko/advanced/backpressure-load-shedding) |
+| AI가 만든 Go 코드가 컴파일은 되는데 여전히 위험할 때 어떻게 조기 발견하는지 | [AI 보조 Go 안전성](/ko/testing/ai-assisted-go-safety) |
 | timeout-heavy 코드를 실제 sleep 없이 어떻게 테스트하는지 | [synctest로 결정적 테스트](/ko/testing/synctest) |
 | 토이 패턴을 넘어 대규모 Go 운영에서 무엇이 중요한지 | [대규모 Go 시스템](/ko/production/large-scale-go-systems) |
 | 주요 Go 오픈소스가 queue, transport loop, stopper lifetime, pool을 어떻게 구현하는지 | [오픈소스 사례](/ko/production/open-source-case-studies) |
