@@ -76,6 +76,10 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 - `net/http`: server timeout boundaries, request lifetimes, transport pooling, `persistConn`, and response-body ownership
 - `database/sql`: pool internals, waiters, cleaner lifecycle, `DB.Stats`, and cancellation boundaries
 - `time`: monotonic time, timer/ticker ownership, Go 1.23 timer semantics, and retry-loop design
+- `sync` + `sync/atomic`: `RWMutex`, `WaitGroup`, `Once`, `sync.Map`, `sync.Cond`, and read-mostly snapshot publication
+- `os/signal` + `runtime/metrics` + `net/http/pprof`: process shutdown, signal-aware cancellation, runtime telemetry, and incident-time profiling
+- `io` + `bufio` + `bytes`: interface-driven streaming, buffering, `io.Copy` fast paths, scanner limits, and byte-slice aliasing
+- `encoding/json`: stream decoding, strictness knobs, number handling, compatibility traps, and NDJSON-friendly encoding
 
 ## Included advanced topics
 
