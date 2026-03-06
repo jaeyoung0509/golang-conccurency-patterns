@@ -48,7 +48,7 @@ features:
   - title: Production operating rules
     details: "Admission control, queue budgets, lifecycle ownership, and large-system concurrency tradeoffs are documented as first-class topics."
   - title: Testing and observability
-    details: "Race detection, synctest, leak testing, traces, and contention profiles are treated as first-class concurrency skills."
+    details: "Race detection, synctest, real dependency integration tests, leak testing, traces, and contention profiles are treated as first-class concurrency skills."
   - title: English and Korean
     details: "The site is mirrored across `/` and `/ko/` so mixed-language teams can study the same structure."
 ---
@@ -138,6 +138,7 @@ features:
 | How to survive overload instead of just failing later | [Backpressure and Load Shedding](/advanced/backpressure-load-shedding) |
 | How to keep AI-generated Go code from compiling successfully and still shipping bugs | [AI-Assisted Go Safety](/testing/ai-assisted-go-safety) |
 | How to test timeout-heavy code without real sleeps | [Deterministic Tests with synctest](/testing/synctest) |
+| How to keep Postgres, Redis, and container-backed integration tests clean, isolated, and deterministic | [Integration Testing with Testcontainers](/testing/integration-testcontainers) |
 | What large Go production systems care about beyond toy patterns | [Large-Scale Go Systems](/production/large-scale-go-systems) |
 | How major Go projects actually build queues, transport loops, stopper lifetimes, and pools | [Open-Source Case Studies](/production/open-source-case-studies) |
 | How Go differs from Rust Tokio's async runtime model | [Go CSP vs Rust Tokio](/extras/go-csp-vs-rust-tokio) |
