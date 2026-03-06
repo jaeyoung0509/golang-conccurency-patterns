@@ -33,7 +33,7 @@ features:
   - title: 시스템 레벨 내부 구조 포함
     details: "Escape analysis, SSA, allocator, generics, interface layout, unsafe, cgo, PGO, sync.Pool 내부까지 추가로 다룹니다."
   - title: 표준 라이브러리까지 깊게
-    details: "`context`, `net/http`, `database/sql`, `time`를 따로 빼서 실제 서비스 코드가 돌아가는 경계를 자세히 설명합니다."
+    details: "`context`, `net`, `crypto/tls`, `net/http`, `database/sql`, `os/exec`, `time`를 따로 빼서 실제 서비스 코드가 돌아가는 경계를 자세히 설명합니다."
   - title: 실용 예제 중심
     details: "배송, 부정거래 분석, 재고, 중복 요청 억제처럼 실제 백엔드 문제에 가까운 예제를 사용합니다."
   - title: 테스트로 검증
@@ -70,7 +70,7 @@ features:
   </div>
   <div class="path-card">
     <h3>3. 표준 라이브러리</h3>
-    <p>`context`, `net/http`, `database/sql`, `time`를 통해 런타임 보장이 실제 request lifetime, connection reuse, deadline behavior로 어떻게 드러나는지 봅니다.</p>
+    <p>`context`, `net`, `crypto/tls`, `net/http`, `database/sql`, `os/exec`, `time`를 통해 런타임 보장이 실제 request lifetime, connection reuse, subprocess ownership, deadline behavior로 어떻게 드러나는지 봅니다.</p>
     <p><a href="/ko/stdlib/">표준 라이브러리 보기</a></p>
   </div>
   <div class="path-card">
@@ -109,9 +109,12 @@ features:
 | 어떤 allocation 패턴이 왜 GC를 더 힘들게 하는지 | [할당기와 하이브리드 write barrier](/ko/internals/allocator-and-write-barrier) |
 | request-scoped cancellation이 실제로 어떻게 전파되는지 | [context 패키지 내부](/ko/stdlib/context-internals) |
 | channel이 shared state에 맞지 않을 때 무엇을 써야 하는지 | [sync와 atomic 프리미티브](/ko/stdlib/sync-and-atomic) |
+| connection establish budget을 어떻게 잡고 `net.IP` footgun 없이 endpoint를 표현하는지 | [net과 netip](/ko/stdlib/net-and-netip) |
+| TLS handshake, verification, ALPN이 request lifetime과 어떻게 연결되는지 | [프로덕션에서의 crypto/tls](/ko/stdlib/crypto-tls) |
 | Go HTTP 서버와 클라이언트 transport가 connection을 어떻게 소유하는지 | [net/http 서버와 Transport 내부](/ko/stdlib/net-http-server-transport) |
 | 왜 `sql.DB`는 connection이 아니라 pool인지 | [database/sql 풀 내부](/ko/stdlib/database-sql-pool) |
 | 왜 `time.After`가 항상 좋은 loop primitive는 아닌지 | [time, Timers, Tickers](/ko/stdlib/time-timers-tickers) |
+| subprocess cancellation, pipe, `WaitDelay`가 실제로 어떻게 동작하는지 | [os/exec와 subprocess lifecycle](/ko/stdlib/os-exec-and-subprocesses) |
 | byte stream과 JSON을 hidden buffering mistake 없이 다루는 법 | [io, bufio, bytes](/ko/stdlib/io-bufio-bytes) |
 | 프로세스 shutdown과 runtime observability를 Go 서비스에 어떻게 붙이는지 | [프로세스 신호와 런타임 관측](/ko/stdlib/process-signals-and-observability) |
 | 채널이 왜 메모리 가시성 경계를 만드는지 | [Channels, Select, 그리고 Memory Model](/ko/fundamentals/channels-memory-model) |

@@ -33,7 +33,7 @@ features:
   - title: Systems-level internals
     details: "The site now covers escape analysis, SSA, allocator internals, generics, interface layout, unsafe, cgo, PGO, and sync.Pool internals."
   - title: Standard library deep dives
-    details: "The site now treats `context`, `net/http`, `database/sql`, and `time` as first-class learning tracks instead of assuming they are already understood."
+    details: "The site now treats `context`, `net`, `crypto/tls`, `net/http`, `database/sql`, `os/exec`, and `time` as first-class learning tracks instead of assuming they are already understood."
   - title: Practical examples
     details: "Examples use realistic backend domains such as shipping, fraud analysis, inventory coordination, and cache-miss suppression."
   - title: Tested behavior
@@ -70,7 +70,7 @@ features:
   </div>
   <div class="path-card">
     <h3>3. Standard Library</h3>
-    <p>Learn how `context`, `net/http`, `database/sql`, and `time` turn runtime guarantees into request lifetimes, connection reuse, and deadline behavior.</p>
+    <p>Learn how `context`, `net`, `crypto/tls`, `net/http`, `database/sql`, `os/exec`, and `time` turn runtime guarantees into request lifetimes, connection reuse, subprocess ownership, and deadline behavior.</p>
     <p><a href="/stdlib/">Open standard library</a></p>
   </div>
   <div class="path-card">
@@ -109,9 +109,12 @@ features:
 | Why one allocation pattern hurts GC more than another | [Allocator and Hybrid Write Barrier](/internals/allocator-and-write-barrier) |
 | How request-scoped cancellation actually propagates | [context Package Internals](/stdlib/context-internals) |
 | When channels are the wrong tool for shared state | [sync and atomic Primitives](/stdlib/sync-and-atomic) |
+| How to budget connection establishment and represent endpoints without `net.IP` footguns | [net and netip](/stdlib/net-and-netip) |
+| How TLS handshake, verification, and ALPN fit into request lifetime | [crypto/tls in Production](/stdlib/crypto-tls) |
 | How Go's HTTP server and client transport really own connections | [net/http Server and Transport](/stdlib/net-http-server-transport) |
 | Why `sql.DB` is a pool instead of a connection | [database/sql Pool Internals](/stdlib/database-sql-pool) |
 | Why `time.After` is not always the right loop primitive | [time, Timers, and Tickers](/stdlib/time-timers-tickers) |
+| How subprocess cancellation, pipes, and `WaitDelay` actually behave | [os/exec and Subprocess Lifecycle](/stdlib/os-exec-and-subprocesses) |
 | How to stream bytes and JSON without hidden buffering mistakes | [io, bufio, and bytes](/stdlib/io-bufio-bytes) |
 | How process shutdown and runtime observability fit into Go services | [Process Signals and Runtime Observability](/stdlib/process-signals-and-observability) |
 | Why channels synchronize memory visibility | [Channels, Select, and the Memory Model](/fundamentals/channels-memory-model) |
