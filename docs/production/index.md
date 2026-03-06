@@ -14,7 +14,7 @@ This section is about what changes when the code is no longer a neat example and
 | Topic | Why it matters |
 | --- | --- |
 | [Large-Scale Go Systems](/production/large-scale-go-systems) | Turns runtime knowledge into operating rules for latency, memory, shutdown, and overload |
-| [Open-Source Case Studies](/production/open-source-case-studies) | Shows how major Go projects structure concurrency in real source code |
+| [Open-Source Case Studies](/production/open-source-case-studies) | Shows how Kubernetes, etcd, Prometheus, NATS, gRPC-Go, CockroachDB, and go-redis make concurrency policy visible in real source code |
 
 ## The production shift
 

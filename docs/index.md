@@ -124,6 +124,7 @@ features:
 | How to survive overload instead of just failing later | [Backpressure and Load Shedding](/advanced/backpressure-load-shedding) |
 | How to test timeout-heavy code without real sleeps | [Deterministic Tests with synctest](/testing/synctest) |
 | What large Go production systems care about beyond toy patterns | [Large-Scale Go Systems](/production/large-scale-go-systems) |
+| How major Go projects actually build queues, transport loops, stopper lifetimes, and pools | [Open-Source Case Studies](/production/open-source-case-studies) |
 | How Go differs from Rust Tokio's async runtime model | [Go CSP vs Rust Tokio](/extras/go-csp-vs-rust-tokio) |
 
 ## What Makes This Site Different

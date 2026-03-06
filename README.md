@@ -96,7 +96,7 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 ## Included production topics
 
 - Large-scale Go systems: admission control, goroutine ownership, memory budgets, and shutdown policy
-- Open-source case studies from Kubernetes, etcd/raft, Prometheus, and NATS
+- Open-source case studies from Kubernetes, etcd/raft, Prometheus, NATS, gRPC-Go, CockroachDB, and go-redis
 
 ## Included testing topics
 

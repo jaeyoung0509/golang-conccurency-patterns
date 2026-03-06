@@ -124,6 +124,7 @@ features:
 | 과부하를 늦게 터뜨리지 않고 초기에 제어하는 법 | [역압력과 로드 셰딩](/ko/advanced/backpressure-load-shedding) |
 | timeout-heavy 코드를 실제 sleep 없이 어떻게 테스트하는지 | [synctest로 결정적 테스트](/ko/testing/synctest) |
 | 토이 패턴을 넘어 대규모 Go 운영에서 무엇이 중요한지 | [대규모 Go 시스템](/ko/production/large-scale-go-systems) |
+| 주요 Go 오픈소스가 queue, transport loop, stopper lifetime, pool을 어떻게 구현하는지 | [오픈소스 사례](/ko/production/open-source-case-studies) |
 | Go와 Rust Tokio의 async runtime 모델이 어떻게 다른지 | [Go CSP vs Rust Tokio](/ko/extras/go-csp-vs-rust-tokio) |
 
 ## 이 사이트가 다른 이유
