@@ -73,11 +73,14 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 ## Included standard library topics
 
 - `context`: cancellation trees, `cancelCtx`, `timerCtx`, `Cause`, `AfterFunc`, and `WithoutCancel`
+- `net` + `netip`: dial budgets, deadlines, resolver behavior, `netip.Addr` identity semantics, and listener ownership
+- `crypto/tls`: handshake lifetime, `tls.Config`, ALPN, verification hooks, resumption, and hostname policy
 - `net/http`: server timeout boundaries, request lifetimes, transport pooling, `persistConn`, and response-body ownership
 - `database/sql`: pool internals, waiters, cleaner lifecycle, `DB.Stats`, and cancellation boundaries
 - `time`: monotonic time, timer/ticker ownership, Go 1.23 timer semantics, and retry-loop design
 - `sync` + `sync/atomic`: `RWMutex`, `WaitGroup`, `Once`, `sync.Map`, `sync.Cond`, and read-mostly snapshot publication
 - `os/signal` + `runtime/metrics` + `net/http/pprof`: process shutdown, signal-aware cancellation, runtime telemetry, and incident-time profiling
+- `os/exec`: subprocess lifecycle, `CommandContext`, copy goroutines, `WaitDelay`, `ErrDot`, and output capture
 - `io` + `bufio` + `bytes`: interface-driven streaming, buffering, `io.Copy` fast paths, scanner limits, and byte-slice aliasing
 - `encoding/json`: stream decoding, strictness knobs, number handling, compatibility traps, and NDJSON-friendly encoding
 
