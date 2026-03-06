@@ -17,6 +17,7 @@ This extra section exists for two reasons:
 | Topic | Why it matters |
 | --- | --- |
 | [Go CSP vs Rust Tokio](/extras/go-csp-vs-rust-tokio) | Shows how similar high-level goals lead to very different runtime and language designs |
+| [Go vs Rust Decision Guide](/extras/go-vs-rust-decision-guide) | Turns language comparison into a practical call about when to keep a service in Go and when to move a subsystem to Rust |
 
 ## Practical takeaway
 

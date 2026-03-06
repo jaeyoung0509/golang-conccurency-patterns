@@ -53,6 +53,16 @@ const enSidebar = [
     ],
   },
   {
+    text: "Playbooks",
+    items: [
+      { text: "Overview", link: "/playbooks/" },
+      { text: "net/http Production Field Guide", link: "/playbooks/net-http-production-field-guide" },
+      { text: "grpc-go Production Playbook", link: "/playbooks/grpc-go-production-playbook" },
+      { text: "go-redis Production Playbook", link: "/playbooks/go-redis-production-playbook" },
+      { text: "Kafka with IBM Sarama", link: "/playbooks/kafka-with-ibm-sarama" },
+    ],
+  },
+  {
     text: "Patterns",
     items: [
       { text: "Overview", link: "/patterns/" },
@@ -100,6 +110,7 @@ const enSidebar = [
     items: [
       { text: "Overview", link: "/extras/" },
       { text: "Go CSP vs Rust Tokio", link: "/extras/go-csp-vs-rust-tokio" },
+      { text: "Go vs Rust Decision Guide", link: "/extras/go-vs-rust-decision-guide" },
     ],
   },
 ] as const;
@@ -157,6 +168,16 @@ const koSidebar = [
     ],
   },
   {
+    text: "실전 플레이북",
+    items: [
+      { text: "개요", link: "/ko/playbooks/" },
+      { text: "net/http 실전 필드 가이드", link: "/ko/playbooks/net-http-production-field-guide" },
+      { text: "grpc-go 실전 플레이북", link: "/ko/playbooks/grpc-go-production-playbook" },
+      { text: "go-redis 실전 플레이북", link: "/ko/playbooks/go-redis-production-playbook" },
+      { text: "Kafka with IBM Sarama", link: "/ko/playbooks/kafka-with-ibm-sarama" },
+    ],
+  },
+  {
     text: "패턴",
     items: [
       { text: "개요", link: "/ko/patterns/" },
@@ -204,6 +225,7 @@ const koSidebar = [
     items: [
       { text: "개요", link: "/ko/extras/" },
       { text: "Go CSP vs Rust Tokio", link: "/ko/extras/go-csp-vs-rust-tokio" },
+      { text: "Go vs Rust 결정 가이드", link: "/ko/extras/go-vs-rust-decision-guide" },
     ],
   },
 ] as const;
@@ -259,6 +281,7 @@ export default defineConfig({
           { text: "Fundamentals", link: "/fundamentals/" },
           { text: "Internals", link: "/internals/" },
           { text: "Standard Library", link: "/stdlib/" },
+          { text: "Playbooks", link: "/playbooks/" },
           { text: "Patterns", link: "/patterns/" },
           { text: "Advanced", link: "/advanced/" },
           { text: "Production", link: "/production/" },
@@ -296,6 +319,7 @@ export default defineConfig({
           { text: "기초 원리", link: "/ko/fundamentals/" },
           { text: "내부 구조", link: "/ko/internals/" },
           { text: "표준 라이브러리", link: "/ko/stdlib/" },
+          { text: "실전 플레이북", link: "/ko/playbooks/" },
           { text: "패턴", link: "/ko/patterns/" },
           { text: "고급 주제", link: "/ko/advanced/" },
           { text: "프로덕션", link: "/ko/production/" },
