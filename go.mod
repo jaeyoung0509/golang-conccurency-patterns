@@ -1,4 +1,4 @@
-module github.com/jaeyoung0509/golang-conccurency-patterns
+module github.com/jaeyoung0509/golang-handbook
 
 go 1.25.0
 

@@ -39,7 +39,7 @@ flowchart LR
 
 ## What the implementation is doing
 
-The exported API in [`examples/actor/actor.go`](https://github.com/jaeyoung0509/golang-conccurency-patterns/blob/main/examples/actor/actor.go) hides the event loop behind method calls:
+The exported API in [`examples/actor/actor.go`](https://github.com/jaeyoung0509/golang-handbook/blob/main/examples/actor/actor.go) hides the event loop behind method calls:
 
 ```go
 func (actor *InventoryActor) Reserve(ctx context.Context, orderID string, quantity int) (StockSnapshot, error) {
@@ -85,7 +85,7 @@ That means:
 
 ## What the tests prove
 
-The tests in [`examples/actor/actor_test.go`](https://github.com/jaeyoung0509/golang-conccurency-patterns/blob/main/examples/actor/actor_test.go) verify:
+The tests in [`examples/actor/actor_test.go`](https://github.com/jaeyoung0509/golang-handbook/blob/main/examples/actor/actor_test.go) verify:
 
 - concurrent reservations do not oversell stock,
 - release and restock commands preserve a coherent snapshot,

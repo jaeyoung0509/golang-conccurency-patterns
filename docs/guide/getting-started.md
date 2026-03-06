@@ -102,6 +102,6 @@ The testing pages answer a sixth: how do you prove the behavior rather than mere
 ## Deployment model
 
 The repository includes a GitHub Pages workflow that builds VitePress on pushes to `develop`.
-The configured base path is `/golang-conccurency-patterns/`, which matches the current repository name.
+The configured base path is `/golang-handbook/`, which matches the current repository name.
 
 If you rename the repository later, update the `base` value in `docs/.vitepress/config.mts`.

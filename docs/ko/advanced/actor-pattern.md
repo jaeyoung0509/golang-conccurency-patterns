@@ -39,7 +39,7 @@ flowchart LR
 
 ## 구현의 핵심
 
-[`examples/actor/actor.go`](https://github.com/jaeyoung0509/golang-conccurency-patterns/blob/main/examples/actor/actor.go)의 공개 API는 이벤트 루프를 메서드 뒤에 숨깁니다.
+[`examples/actor/actor.go`](https://github.com/jaeyoung0509/golang-handbook/blob/main/examples/actor/actor.go)의 공개 API는 이벤트 루프를 메서드 뒤에 숨깁니다.
 
 ```go
 func (actor *InventoryActor) Reserve(ctx context.Context, orderID string, quantity int) (StockSnapshot, error) {
@@ -85,7 +85,7 @@ func loop(state *State, mailbox <-chan envelope) {
 
 ## 테스트가 증명하는 것
 
-[`examples/actor/actor_test.go`](https://github.com/jaeyoung0509/golang-conccurency-patterns/blob/main/examples/actor/actor_test.go)는 다음을 검증합니다.
+[`examples/actor/actor_test.go`](https://github.com/jaeyoung0509/golang-handbook/blob/main/examples/actor/actor_test.go)는 다음을 검증합니다.
 
 - 동시 예약이 들어와도 oversell이 발생하지 않는가
 - release와 restock 이후 snapshot이 일관적인가

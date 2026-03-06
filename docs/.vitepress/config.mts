@@ -92,7 +92,9 @@ const enSidebar = [
     items: [
       { text: "Overview", link: "/production/" },
       { text: "Large-Scale Go Systems", link: "/production/large-scale-go-systems" },
+      { text: "Temporal and Durable Execution", link: "/production/temporal-durable-execution" },
       { text: "Open-Source Case Studies", link: "/production/open-source-case-studies" },
+      { text: "Go Open-Source Histories", link: "/production/go-open-source-histories" },
     ],
   },
   {
@@ -209,7 +211,9 @@ const koSidebar = [
     items: [
       { text: "개요", link: "/ko/production/" },
       { text: "대규모 Go 시스템", link: "/ko/production/large-scale-go-systems" },
+      { text: "Temporal과 Durable Execution", link: "/ko/production/temporal-durable-execution" },
       { text: "오픈소스 사례", link: "/ko/production/open-source-case-studies" },
+      { text: "Go 오픈소스 역사 읽기", link: "/ko/production/go-open-source-histories" },
     ],
   },
   {
@@ -237,7 +241,7 @@ const koSidebar = [
 export default defineConfig({
   title: "Go Concurrency Patterns",
   description: "Detailed, practical Go concurrency patterns with tests and Mermaid diagrams.",
-  base: "/golang-conccurency-patterns/",
+  base: "/golang-handbook/",
   cleanUrls: true,
   lastUpdated: true,
   head: [

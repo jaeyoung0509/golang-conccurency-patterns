@@ -104,5 +104,5 @@ go test ./...
 
 GitHub Pages 워크플로가 포함되어 있어서 `develop` 브랜치에 push 하면 VitePress 사이트가 빌드됩니다.
 
-현재 `docs/.vitepress/config.mts`의 `base` 값은 저장소 이름에 맞춰 `/golang-conccurency-patterns/`로 설정되어 있습니다.
+현재 `docs/.vitepress/config.mts`의 `base` 값은 저장소 이름에 맞춰 `/golang-handbook/`로 설정되어 있습니다.
 저장소 이름을 바꾸면 이 값도 함께 수정해야 합니다.
