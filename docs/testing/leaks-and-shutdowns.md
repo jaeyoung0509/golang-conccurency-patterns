@@ -14,6 +14,10 @@ Many concurrency regressions are lifecycle bugs:
 
 These are not always race detector failures. You need explicit tests for them.
 
+:::tip Quick takeaway
+If a component has `Start`, `Run`, `Submit`, or `Check`, it also has a lifetime contract. Good tests prove both the admission path and the exit path.
+:::
+
 ## What to verify
 
 For any nontrivial concurrent component, write tests that prove:
@@ -22,6 +26,18 @@ For any nontrivial concurrent component, write tests that prove:
 2. rejected work fails clearly once shutdown begins,
 3. blocked goroutines have an escape path,
 4. shutdown honors a hard deadline.
+
+## A shutdown contract worth testing
+
+Before writing tests, make the contract concrete. A good concurrent component usually answers all of these:
+
+- what work is still accepted after shutdown begins,
+- whether already accepted work drains, cancels, or is dropped,
+- which error the caller sees after admission is closed,
+- how long shutdown may wait,
+- who owns background goroutines and when they are guaranteed to exit.
+
+If the implementation cannot answer those questions, the tests will stay vague too.
 
 ## Example checklist
 
@@ -41,6 +57,23 @@ The test does not only assert an error. It asserts that slow jobs observe cancel
 
 ## Useful test shapes
 
+### Admission closes once shutdown starts
+
+```go
+func TestSubmitRejectedAfterShutdown(t *testing.T) {
+	processor := newProcessor(t)
+
+	require.NoError(t, processor.Shutdown(context.Background()))
+
+	err := processor.Submit(context.Background(), Event{OrderID: "ord-1"})
+	if !errors.Is(err, ErrClosed) {
+		t.Fatalf("Submit error = %v, want ErrClosed", err)
+	}
+}
+```
+
+This is the test that proves callers get a stable answer instead of "sometimes blocked, sometimes accepted."
+
 ### Deadline-bounded shutdown
 
 ```go
@@ -52,6 +85,56 @@ if err := processor.Shutdown(ctx); err == nil {
 }
 ```
 
+### Blocked sender must have an escape path
+
+```go
+func TestWorkerExitsOnCancel(t *testing.T) {
+	done := make(chan struct{})
+	ctx, cancel := context.WithCancel(context.Background())
+
+	go func() {
+		defer close(done)
+		runWorker(ctx)
+	}()
+
+	cancel()
+
+	select {
+	case <-done:
+	case <-time.After(100 * time.Millisecond):
+		t.Fatal("worker did not exit after cancellation")
+	}
+}
+```
+
+The point is not the `100ms`. The point is the explicit completion signal. The timeout only prevents the test from hanging forever.
+
+### Caller-abandoned reply path
+
+```go
+func TestReplyPathDoesNotLeakAfterCallerTimeout(t *testing.T) {
+	release := make(chan struct{})
+	broker := newBroker(func() Result {
+		<-release
+		return Result{}
+	})
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)
+	defer cancel()
+
+	if err := broker.Check(ctx); !errors.Is(err, context.DeadlineExceeded) {
+		t.Fatalf("Check error = %v, want deadline exceeded", err)
+	}
+
+	close(release)
+	if err := broker.Check(context.Background()); err != nil {
+		t.Fatalf("follow-up request failed after timeout path: %v", err)
+	}
+}
+```
+
+This is the pattern behind `examples/requestreply/requestreply_test.go`: prove that one abandoned caller does not poison the whole broker.
+
 ### Leak detection by completion protocol
 
 Instead of counting goroutines globally, prefer explicit completion signals:
@@ -61,6 +144,8 @@ Instead of counting goroutines globally, prefer explicit completion signals:
 - `context` cancellation plus wait.
 
 These are usually more robust than asserting raw goroutine counts.
+
+Raw goroutine counts can still be useful as a coarse smoke test in CI, but they are a poor primary oracle because the runtime and unrelated tests create background activity of their own.
 
 ## Failure pattern
 
@@ -88,6 +173,20 @@ The happy path almost never finds lifecycle bugs.
 ### Forgetting the caller-abandoned path
 
 Any background worker or broker that replies to a caller should be tested for the case where the caller times out or leaves first.
+
+### Reusing `t.Context()` inside cleanup
+
+`testing.T.Context()` is canceled just before cleanup runs. If teardown needs a live context, create a fresh bounded background context in the cleanup function instead of reusing `t.Context()`.
+
+## A practical review checklist
+
+When you review a lifecycle test, ask:
+
+1. Does the test prove when admission closes?
+2. Does it prove how accepted work ends?
+3. Does every blocked goroutine have a cancellation or close path?
+4. Does the test use explicit completion, not "sleep and hope"?
+5. Does teardown finish within a bounded deadline?
 
 ## Practical takeaway
 
