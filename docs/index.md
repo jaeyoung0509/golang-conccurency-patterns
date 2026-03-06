@@ -46,7 +46,7 @@ features:
   - title: Advanced production topics
     details: "Structured concurrency, weighted semaphores, singleflight, actors, and load shedding are documented alongside the basics."
   - title: Production operating rules
-    details: "Admission control, queue budgets, lifecycle ownership, and large-system concurrency tradeoffs are documented as first-class topics."
+    details: "Admission control, queue budgets, lifecycle ownership, large-system concurrency tradeoffs, and real open-source history are documented as first-class topics."
   - title: Testing and observability
     details: "Race detection, synctest, real dependency integration tests, leak testing, traces, and contention profiles are treated as first-class concurrency skills."
   - title: English and Korean
@@ -100,7 +100,7 @@ features:
   </div>
   <div class="path-card">
     <h3>8. Production</h3>
-    <p>Study queue budgets, overload policy, goroutine ownership, and open-source concurrency designs from real Go systems.</p>
+    <p>Study queue budgets, overload policy, goroutine ownership, Temporal-style durable execution, and why so many real infrastructure systems ended up in Go.</p>
     <p><a href="/production/">Open production</a></p>
   </div>
   <div class="path-card">
@@ -139,6 +139,8 @@ features:
 | How to keep AI-generated Go code from compiling successfully and still shipping bugs | [AI-Assisted Go Safety](/testing/ai-assisted-go-safety) |
 | How to test timeout-heavy code without real sleeps | [Deterministic Tests with synctest](/testing/synctest) |
 | How to keep Postgres, Redis, and container-backed integration tests clean, isolated, and deterministic | [Integration Testing with Testcontainers](/testing/integration-testcontainers) |
+| How a durable workflow engine like Temporal becomes a Go system of history, matching, and workers | [Temporal and Durable Execution](/production/temporal-durable-execution) |
+| Why so many influential infrastructure projects ended up in Go in the first place | [Go Open-Source Histories](/production/go-open-source-histories) |
 | What large Go production systems care about beyond toy patterns | [Large-Scale Go Systems](/production/large-scale-go-systems) |
 | How major Go projects actually build queues, transport loops, stopper lifetimes, and pools | [Open-Source Case Studies](/production/open-source-case-studies) |
 | How Go differs from Rust Tokio's async runtime model | [Go CSP vs Rust Tokio](/extras/go-csp-vs-rust-tokio) |

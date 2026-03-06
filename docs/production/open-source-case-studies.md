@@ -9,6 +9,9 @@ The fastest way to sharpen your concurrency taste is to read real Go systems tha
 
 This page is not a project summary catalog. It is a source-reading guide focused on the concurrency boundaries that are actually worth stealing.
 
+If you want the broader "why did so many of these projects end up in Go?" story, read [Go Open-Source Histories](/production/go-open-source-histories).
+If you want one modern durable-execution system in detail, read [Temporal and Durable Execution](/production/temporal-durable-execution).
+
 ## Quick map
 
 | Project | Main lesson | Primary source |

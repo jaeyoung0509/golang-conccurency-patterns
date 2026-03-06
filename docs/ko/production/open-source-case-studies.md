@@ -9,6 +9,9 @@ description: 대표적인 Go 오픈소스가 실제로 concurrency를 어떻게 
 
 이 문서는 프로젝트 소개 모음이 아니라, 실제로 훔쳐올 만한 concurrency boundary를 읽는 가이드입니다.
 
+왜 이런 프로젝트들이 많이 Go로 왔는지 더 넓은 역사 맥락이 궁금하면 [Go 오픈소스 역사 읽기](/ko/production/go-open-source-histories)를 읽으면 됩니다.
+현대 durable execution 시스템 하나를 깊게 보고 싶으면 [Temporal과 Durable Execution](/ko/production/temporal-durable-execution)을 같이 보면 됩니다.
+
 ## 빠른 지도
 
 | 프로젝트 | 핵심 교훈 | 주 소스 |

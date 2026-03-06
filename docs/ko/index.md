@@ -46,7 +46,7 @@ features:
   - title: 고급 운영 주제 포함
     details: "구조화된 동시성, 가중 세마포어, singleflight, 액터, 로드 셰딩까지 운영 관점의 주제를 다룹니다."
   - title: 프로덕션 운영 규칙 포함
-    details: "admission control, queue budget, lifetime ownership, 대규모 시스템 동시성 tradeoff를 별도 섹션으로 다룹니다."
+    details: "admission control, queue budget, lifetime ownership, 대규모 시스템 동시성 tradeoff, 그리고 실제 오픈소스 역사까지 별도 섹션으로 다룹니다."
   - title: 테스트와 관측도 포함
     details: "Race detector, synctest, 실제 의존성 통합 테스트, leak test, trace, contention profile을 동시성 역량의 일부로 다룹니다."
   - title: 영어/한국어 지원
@@ -100,7 +100,7 @@ features:
   </div>
   <div class="path-card">
     <h3>8. 프로덕션</h3>
-    <p>queue budget, overload policy, goroutine ownership, 실제 오픈소스의 concurrency 구조를 같이 봅니다.</p>
+    <p>queue budget, overload policy, goroutine ownership, Temporal류 durable execution, 그리고 왜 많은 인프라 시스템이 Go를 택했는지도 같이 봅니다.</p>
     <p><a href="/ko/production/">프로덕션 보기</a></p>
   </div>
   <div class="path-card">
@@ -139,6 +139,8 @@ features:
 | AI가 만든 Go 코드가 컴파일은 되는데 여전히 위험할 때 어떻게 조기 발견하는지 | [AI 보조 Go 안전성](/ko/testing/ai-assisted-go-safety) |
 | timeout-heavy 코드를 실제 sleep 없이 어떻게 테스트하는지 | [synctest로 결정적 테스트](/ko/testing/synctest) |
 | Postgres, Redis, container-backed 통합 테스트를 어떻게 깨끗하고 결정적으로 유지하는지 | [Testcontainers로 통합 테스트하기](/ko/testing/integration-testcontainers) |
+| Temporal 같은 durable workflow 엔진이 history, matching, worker를 가진 Go 시스템으로 어떻게 구성되는지 | [Temporal과 Durable Execution](/ko/production/temporal-durable-execution) |
+| 왜 중요한 인프라 오픈소스들이 하필 Go를 많이 택했는지 | [Go 오픈소스 역사 읽기](/ko/production/go-open-source-histories) |
 | 토이 패턴을 넘어 대규모 Go 운영에서 무엇이 중요한지 | [대규모 Go 시스템](/ko/production/large-scale-go-systems) |
 | 주요 Go 오픈소스가 queue, transport loop, stopper lifetime, pool을 어떻게 구현하는지 | [오픈소스 사례](/ko/production/open-source-case-studies) |
 | Go와 Rust Tokio의 async runtime 모델이 어떻게 다른지 | [Go CSP vs Rust Tokio](/ko/extras/go-csp-vs-rust-tokio) |

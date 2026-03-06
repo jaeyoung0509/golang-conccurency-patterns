@@ -4,8 +4,8 @@ Expert-level Go concurrency fundamentals, standard library deep dives, practical
 
 ## Where to view it
 
-- GitHub repository: `https://github.com/jaeyoung0509/golang-conccurency-patterns`
-- Expected GitHub Pages site: `https://jaeyoung0509.github.io/golang-conccurency-patterns/`
+- GitHub repository: `https://github.com/jaeyoung0509/golang-handbook`
+- Expected GitHub Pages site: `https://jaeyoung0509.github.io/golang-handbook/`
 - English docs source: `docs/`
 - Korean docs source: `docs/ko/`
 - Runnable examples and tests: `examples/`
@@ -33,7 +33,7 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 
 - Deployment branch flow: push to `develop`
 - Deployment workflow: `.github/workflows/deploy-docs.yml`
-- GitHub Actions page: `https://github.com/jaeyoung0509/golang-conccurency-patterns/actions`
+- GitHub Actions page: `https://github.com/jaeyoung0509/golang-handbook/actions`
 
 ## Included patterns
 
@@ -103,7 +103,9 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 ## Included production topics
 
 - Large-scale Go systems: admission control, goroutine ownership, memory budgets, and shutdown policy
+- Temporal and durable execution: history shards, task queues, worker polling, and why this kind of workflow engine fits Go well
 - Open-source case studies from Kubernetes, etcd/raft, Prometheus, NATS, gRPC-Go, CockroachDB, and go-redis
+- Go open-source histories: why Prometheus, NATS, etcd, Kubernetes, CockroachDB, Caddy, and Temporal landed in Go
 
 ## Included testing topics
 
