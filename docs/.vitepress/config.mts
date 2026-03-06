@@ -269,7 +269,7 @@ export default defineConfig({
     socialLinks: [
       {
         icon: "github",
-        link: "https://github.com/jaeyoung0509/golang-conccurency-patterns",
+        link: "https://github.com/jaeyoung0509/golang-handbook",
       },
     ],
     footer: {
@@ -285,20 +285,31 @@ export default defineConfig({
       description: "Detailed, practical Go concurrency patterns with tests and Mermaid diagrams.",
       themeConfig: {
         nav: [
-          { text: "Guide", link: "/guide/getting-started" },
-          { text: "Fundamentals", link: "/fundamentals/" },
-          { text: "Internals", link: "/internals/" },
-          { text: "Standard Library", link: "/stdlib/" },
-          { text: "Playbooks", link: "/playbooks/" },
-          { text: "Patterns", link: "/patterns/" },
-          { text: "Advanced", link: "/advanced/" },
-          { text: "Production", link: "/production/" },
-          { text: "Testing", link: "/testing/" },
-          { text: "Extras", link: "/extras/" },
+          { text: "Start", link: "/guide/getting-started" },
           {
-            text: "GitHub",
-            link: "https://github.com/jaeyoung0509/golang-conccurency-patterns",
+            text: "Core",
+            items: [
+              { text: "Fundamentals", link: "/fundamentals/" },
+              { text: "Internals", link: "/internals/" },
+              { text: "Standard Library", link: "/stdlib/" },
+            ],
           },
+          {
+            text: "Practice",
+            items: [
+              { text: "Playbooks", link: "/playbooks/" },
+              { text: "Patterns", link: "/patterns/" },
+              { text: "Advanced", link: "/advanced/" },
+            ],
+          },
+          {
+            text: "Operate",
+            items: [
+              { text: "Production", link: "/production/" },
+              { text: "Testing", link: "/testing/" },
+            ],
+          },
+          { text: "Extras", link: "/extras/" },
         ],
         sidebar: enSidebar,
         outline: {
@@ -323,20 +334,31 @@ export default defineConfig({
       description: "테스트와 Mermaid 다이어그램까지 포함한 실전 Go 동시성 패턴 문서.",
       themeConfig: {
         nav: [
-          { text: "가이드", link: "/ko/guide/getting-started" },
-          { text: "기초 원리", link: "/ko/fundamentals/" },
-          { text: "내부 구조", link: "/ko/internals/" },
-          { text: "표준 라이브러리", link: "/ko/stdlib/" },
-          { text: "실전 플레이북", link: "/ko/playbooks/" },
-          { text: "패턴", link: "/ko/patterns/" },
-          { text: "고급 주제", link: "/ko/advanced/" },
-          { text: "프로덕션", link: "/ko/production/" },
-          { text: "테스트", link: "/ko/testing/" },
-          { text: "비교 / 확장", link: "/ko/extras/" },
+          { text: "시작", link: "/ko/guide/getting-started" },
           {
-            text: "GitHub",
-            link: "https://github.com/jaeyoung0509/golang-conccurency-patterns",
+            text: "핵심",
+            items: [
+              { text: "기초 원리", link: "/ko/fundamentals/" },
+              { text: "내부 구조", link: "/ko/internals/" },
+              { text: "표준 라이브러리", link: "/ko/stdlib/" },
+            ],
           },
+          {
+            text: "실전",
+            items: [
+              { text: "실전 플레이북", link: "/ko/playbooks/" },
+              { text: "패턴", link: "/ko/patterns/" },
+              { text: "고급 주제", link: "/ko/advanced/" },
+            ],
+          },
+          {
+            text: "운영",
+            items: [
+              { text: "프로덕션", link: "/ko/production/" },
+              { text: "테스트", link: "/ko/testing/" },
+            ],
+          },
+          { text: "비교 / 확장", link: "/ko/extras/" },
         ],
         sidebar: koSidebar,
         outline: {
