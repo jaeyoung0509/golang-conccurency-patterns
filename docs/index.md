@@ -108,9 +108,12 @@ features:
 | Why a local value still ends up on the heap | [Compiler and Toolchain](/internals/compiler-and-toolchain) |
 | Why one allocation pattern hurts GC more than another | [Allocator and Hybrid Write Barrier](/internals/allocator-and-write-barrier) |
 | How request-scoped cancellation actually propagates | [context Package Internals](/stdlib/context-internals) |
+| When channels are the wrong tool for shared state | [sync and atomic Primitives](/stdlib/sync-and-atomic) |
 | How Go's HTTP server and client transport really own connections | [net/http Server and Transport](/stdlib/net-http-server-transport) |
 | Why `sql.DB` is a pool instead of a connection | [database/sql Pool Internals](/stdlib/database-sql-pool) |
 | Why `time.After` is not always the right loop primitive | [time, Timers, and Tickers](/stdlib/time-timers-tickers) |
+| How to stream bytes and JSON without hidden buffering mistakes | [io, bufio, and bytes](/stdlib/io-bufio-bytes) |
+| How process shutdown and runtime observability fit into Go services | [Process Signals and Runtime Observability](/stdlib/process-signals-and-observability) |
 | Why channels synchronize memory visibility | [Channels, Select, and the Memory Model](/fundamentals/channels-memory-model) |
 | How to cap parallelism across many independent tasks | [Worker Pool](/patterns/worker-pool) |
 | How to structure one request with several sibling tasks | [Structured Concurrency](/advanced/structured-concurrency) |

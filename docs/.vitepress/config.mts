@@ -43,6 +43,10 @@ const enSidebar = [
       { text: "net/http Server and Transport", link: "/stdlib/net-http-server-transport" },
       { text: "database/sql Pool Internals", link: "/stdlib/database-sql-pool" },
       { text: "time, Timers, and Tickers", link: "/stdlib/time-timers-tickers" },
+      { text: "sync and atomic Primitives", link: "/stdlib/sync-and-atomic" },
+      { text: "Process Signals and Runtime Observability", link: "/stdlib/process-signals-and-observability" },
+      { text: "io, bufio, and bytes", link: "/stdlib/io-bufio-bytes" },
+      { text: "encoding/json in Production", link: "/stdlib/encoding-json" },
     ],
   },
   {
@@ -140,6 +144,10 @@ const koSidebar = [
       { text: "net/http 서버와 Transport 내부", link: "/ko/stdlib/net-http-server-transport" },
       { text: "database/sql 풀 내부", link: "/ko/stdlib/database-sql-pool" },
       { text: "time, Timers, Tickers", link: "/ko/stdlib/time-timers-tickers" },
+      { text: "sync와 atomic 프리미티브", link: "/ko/stdlib/sync-and-atomic" },
+      { text: "프로세스 신호와 런타임 관측", link: "/ko/stdlib/process-signals-and-observability" },
+      { text: "io, bufio, bytes", link: "/ko/stdlib/io-bufio-bytes" },
+      { text: "프로덕션에서의 encoding/json", link: "/ko/stdlib/encoding-json" },
     ],
   },
   {

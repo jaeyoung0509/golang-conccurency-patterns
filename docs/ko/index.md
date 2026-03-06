@@ -108,9 +108,12 @@ features:
 | 지역 값이 왜 여전히 힙으로 가는지 | [컴파일러와 툴체인](/ko/internals/compiler-and-toolchain) |
 | 어떤 allocation 패턴이 왜 GC를 더 힘들게 하는지 | [할당기와 하이브리드 write barrier](/ko/internals/allocator-and-write-barrier) |
 | request-scoped cancellation이 실제로 어떻게 전파되는지 | [context 패키지 내부](/ko/stdlib/context-internals) |
+| channel이 shared state에 맞지 않을 때 무엇을 써야 하는지 | [sync와 atomic 프리미티브](/ko/stdlib/sync-and-atomic) |
 | Go HTTP 서버와 클라이언트 transport가 connection을 어떻게 소유하는지 | [net/http 서버와 Transport 내부](/ko/stdlib/net-http-server-transport) |
 | 왜 `sql.DB`는 connection이 아니라 pool인지 | [database/sql 풀 내부](/ko/stdlib/database-sql-pool) |
 | 왜 `time.After`가 항상 좋은 loop primitive는 아닌지 | [time, Timers, Tickers](/ko/stdlib/time-timers-tickers) |
+| byte stream과 JSON을 hidden buffering mistake 없이 다루는 법 | [io, bufio, bytes](/ko/stdlib/io-bufio-bytes) |
+| 프로세스 shutdown과 runtime observability를 Go 서비스에 어떻게 붙이는지 | [프로세스 신호와 런타임 관측](/ko/stdlib/process-signals-and-observability) |
 | 채널이 왜 메모리 가시성 경계를 만드는지 | [Channels, Select, 그리고 Memory Model](/ko/fundamentals/channels-memory-model) |
 | 많은 독립 작업의 병렬 수를 어떻게 제한하는지 | [워커 풀](/ko/patterns/worker-pool) |
 | 하나의 요청 안에서 여러 sibling task를 어떻게 관리하는지 | [구조화된 동시성](/ko/advanced/structured-concurrency) |
