@@ -37,7 +37,8 @@ flowchart LR
     C --> D["2014-02 CockroachDB"]
     D --> E["2014-06 Kubernetes"]
     E --> F["2015-01 Caddy"]
-    F --> G["2019-10 Temporal"]
+    F --> G["2015-09 Traefik"]
+    G --> H["2019-10 Temporal"]
 ```
 
 ## Quick map
@@ -50,6 +51,7 @@ flowchart LR
 | 2014-02-06 | CockroachDB | distributed SQL database | Go was not only for CLIs and proxies; it could host ambitious distributed data systems |
 | 2014-06-06 | Kubernetes | cluster control plane | Go became the language of controllers, APIs, and reconciliation loops |
 | 2015-01-13 | Caddy | operations-first web server | deployability and standard-library networking mattered a lot |
+| 2015-09-13 | Traefik | dynamic edge proxy and routing control plane | Go fit systems that merge orchestrator state into live routing without restart-heavy operations |
 | 2019-10-16 | Temporal | durable execution platform | Go could also host workflow orchestration and persistence-backed state machines |
 
 ## Why this wave happened
@@ -189,7 +191,7 @@ Why it mattered:
 
 It pushed the industry view of Go upward from "operational tooling language" toward "serious distributed system implementation language."
 
-## Era 4: operator-first servers
+## Era 4: operator-first servers and edge control planes
 
 ### Caddy
 
@@ -213,6 +215,30 @@ What to read:
 Why it mattered:
 
 Go's standard library and binary model made it a natural fit for infrastructure software that people actually had to deploy themselves.
+
+### Traefik
+
+Public repo date: September 13, 2015.
+
+Traefik represents a slightly different branch of the same Go story.
+It is not only a web server. It is a dynamic reverse proxy and routing control plane that:
+
+- watches orchestrator/provider state,
+- merges configuration from many sources,
+- rebuilds live routers,
+- exposes operational hooks,
+- and stays deployable as practical infrastructure software.
+
+What to read:
+
+- [Traefik repository](https://github.com/traefik/traefik)
+- [`pkg/provider/aggregator/aggregator.go`](https://github.com/traefik/traefik/blob/master/pkg/provider/aggregator/aggregator.go)
+- [`pkg/server/configurationwatcher.go`](https://github.com/traefik/traefik/blob/master/pkg/server/configurationwatcher.go)
+- [`pkg/server/routerfactory.go`](https://github.com/traefik/traefik/blob/master/pkg/server/routerfactory.go)
+
+Why it mattered:
+
+Traefik showed that Go fit not just static edge servers, but dynamic edge systems that continuously ingest control-plane state and translate it into live routing behavior.
 
 ## Era 5: durable orchestration and workflow engines
 
@@ -267,6 +293,7 @@ Go became unusually good for systems whose hardest problems are coordination, li
 | periodic work and scrape ownership | Prometheus |
 | large-system task lifetime and shutdown | CockroachDB |
 | deployable operator-first edge/server software | Caddy |
+| dynamic reverse proxy and routing control plane | Traefik |
 | durable workflow orchestration | Temporal |
 
 ## Where to go next
@@ -284,6 +311,7 @@ Go became unusually good for systems whose hardest problems are coordination, li
 - [Prometheus repository metadata](https://github.com/prometheus/prometheus)
 - [NATS Server repository metadata](https://github.com/nats-io/nats-server)
 - [Caddy repository metadata](https://github.com/caddyserver/caddy)
+- [Traefik repository metadata](https://github.com/traefik/traefik)
 
 ## Practical takeaway
 

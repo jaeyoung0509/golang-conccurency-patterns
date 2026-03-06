@@ -104,8 +104,8 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 
 - Large-scale Go systems: admission control, goroutine ownership, memory budgets, and shutdown policy
 - Temporal and durable execution: history shards, task queues, worker polling, and why this kind of workflow engine fits Go well
-- Open-source case studies from Kubernetes, etcd/raft, Prometheus, NATS, gRPC-Go, CockroachDB, and go-redis
-- Go open-source histories: why Prometheus, NATS, etcd, Kubernetes, CockroachDB, Caddy, and Temporal landed in Go
+- Open-source case studies from Kubernetes, etcd/raft, Prometheus, NATS, gRPC-Go, Traefik, CockroachDB, and go-redis
+- Go open-source histories: why Prometheus, NATS, etcd, Kubernetes, CockroachDB, Caddy, Traefik, and Temporal landed in Go
 
 ## Included testing topics
 
