@@ -136,6 +136,7 @@ features:
 | How to structure one request with several sibling tasks | [Structured Concurrency](/advanced/structured-concurrency) |
 | How to stop duplicate cache-miss fetches | [Singleflight](/advanced/singleflight) |
 | How to survive overload instead of just failing later | [Backpressure and Load Shedding](/advanced/backpressure-load-shedding) |
+| How to keep AI-generated Go code from compiling successfully and still shipping bugs | [AI-Assisted Go Safety](/testing/ai-assisted-go-safety) |
 | How to test timeout-heavy code without real sleeps | [Deterministic Tests with synctest](/testing/synctest) |
 | What large Go production systems care about beyond toy patterns | [Large-Scale Go Systems](/production/large-scale-go-systems) |
 | How major Go projects actually build queues, transport loops, stopper lifetimes, and pools | [Open-Source Case Studies](/production/open-source-case-studies) |

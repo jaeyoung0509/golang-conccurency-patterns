@@ -107,6 +107,7 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 
 ## Included testing topics
 
+- AI-assisted Go safety: what compile-time checks do and do not prove, plus an early-detection verification stack
 - Race detector strategy
 - Deterministic tests with `testing/synctest`
 - Leak, shutdown, and timeout testing

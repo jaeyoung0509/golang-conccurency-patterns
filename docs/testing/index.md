@@ -19,6 +19,7 @@ The hard bugs are rarely syntax errors. They are:
 
 | If you need to test... | Start here |
 | --- | --- |
+| AI-generated Go code that compiles but may still be unsafe | [AI-Assisted Go Safety](/testing/ai-assisted-go-safety) |
 | unsynchronized shared memory access | [Race Detector](/testing/race-detector) |
 | timeout and timer logic without sleeping in real time | [Deterministic Tests with synctest](/testing/synctest) |
 | goroutine leaks and shutdown behavior | [Leak, Shutdown, and Timeout Testing](/testing/leaks-and-shutdowns) |
@@ -32,20 +33,24 @@ Good concurrency tests try to prove:
 2. the failure path terminates,
 3. the timeout path is deterministic,
 4. the implementation does not leak goroutines or work.
+5. the verification stack would catch likely regressions early, even for AI-generated changes.
 
 That is a higher bar than "it passed once on my laptop."
 
 ## Recommended reading order
 
 1. [Race Detector](/testing/race-detector)
-2. [Deterministic Tests with synctest](/testing/synctest)
-3. [Leak, Shutdown, and Timeout Testing](/testing/leaks-and-shutdowns)
-4. [Tracing and Contention Observability](/testing/tracing-and-profiling)
+2. [AI-Assisted Go Safety](/testing/ai-assisted-go-safety)
+3. [Deterministic Tests with synctest](/testing/synctest)
+4. [Leak, Shutdown, and Timeout Testing](/testing/leaks-and-shutdowns)
+5. [Tracing and Contention Observability](/testing/tracing-and-profiling)
 
 ## Practical takeaway
 
 Testing concurrency is not one tool. It is a stack:
 
+- compile and unit tests as the first gate,
+- `go vet` and static analysis for suspicious constructs,
 - `-race` for memory safety,
 - `synctest` for deterministic time and bubble-local goroutines,
 - targeted leak and shutdown tests for lifecycle,
