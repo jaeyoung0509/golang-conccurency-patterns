@@ -48,7 +48,7 @@ features:
   - title: 프로덕션 운영 규칙 포함
     details: "admission control, queue budget, lifetime ownership, 대규모 시스템 동시성 tradeoff를 별도 섹션으로 다룹니다."
   - title: 테스트와 관측도 포함
-    details: "Race detector, synctest, leak test, trace, contention profile을 동시성 역량의 일부로 다룹니다."
+    details: "Race detector, synctest, 실제 의존성 통합 테스트, leak test, trace, contention profile을 동시성 역량의 일부로 다룹니다."
   - title: 영어/한국어 지원
     details: "영문 `/`와 국문 `/ko/`가 같은 구조를 공유해서 팀 단위 학습에 맞습니다."
 ---
@@ -138,6 +138,7 @@ features:
 | 과부하를 늦게 터뜨리지 않고 초기에 제어하는 법 | [역압력과 로드 셰딩](/ko/advanced/backpressure-load-shedding) |
 | AI가 만든 Go 코드가 컴파일은 되는데 여전히 위험할 때 어떻게 조기 발견하는지 | [AI 보조 Go 안전성](/ko/testing/ai-assisted-go-safety) |
 | timeout-heavy 코드를 실제 sleep 없이 어떻게 테스트하는지 | [synctest로 결정적 테스트](/ko/testing/synctest) |
+| Postgres, Redis, container-backed 통합 테스트를 어떻게 깨끗하고 결정적으로 유지하는지 | [Testcontainers로 통합 테스트하기](/ko/testing/integration-testcontainers) |
 | 토이 패턴을 넘어 대규모 Go 운영에서 무엇이 중요한지 | [대규모 Go 시스템](/ko/production/large-scale-go-systems) |
 | 주요 Go 오픈소스가 queue, transport loop, stopper lifetime, pool을 어떻게 구현하는지 | [오픈소스 사례](/ko/production/open-source-case-studies) |
 | Go와 Rust Tokio의 async runtime 모델이 어떻게 다른지 | [Go CSP vs Rust Tokio](/ko/extras/go-csp-vs-rust-tokio) |
