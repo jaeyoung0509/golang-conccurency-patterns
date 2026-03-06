@@ -17,6 +17,7 @@ description: Go 바깥의 런타임과 비교해 mental model을 넓히는 보�
 | 주제 | 왜 중요한가 |
 | --- | --- |
 | [Go CSP vs Rust Tokio](/ko/extras/go-csp-vs-rust-tokio) | 비슷한 목표를 가진 두 시스템이 왜 전혀 다른 설계를 택했는지 보여줍니다 |
+| [Go vs Rust 결정 가이드](/ko/extras/go-vs-rust-decision-guide) | 서비스를 Go에 두고 특정 서브시스템만 Rust로 옮겨야 하는지 판단 기준을 제공합니다 |
 
 ## Practical takeaway
 

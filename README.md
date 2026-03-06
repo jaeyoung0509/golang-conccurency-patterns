@@ -84,6 +84,13 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 - `io` + `bufio` + `bytes`: interface-driven streaming, buffering, `io.Copy` fast paths, scanner limits, and byte-slice aliasing
 - `encoding/json`: stream decoding, strictness knobs, number handling, compatibility traps, and NDJSON-friendly encoding
 
+## Included playbooks
+
+- `net/http`: transport reuse, timeout boundaries, response body ownership, and streaming caveats
+- `grpc-go`: `NewClient`, long-lived channels, RPC deadlines, keepalive caution, and streaming ownership
+- `go-redis`: pooling, protocol selection, RESP2/RESP3 tradeoffs, instrumentation, and timeout policy
+- `Kafka with IBM Sarama`: producer durability, consumer-group session lifecycle, offsets, and rebalance discipline
+
 ## Included advanced topics
 
 - Structured concurrency with `errgroup`
@@ -108,3 +115,4 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 ## Included extras
 
 - Go CSP vs Rust Tokio comparison
+- Go vs Rust decision guide for when to keep services in Go and when to move a subsystem to Rust

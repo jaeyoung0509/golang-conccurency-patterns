@@ -16,6 +16,9 @@ hero:
       text: Standard Library
       link: /stdlib/
     - theme: alt
+      text: Playbooks
+      link: /playbooks/
+    - theme: alt
       text: Browse Patterns
       link: /patterns/
     - theme: alt
@@ -34,6 +37,8 @@ features:
     details: "The site now covers escape analysis, SSA, allocator internals, generics, interface layout, unsafe, cgo, PGO, and sync.Pool internals."
   - title: Standard library deep dives
     details: "The site now treats `context`, `net`, `crypto/tls`, `net/http`, `database/sql`, `os/exec`, and `time` as first-class learning tracks instead of assuming they are already understood."
+  - title: Production library playbooks
+    details: "The site now documents how to operate `net/http`, `grpc-go`, `go-redis`, and Kafka with IBM Sarama using safe defaults, observability hooks, and failure patterns."
   - title: Practical examples
     details: "Examples use realistic backend domains such as shipping, fraud analysis, inventory coordination, and cache-miss suppression."
   - title: Tested behavior
@@ -74,28 +79,33 @@ features:
     <p><a href="/stdlib/">Open standard library</a></p>
   </div>
   <div class="path-card">
-    <h3>4. Practical Patterns</h3>
+    <h3>4. Playbooks</h3>
+    <p>Move from package internals to operator-facing guidance for `net/http`, `grpc-go`, `go-redis`, and Kafka with IBM Sarama.</p>
+    <p><a href="/playbooks/">Open playbooks</a></p>
+  </div>
+  <div class="path-card">
+    <h3>5. Practical Patterns</h3>
     <p>Move into worker pools, pipelines, fan-out/fan-in, and context cancellation when you are mapping code to real workloads.</p>
     <p><a href="/patterns/">Browse patterns</a></p>
   </div>
   <div class="path-card">
-    <h3>5. Advanced Topics</h3>
+    <h3>6. Advanced Topics</h3>
     <p>Study resource budgeting, structured lifetimes, duplicate suppression, ownership models, and overload behavior.</p>
     <p><a href="/advanced/">Go deeper</a></p>
   </div>
   <div class="path-card">
-    <h3>6. Testing</h3>
+    <h3>7. Testing</h3>
     <p>Learn how to prove cancellation, shutdown, race safety, and timeout behavior instead of relying on lucky sleeps.</p>
     <p><a href="/testing/">Open testing</a></p>
   </div>
   <div class="path-card">
-    <h3>7. Production</h3>
+    <h3>8. Production</h3>
     <p>Study queue budgets, overload policy, goroutine ownership, and open-source concurrency designs from real Go systems.</p>
     <p><a href="/production/">Open production</a></p>
   </div>
   <div class="path-card">
-    <h3>8. Extras</h3>
-    <p>Compare Go's CSP-flavored model with Rust Tokio so your mental model holds across ecosystems.</p>
+    <h3>9. Extras</h3>
+    <p>Compare Go's CSP-flavored model with Rust Tokio and use the Go-vs-Rust decision guide when language choice becomes an engineering question.</p>
     <p><a href="/extras/">Open extras</a></p>
   </div>
 </div>
@@ -112,6 +122,10 @@ features:
 | How to budget connection establishment and represent endpoints without `net.IP` footguns | [net and netip](/stdlib/net-and-netip) |
 | How TLS handshake, verification, and ALPN fit into request lifetime | [crypto/tls in Production](/stdlib/crypto-tls) |
 | How Go's HTTP server and client transport really own connections | [net/http Server and Transport](/stdlib/net-http-server-transport) |
+| How to operate `http.Client` and `Transport` with real timeout and reuse policy | [net/http Production Field Guide](/playbooks/net-http-production-field-guide) |
+| How to use gRPC channels without `Dial` and `WithBlock` footguns | [grpc-go Production Playbook](/playbooks/grpc-go-production-playbook) |
+| How to run Redis clients with explicit pool, protocol, and timeout policy | [go-redis Production Playbook](/playbooks/go-redis-production-playbook) |
+| How Kafka semantics and IBM Sarama config actually fit together | [Kafka with IBM Sarama](/playbooks/kafka-with-ibm-sarama) |
 | Why `sql.DB` is a pool instead of a connection | [database/sql Pool Internals](/stdlib/database-sql-pool) |
 | Why `time.After` is not always the right loop primitive | [time, Timers, and Tickers](/stdlib/time-timers-tickers) |
 | How subprocess cancellation, pipes, and `WaitDelay` actually behave | [os/exec and Subprocess Lifecycle](/stdlib/os-exec-and-subprocesses) |
@@ -126,6 +140,7 @@ features:
 | What large Go production systems care about beyond toy patterns | [Large-Scale Go Systems](/production/large-scale-go-systems) |
 | How major Go projects actually build queues, transport loops, stopper lifetimes, and pools | [Open-Source Case Studies](/production/open-source-case-studies) |
 | How Go differs from Rust Tokio's async runtime model | [Go CSP vs Rust Tokio](/extras/go-csp-vs-rust-tokio) |
+| When Go should stay the default and when a subsystem should move to Rust | [Go vs Rust Decision Guide](/extras/go-vs-rust-decision-guide) |
 
 ## What Makes This Site Different
 
@@ -151,7 +166,8 @@ features:
 3. Work through [Fundamentals Overview](/fundamentals/) before jumping into implementation patterns.
 4. Read [Internals Overview](/internals/) when you want compiler, allocator, and type-system cost models rather than only runtime APIs.
 5. Read [Standard Library Overview](/stdlib/) when you want to understand how real Go services express lifetime, I/O, SQL, and time semantics.
-6. Pick the practical pattern that matches your workload in [Patterns Overview](/patterns/).
-7. Read [Testing Overview](/testing/) before treating any concurrent component as production-ready.
-8. Read [Production Overview](/production/) for operating rules and open-source case studies.
-9. Finish with [Advanced Overview](/advanced/) and [Extras Overview](/extras/) for deeper design and ecosystem comparison.
+6. Read [Playbooks Overview](/playbooks/) when you want safe defaults and operator-facing rules for libraries you actually deploy.
+7. Pick the practical pattern that matches your workload in [Patterns Overview](/patterns/).
+8. Read [Testing Overview](/testing/) before treating any concurrent component as production-ready.
+9. Read [Production Overview](/production/) for operating rules and open-source case studies.
+10. Finish with [Advanced Overview](/advanced/) and [Extras Overview](/extras/) for deeper design and ecosystem comparison.
