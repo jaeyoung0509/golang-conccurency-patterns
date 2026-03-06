@@ -13,6 +13,9 @@ hero:
       text: Open Internals
       link: /internals/
     - theme: alt
+      text: Standard Library
+      link: /stdlib/
+    - theme: alt
       text: Browse Patterns
       link: /patterns/
     - theme: alt
@@ -29,6 +32,8 @@ features:
     details: "The fundamentals section explains the scheduler, memory model, channel internals, and mutex/runtime semaphore behavior."
   - title: Systems-level internals
     details: "The site now covers escape analysis, SSA, allocator internals, generics, interface layout, unsafe, cgo, PGO, and sync.Pool internals."
+  - title: Standard library deep dives
+    details: "The site now treats `context`, `net/http`, `database/sql`, and `time` as first-class learning tracks instead of assuming they are already understood."
   - title: Practical examples
     details: "Examples use realistic backend domains such as shipping, fraud analysis, inventory coordination, and cache-miss suppression."
   - title: Tested behavior
@@ -64,27 +69,32 @@ features:
     <p><a href="/internals/">Open internals</a></p>
   </div>
   <div class="path-card">
-    <h3>3. Practical Patterns</h3>
+    <h3>3. Standard Library</h3>
+    <p>Learn how `context`, `net/http`, `database/sql`, and `time` turn runtime guarantees into request lifetimes, connection reuse, and deadline behavior.</p>
+    <p><a href="/stdlib/">Open standard library</a></p>
+  </div>
+  <div class="path-card">
+    <h3>4. Practical Patterns</h3>
     <p>Move into worker pools, pipelines, fan-out/fan-in, and context cancellation when you are mapping code to real workloads.</p>
     <p><a href="/patterns/">Browse patterns</a></p>
   </div>
   <div class="path-card">
-    <h3>4. Advanced Topics</h3>
+    <h3>5. Advanced Topics</h3>
     <p>Study resource budgeting, structured lifetimes, duplicate suppression, ownership models, and overload behavior.</p>
     <p><a href="/advanced/">Go deeper</a></p>
   </div>
   <div class="path-card">
-    <h3>5. Testing</h3>
+    <h3>6. Testing</h3>
     <p>Learn how to prove cancellation, shutdown, race safety, and timeout behavior instead of relying on lucky sleeps.</p>
     <p><a href="/testing/">Open testing</a></p>
   </div>
   <div class="path-card">
-    <h3>6. Production</h3>
+    <h3>7. Production</h3>
     <p>Study queue budgets, overload policy, goroutine ownership, and open-source concurrency designs from real Go systems.</p>
     <p><a href="/production/">Open production</a></p>
   </div>
   <div class="path-card">
-    <h3>7. Extras</h3>
+    <h3>8. Extras</h3>
     <p>Compare Go's CSP-flavored model with Rust Tokio so your mental model holds across ecosystems.</p>
     <p><a href="/extras/">Open extras</a></p>
   </div>
@@ -97,6 +107,10 @@ features:
 | Why goroutines are cheap and how the scheduler actually runs them | [Go Runtime and Scheduler](/fundamentals/go-runtime-scheduler) |
 | Why a local value still ends up on the heap | [Compiler and Toolchain](/internals/compiler-and-toolchain) |
 | Why one allocation pattern hurts GC more than another | [Allocator and Hybrid Write Barrier](/internals/allocator-and-write-barrier) |
+| How request-scoped cancellation actually propagates | [context Package Internals](/stdlib/context-internals) |
+| How Go's HTTP server and client transport really own connections | [net/http Server and Transport](/stdlib/net-http-server-transport) |
+| Why `sql.DB` is a pool instead of a connection | [database/sql Pool Internals](/stdlib/database-sql-pool) |
+| Why `time.After` is not always the right loop primitive | [time, Timers, and Tickers](/stdlib/time-timers-tickers) |
 | Why channels synchronize memory visibility | [Channels, Select, and the Memory Model](/fundamentals/channels-memory-model) |
 | How to cap parallelism across many independent tasks | [Worker Pool](/patterns/worker-pool) |
 | How to structure one request with several sibling tasks | [Structured Concurrency](/advanced/structured-concurrency) |
@@ -129,7 +143,8 @@ features:
 2. Read [How to Read the Examples](/guide/how-to-read) to set the review lens.
 3. Work through [Fundamentals Overview](/fundamentals/) before jumping into implementation patterns.
 4. Read [Internals Overview](/internals/) when you want compiler, allocator, and type-system cost models rather than only runtime APIs.
-5. Pick the practical pattern that matches your workload in [Patterns Overview](/patterns/).
-6. Read [Testing Overview](/testing/) before treating any concurrent component as production-ready.
-7. Read [Production Overview](/production/) for operating rules and open-source case studies.
-8. Finish with [Advanced Overview](/advanced/) and [Extras Overview](/extras/) for deeper design and ecosystem comparison.
+5. Read [Standard Library Overview](/stdlib/) when you want to understand how real Go services express lifetime, I/O, SQL, and time semantics.
+6. Pick the practical pattern that matches your workload in [Patterns Overview](/patterns/).
+7. Read [Testing Overview](/testing/) before treating any concurrent component as production-ready.
+8. Read [Production Overview](/production/) for operating rules and open-source case studies.
+9. Finish with [Advanced Overview](/advanced/) and [Extras Overview](/extras/) for deeper design and ecosystem comparison.

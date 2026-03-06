@@ -1,6 +1,6 @@
 # Go Concurrency Patterns
 
-Expert-level Go concurrency fundamentals, practical patterns, testing guidance, and bilingual English/Korean documentation built with VitePress.
+Expert-level Go concurrency fundamentals, standard library deep dives, practical patterns, testing guidance, and bilingual English/Korean documentation built with VitePress.
 
 ## Where to view it
 
@@ -69,6 +69,13 @@ VitePress will print a local preview URL in the terminal, usually `http://localh
 - unsafe, cgo, and `runtime.Pinner`
 - Modern performance tuning with PGO, execution tracing, and zero-copy I/O
 - Standard library anatomy for `sync.Pool` and `reflect`
+
+## Included standard library topics
+
+- `context`: cancellation trees, `cancelCtx`, `timerCtx`, `Cause`, `AfterFunc`, and `WithoutCancel`
+- `net/http`: server timeout boundaries, request lifetimes, transport pooling, `persistConn`, and response-body ownership
+- `database/sql`: pool internals, waiters, cleaner lifecycle, `DB.Stats`, and cancellation boundaries
+- `time`: monotonic time, timer/ticker ownership, Go 1.23 timer semantics, and retry-loop design
 
 ## Included advanced topics
 

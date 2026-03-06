@@ -36,6 +36,16 @@ const enSidebar = [
     ],
   },
   {
+    text: "Standard Library",
+    items: [
+      { text: "Overview", link: "/stdlib/" },
+      { text: "context Package Internals", link: "/stdlib/context-internals" },
+      { text: "net/http Server and Transport", link: "/stdlib/net-http-server-transport" },
+      { text: "database/sql Pool Internals", link: "/stdlib/database-sql-pool" },
+      { text: "time, Timers, and Tickers", link: "/stdlib/time-timers-tickers" },
+    ],
+  },
+  {
     text: "Patterns",
     items: [
       { text: "Overview", link: "/patterns/" },
@@ -120,6 +130,16 @@ const koSidebar = [
       { text: "unsafe, cgo, 그리고 Pinner", link: "/ko/internals/unsafe-cgo-pinner" },
       { text: "현대 Go 성능 튜닝", link: "/ko/internals/modern-performance-tuning" },
       { text: "표준 라이브러리 해부", link: "/ko/internals/stdlib-anatomy" },
+    ],
+  },
+  {
+    text: "표준 라이브러리",
+    items: [
+      { text: "개요", link: "/ko/stdlib/" },
+      { text: "context 패키지 내부", link: "/ko/stdlib/context-internals" },
+      { text: "net/http 서버와 Transport 내부", link: "/ko/stdlib/net-http-server-transport" },
+      { text: "database/sql 풀 내부", link: "/ko/stdlib/database-sql-pool" },
+      { text: "time, Timers, Tickers", link: "/ko/stdlib/time-timers-tickers" },
     ],
   },
   {
@@ -224,6 +244,7 @@ export default defineConfig({
           { text: "Guide", link: "/guide/getting-started" },
           { text: "Fundamentals", link: "/fundamentals/" },
           { text: "Internals", link: "/internals/" },
+          { text: "Standard Library", link: "/stdlib/" },
           { text: "Patterns", link: "/patterns/" },
           { text: "Advanced", link: "/advanced/" },
           { text: "Production", link: "/production/" },
@@ -260,6 +281,7 @@ export default defineConfig({
           { text: "가이드", link: "/ko/guide/getting-started" },
           { text: "기초 원리", link: "/ko/fundamentals/" },
           { text: "내부 구조", link: "/ko/internals/" },
+          { text: "표준 라이브러리", link: "/ko/stdlib/" },
           { text: "패턴", link: "/ko/patterns/" },
           { text: "고급 주제", link: "/ko/advanced/" },
           { text: "프로덕션", link: "/ko/production/" },
