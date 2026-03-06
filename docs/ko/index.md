@@ -13,6 +13,9 @@ hero:
       text: 내부 구조 보기
       link: /ko/internals/
     - theme: alt
+      text: 표준 라이브러리
+      link: /ko/stdlib/
+    - theme: alt
       text: 패턴 둘러보기
       link: /ko/patterns/
     - theme: alt
@@ -29,6 +32,8 @@ features:
     details: "스케줄러, 메모리 모델, 채널 내부, mutex/runtime semaphore까지 Go 내부 원리를 설명합니다."
   - title: 시스템 레벨 내부 구조 포함
     details: "Escape analysis, SSA, allocator, generics, interface layout, unsafe, cgo, PGO, sync.Pool 내부까지 추가로 다룹니다."
+  - title: 표준 라이브러리까지 깊게
+    details: "`context`, `net/http`, `database/sql`, `time`를 따로 빼서 실제 서비스 코드가 돌아가는 경계를 자세히 설명합니다."
   - title: 실용 예제 중심
     details: "배송, 부정거래 분석, 재고, 중복 요청 억제처럼 실제 백엔드 문제에 가까운 예제를 사용합니다."
   - title: 테스트로 검증
@@ -64,27 +69,32 @@ features:
     <p><a href="/ko/internals/">내부 구조 보기</a></p>
   </div>
   <div class="path-card">
-    <h3>3. 실전 패턴</h3>
+    <h3>3. 표준 라이브러리</h3>
+    <p>`context`, `net/http`, `database/sql`, `time`를 통해 런타임 보장이 실제 request lifetime, connection reuse, deadline behavior로 어떻게 드러나는지 봅니다.</p>
+    <p><a href="/ko/stdlib/">표준 라이브러리 보기</a></p>
+  </div>
+  <div class="path-card">
+    <h3>4. 실전 패턴</h3>
     <p>워커 풀, 파이프라인, 팬아웃/팬인, 컨텍스트 취소를 실제 workload 관점으로 읽습니다.</p>
     <p><a href="/ko/patterns/">패턴 보기</a></p>
   </div>
   <div class="path-card">
-    <h3>4. 고급 주제</h3>
+    <h3>5. 고급 주제</h3>
     <p>자원 예산, 수명 관리, 중복 억제, 소유권 모델, 과부하 제어까지 확장합니다.</p>
     <p><a href="/ko/advanced/">고급 주제 보기</a></p>
   </div>
   <div class="path-card">
-    <h3>5. 테스트</h3>
+    <h3>6. 테스트</h3>
     <p>cancellation, shutdown, race safety, timeout behavior를 lucky sleep 없이 검증하는 법을 익힙니다.</p>
     <p><a href="/ko/testing/">테스트 보기</a></p>
   </div>
   <div class="path-card">
-    <h3>6. 프로덕션</h3>
+    <h3>7. 프로덕션</h3>
     <p>queue budget, overload policy, goroutine ownership, 실제 오픈소스의 concurrency 구조를 같이 봅니다.</p>
     <p><a href="/ko/production/">프로덕션 보기</a></p>
   </div>
   <div class="path-card">
-    <h3>7. 비교 / 확장</h3>
+    <h3>8. 비교 / 확장</h3>
     <p>Go의 CSP 계열 모델을 Rust Tokio와 비교해 mental model을 더 넓힙니다.</p>
     <p><a href="/ko/extras/">비교 / 확장 보기</a></p>
   </div>
@@ -97,6 +107,10 @@ features:
 | 고루틴이 왜 싸고, 스케줄러가 실제로 뭘 하는지 | [Go 런타임과 스케줄러](/ko/fundamentals/go-runtime-scheduler) |
 | 지역 값이 왜 여전히 힙으로 가는지 | [컴파일러와 툴체인](/ko/internals/compiler-and-toolchain) |
 | 어떤 allocation 패턴이 왜 GC를 더 힘들게 하는지 | [할당기와 하이브리드 write barrier](/ko/internals/allocator-and-write-barrier) |
+| request-scoped cancellation이 실제로 어떻게 전파되는지 | [context 패키지 내부](/ko/stdlib/context-internals) |
+| Go HTTP 서버와 클라이언트 transport가 connection을 어떻게 소유하는지 | [net/http 서버와 Transport 내부](/ko/stdlib/net-http-server-transport) |
+| 왜 `sql.DB`는 connection이 아니라 pool인지 | [database/sql 풀 내부](/ko/stdlib/database-sql-pool) |
+| 왜 `time.After`가 항상 좋은 loop primitive는 아닌지 | [time, Timers, Tickers](/ko/stdlib/time-timers-tickers) |
 | 채널이 왜 메모리 가시성 경계를 만드는지 | [Channels, Select, 그리고 Memory Model](/ko/fundamentals/channels-memory-model) |
 | 많은 독립 작업의 병렬 수를 어떻게 제한하는지 | [워커 풀](/ko/patterns/worker-pool) |
 | 하나의 요청 안에서 여러 sibling task를 어떻게 관리하는지 | [구조화된 동시성](/ko/advanced/structured-concurrency) |
@@ -129,7 +143,8 @@ features:
 2. [예제 읽는 법](/ko/guide/how-to-read)으로 읽는 기준을 맞춥니다.
 3. [기초 원리 개요](/ko/fundamentals/)부터 읽습니다.
 4. runtime API 너머의 cost model이 궁금하면 [내부 구조 개요](/ko/internals/)를 읽습니다.
-5. 자기 workload에 맞는 패턴을 [패턴 개요](/ko/patterns/)에서 고릅니다.
-6. concurrent component를 production-ready로 보기 전에 [테스트 개요](/ko/testing/)를 읽습니다.
-7. 운영 규칙과 오픈소스 사례를 보려면 [프로덕션 개요](/ko/production/)를 읽습니다.
-8. 운영 설계와 비교 관점까지 확장할 때 [고급 주제 개요](/ko/advanced/), [비교 / 확장 개요](/ko/extras/)로 넘어갑니다.
+5. 실제 Go 서비스가 lifetime, I/O, SQL, time을 어떻게 표현하는지 보려면 [표준 라이브러리 개요](/ko/stdlib/)를 읽습니다.
+6. 자기 workload에 맞는 패턴을 [패턴 개요](/ko/patterns/)에서 고릅니다.
+7. concurrent component를 production-ready로 보기 전에 [테스트 개요](/ko/testing/)를 읽습니다.
+8. 운영 규칙과 오픈소스 사례를 보려면 [프로덕션 개요](/ko/production/)를 읽습니다.
+9. 운영 설계와 비교 관점까지 확장할 때 [고급 주제 개요](/ko/advanced/), [비교 / 확장 개요](/ko/extras/)로 넘어갑니다.
