@@ -36,7 +36,8 @@ flowchart LR
     C --> D["2014-02 CockroachDB"]
     D --> E["2014-06 Kubernetes"]
     E --> F["2015-01 Caddy"]
-    F --> G["2019-10 Temporal"]
+    F --> G["2015-09 Traefik"]
+    G --> H["2019-10 Temporal"]
 ```
 
 ## 빠른 지도
@@ -49,6 +50,7 @@ flowchart LR
 | 2014-02-06 | CockroachDB | 분산 SQL 데이터베이스 | Go는 CLI나 proxy만이 아니라 야심찬 distributed data system도 감당할 수 있었다 |
 | 2014-06-06 | Kubernetes | 클러스터 control plane | Go는 controller, API, reconciliation loop의 언어가 되었다 |
 | 2015-01-13 | Caddy | operator-first 웹 서버 | deployability와 표준 라이브러리 networking의 가치가 컸다 |
+| 2015-09-13 | Traefik | 동적 edge proxy와 routing control plane | Go는 orchestrator 상태를 restart 없이 live routing으로 바꾸는 시스템과도 잘 맞았다 |
 | 2019-10-16 | Temporal | durable execution 플랫폼 | Go는 persistence-backed state machine과 workflow orchestration까지 확장됐다 |
 
 ## 왜 이런 파동이 생겼나
@@ -193,7 +195,7 @@ Go는 단지:
 
 Go를 "운영 툴 언어"에서 "진지한 distributed system 구현 언어"로 올려서 보게 만든 사례 중 하나입니다.
 
-## 4기: operator-first 서버
+## 4기: operator-first 서버와 edge control plane
 
 ### Caddy
 
@@ -217,6 +219,32 @@ Caddy는 웹 서버가 다음일 수 있음을 강하게 보여줬습니다.
 왜 중요했나:
 
 Go의 표준 라이브러리와 바이너리 모델은 운영자가 직접 배포해야 하는 인프라 소프트웨어와 궁합이 좋았습니다.
+
+### Traefik
+
+공개 저장소 날짜: 2015년 9월 13일.
+
+Traefik은 같은 Go 역사에서 조금 다른 갈래를 보여줍니다.
+이건 단순 웹 서버라기보다:
+
+- orchestrator/provider 상태를 감시하고
+- 여러 source의 설정을 merge하고
+- live router를 rebuild하고
+- 운영용 hook을 노출하고
+- 여전히 practical한 인프라 소프트웨어로 배포되는
+
+동적 reverse proxy / routing control plane입니다.
+
+읽을 곳:
+
+- [Traefik repository](https://github.com/traefik/traefik)
+- [`pkg/provider/aggregator/aggregator.go`](https://github.com/traefik/traefik/blob/master/pkg/provider/aggregator/aggregator.go)
+- [`pkg/server/configurationwatcher.go`](https://github.com/traefik/traefik/blob/master/pkg/server/configurationwatcher.go)
+- [`pkg/server/routerfactory.go`](https://github.com/traefik/traefik/blob/master/pkg/server/routerfactory.go)
+
+왜 중요했나:
+
+Traefik은 Go가 단순한 edge server뿐 아니라, control-plane 상태를 지속적으로 ingest해서 live routing behavior로 바꾸는 동적 edge 시스템에도 잘 맞았다는 걸 보여줬습니다.
 
 ## 5기: durable orchestration과 workflow 엔진
 
@@ -271,6 +299,7 @@ Go는 coordination, lifecycle, throughput, operability가 핵심인 시스템에
 | periodic work와 scrape ownership | Prometheus |
 | 대규모 task lifetime과 shutdown | CockroachDB |
 | deployable operator-first edge/server software | Caddy |
+| dynamic reverse proxy와 routing control plane | Traefik |
 | durable workflow orchestration | Temporal |
 
 ## 다음으로 읽을 곳
@@ -288,6 +317,7 @@ Go는 coordination, lifecycle, throughput, operability가 핵심인 시스템에
 - [Prometheus repository metadata](https://github.com/prometheus/prometheus)
 - [NATS Server repository metadata](https://github.com/nats-io/nats-server)
 - [Caddy repository metadata](https://github.com/caddyserver/caddy)
+- [Traefik repository metadata](https://github.com/traefik/traefik)
 
 ## Practical takeaway
 

@@ -21,6 +21,7 @@ If you want one modern durable-execution system in detail, read [Temporal and Du
 | Prometheus | One owner loop for periodic work and shutdown | [`scrape/scrape.go`](https://github.com/prometheus/prometheus/blob/3b44b8b463be9291a5605b935a5fbeda88db1366/scrape/scrape.go#L822-L1308) |
 | NATS Server | Split read/write socket ownership with `sync.Cond` signaling | [`server/client.go`](https://github.com/nats-io/nats-server/blob/bae1d6c752e0550901d0a79a76fb2fabe79c1eff/server/client.go#L355-L355), [`writeLoop`](https://github.com/nats-io/nats-server/blob/bae1d6c752e0550901d0a79a76fb2fabe79c1eff/server/client.go#L1274-L1355), [`readLoop`](https://github.com/nats-io/nats-server/blob/bae1d6c752e0550901d0a79a76fb2fabe79c1eff/server/client.go#L1358-L1415) |
 | gRPC-Go | Single writer goroutine plus explicit control buffer | [`internal/transport/controlbuf.go`](https://github.com/grpc/grpc-go/blob/b9f7967353473f3b585092ac5d961de3878e1f12/internal/transport/controlbuf.go#L307-L629) |
+| Traefik | Dynamic provider aggregation and live router rebuilds without restart | [`pkg/provider/aggregator/aggregator.go`](https://github.com/traefik/traefik/blob/master/pkg/provider/aggregator/aggregator.go), [`pkg/server/configurationwatcher.go`](https://github.com/traefik/traefik/blob/master/pkg/server/configurationwatcher.go), [`pkg/server/routerfactory.go`](https://github.com/traefik/traefik/blob/master/pkg/server/routerfactory.go) |
 | CockroachDB | Service-wide task ownership and quiesce semantics | [`pkg/util/stop/stopper.go`](https://github.com/cockroachdb/cockroach/blob/41c5df3d4a4cd26e8852677aebb513184e78ccd9/pkg/util/stop/stopper.go#L152-L670) |
 | go-redis | Pool admission, wait budgets, and connection handoff | [`internal/pool/pool.go`](https://github.com/redis/go-redis/blob/6193e530d612d362359a6709b46dc2c159e1455d/internal/pool/pool.go#L306-L1078) |
 
@@ -298,6 +299,75 @@ Do not let per-stream goroutines write HTTP/2 frames directly to a shared `net.C
 Takeaway:
 
 Multiplexed transports usually want a command queue plus one writer owner.
+
+## Traefik dynamic configuration control plane
+
+Why it is worth reading:
+
+Traefik is a good study in how Go can power an edge proxy that continuously rebuilds live routing state from many upstream providers without restart-heavy configuration management.
+
+Primary source:
+
+- [`ProviderAggregator`](https://github.com/traefik/traefik/blob/master/pkg/provider/aggregator/aggregator.go)
+- [`ConfigurationWatcher`](https://github.com/traefik/traefik/blob/master/pkg/server/configurationwatcher.go)
+- [`RouterFactory`](https://github.com/traefik/traefik/blob/master/pkg/server/routerfactory.go)
+
+Main concurrency boundary:
+
+Providers do not mutate the live proxy directly. They emit configuration messages into a controlled aggregation pipeline, which:
+
+- starts providers,
+- throttles update flow,
+- drops unchanged configurations,
+- transforms the full merged configuration,
+- then rebuilds routers from a stabilized runtime view.
+
+Simplified shape:
+
+```go
+func Start() {
+	go providerAggregator.Provide(allProviderConfigs, pool)
+	go receiveConfigurations()
+	go applyConfigurations()
+}
+
+func receiveConfigurations() {
+	for msg := range allProviderConfigs {
+		if unchanged(msg) {
+			continue
+		}
+
+		merged[msg.ProviderName] = copyConfig(msg.Configuration)
+		latest := transform(merged)
+		publishLatestNonBlocking(latest)
+	}
+}
+
+func applyConfigurations() {
+	for confs := range newConfigs {
+		runtimeConf := mergeConfiguration(confs)
+		listeners.Apply(runtimeConf)
+	}
+}
+```
+
+Why this works:
+
+Traefik separates:
+
+- provider discovery,
+- configuration stabilization,
+- and router rebuild.
+
+That means a noisy Docker/Kubernetes/file provider does not get to poke at live routing state directly. The server can deduplicate, throttle, merge, and rebuild from one coherent view.
+
+Failure pattern to avoid:
+
+Do not let every config source mutate the active proxy graph directly. That creates race-heavy edge state, restart pressure, and no stable place to observe what the system currently believes.
+
+Takeaway:
+
+Dynamic edge proxies work better when discovery events flow through one ownership boundary before the data plane is rebuilt.
 
 ## CockroachDB stopper
 

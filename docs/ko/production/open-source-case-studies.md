@@ -21,6 +21,7 @@ description: 대표적인 Go 오픈소스가 실제로 concurrency를 어떻게 
 | Prometheus | periodic work를 owner loop 하나로 묶는 법 | [`scrape/scrape.go`](https://github.com/prometheus/prometheus/blob/3b44b8b463be9291a5605b935a5fbeda88db1366/scrape/scrape.go#L822-L1308) |
 | NATS Server | `sync.Cond`로 read/write socket ownership을 분리하는 법 | [`server/client.go`](https://github.com/nats-io/nats-server/blob/bae1d6c752e0550901d0a79a76fb2fabe79c1eff/server/client.go#L355-L355), [`writeLoop`](https://github.com/nats-io/nats-server/blob/bae1d6c752e0550901d0a79a76fb2fabe79c1eff/server/client.go#L1274-L1355), [`readLoop`](https://github.com/nats-io/nats-server/blob/bae1d6c752e0550901d0a79a76fb2fabe79c1eff/server/client.go#L1358-L1415) |
 | gRPC-Go | single writer goroutine과 control buffer | [`internal/transport/controlbuf.go`](https://github.com/grpc/grpc-go/blob/b9f7967353473f3b585092ac5d961de3878e1f12/internal/transport/controlbuf.go#L307-L629) |
+| Traefik | dynamic provider aggregation과 live router rebuild를 restart 없이 처리하는 법 | [`pkg/provider/aggregator/aggregator.go`](https://github.com/traefik/traefik/blob/master/pkg/provider/aggregator/aggregator.go), [`pkg/server/configurationwatcher.go`](https://github.com/traefik/traefik/blob/master/pkg/server/configurationwatcher.go), [`pkg/server/routerfactory.go`](https://github.com/traefik/traefik/blob/master/pkg/server/routerfactory.go) |
 | CockroachDB | 서비스 전체의 task ownership과 quiesce contract | [`pkg/util/stop/stopper.go`](https://github.com/cockroachdb/cockroach/blob/41c5df3d4a4cd26e8852677aebb513184e78ccd9/pkg/util/stop/stopper.go#L152-L670) |
 | go-redis | pool admission, wait budget, connection handoff | [`internal/pool/pool.go`](https://github.com/redis/go-redis/blob/6193e530d612d362359a6709b46dc2c159e1455d/internal/pool/pool.go#L306-L1078) |
 
@@ -298,6 +299,77 @@ stream goroutine이 shared `net.Conn`에 직접 HTTP/2 frame을 쓰게 두면 �
 핵심 takeaway:
 
 multiplexed transport는 대개 command queue + writer owner 구조가 맞습니다.
+
+## Traefik dynamic configuration control plane
+
+왜 읽을 가치가 있는가:
+
+Traefik은 여러 provider에서 들어오는 설정 변화를 restart 없이 live routing state로 재구성하는 edge proxy/control-plane 시스템이기 때문에, Go가 이런 종류의 동적 인프라 소프트웨어에 왜 잘 맞는지 보여주는 좋은 사례입니다.
+
+주 소스:
+
+- [`ProviderAggregator`](https://github.com/traefik/traefik/blob/master/pkg/provider/aggregator/aggregator.go)
+- [`ConfigurationWatcher`](https://github.com/traefik/traefik/blob/master/pkg/server/configurationwatcher.go)
+- [`RouterFactory`](https://github.com/traefik/traefik/blob/master/pkg/server/routerfactory.go)
+
+핵심 concurrency boundary:
+
+provider가 live proxy를 직접 바꾸지 않습니다. 대신 설정 메시지를 aggregation pipeline으로 밀어 넣고, 그 파이프라인이:
+
+- provider를 시작하고
+- update flow를 throttle하고
+- unchanged configuration을 건너뛰고
+- 전체 merged configuration을 transform한 뒤
+- 안정화된 runtime view에서 router를 rebuild 합니다.
+
+단순화한 형태:
+
+```go
+func Start() {
+	go providerAggregator.Provide(allProviderConfigs, pool)
+	go receiveConfigurations()
+	go applyConfigurations()
+}
+
+func receiveConfigurations() {
+	for msg := range allProviderConfigs {
+		if unchanged(msg) {
+			continue
+		}
+
+		merged[msg.ProviderName] = copyConfig(msg.Configuration)
+		latest := transform(merged)
+		publishLatestNonBlocking(latest)
+	}
+}
+
+func applyConfigurations() {
+	for confs := range newConfigs {
+		runtimeConf := mergeConfiguration(confs)
+		listeners.Apply(runtimeConf)
+	}
+}
+```
+
+왜 이게 중요한가:
+
+Traefik은:
+
+- provider discovery
+- configuration stabilization
+- router rebuild
+
+을 분리합니다.
+
+그래서 noisy한 Docker/Kubernetes/file provider가 live routing state를 직접 건드리지 못합니다. 서버는 하나의 coherent view에서 deduplicate, throttle, merge, rebuild를 수행합니다.
+
+실패 패턴:
+
+각 config source가 active proxy graph를 직접 mutate하게 두면 안 됩니다. 그건 race-heavy edge state, restart pressure, 관측 불가능한 현재 상태로 이어집니다.
+
+핵심 takeaway:
+
+dynamic edge proxy는 discovery event가 data plane rebuild 전에 하나의 ownership boundary를 통과하게 만드는 편이 훨씬 강합니다.
 
 ## CockroachDB stopper
 
