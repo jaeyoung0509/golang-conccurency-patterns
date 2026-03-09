@@ -140,6 +140,7 @@ features:
 | How to test timeout-heavy code without real sleeps | [Deterministic Tests with synctest](/testing/synctest) |
 | How to keep Postgres, Redis, and container-backed integration tests clean, isolated, and deterministic | [Integration Testing with Testcontainers](/testing/integration-testcontainers) |
 | How a durable workflow engine like Temporal becomes a Go system of history, matching, and workers | [Temporal and Durable Execution](/production/temporal-durable-execution) |
+| How to combine event sourcing, erasure, retention, and audit constraints in a real Go system | [Regulated Go Systems](/production/regulated-systems) |
 | Why so many influential infrastructure projects ended up in Go in the first place | [Go Open-Source Histories](/production/go-open-source-histories) |
 | What large Go production systems care about beyond toy patterns | [Large-Scale Go Systems](/production/large-scale-go-systems) |
 | How major Go projects actually build queues, transport loops, stopper lifetimes, and pools | [Open-Source Case Studies](/production/open-source-case-studies) |
