@@ -9,9 +9,8 @@ const { lang, frontmatter } = useData();
 const isCollapsed = ref(false);
 const isMounted = ref(false);
 
-const isKorean = computed(() => lang.value.startsWith("ko"));
 const buttonLabel = computed(() =>
-  isKorean.value
+  lang.value.startsWith("ko")
     ? isCollapsed.value
       ? "사이드바 펼치기"
       : "사이드바 접기"
@@ -19,10 +18,7 @@ const buttonLabel = computed(() =>
       ? "Show sidebar"
       : "Hide sidebar"
 );
-
-const helperText = computed(() =>
-  isKorean.value ? "읽기 집중 모드" : "Focus mode"
-);
+const icon = computed(() => (isCollapsed.value ? ">" : "<"));
 
 const showToggle = computed(() => frontmatter.value.layout !== "home");
 
@@ -57,20 +53,17 @@ watch(isCollapsed, (value) => {
 </script>
 
 <template>
-  <div
-    v-if="showToggle"
-    class="sidebar-toggle-shell"
-    :class="{ 'is-collapsed': isCollapsed }"
-  >
+  <div v-if="showToggle" class="sidebar-toggle-shell">
     <button
       type="button"
       class="sidebar-toggle-button"
       :aria-label="buttonLabel"
       :aria-pressed="isCollapsed"
+      :title="buttonLabel"
       @click="toggleSidebar"
     >
-      <span class="sidebar-toggle-kicker">{{ helperText }}</span>
-      <span class="sidebar-toggle-label">{{ buttonLabel }}</span>
+      <span class="sidebar-toggle-icon" aria-hidden="true">{{ icon }}</span>
+      <span class="sidebar-toggle-text">{{ buttonLabel }}</span>
     </button>
   </div>
 </template>
