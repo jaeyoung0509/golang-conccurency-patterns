@@ -139,6 +139,7 @@ features:
 | How to keep AI-generated Go code from compiling successfully and still shipping bugs | [AI-Assisted Go Safety](/testing/ai-assisted-go-safety) |
 | How to test timeout-heavy code without real sleeps | [Deterministic Tests with synctest](/testing/synctest) |
 | How to keep Postgres, Redis, and container-backed integration tests clean, isolated, and deterministic | [Integration Testing with Testcontainers](/testing/integration-testcontainers) |
+| How Docker, containerd, and Kubernetes divide product UX, runtime lifecycle, and control-plane ownership | [Docker, containerd, and Kubernetes](/production/docker-containerd-kubernetes) |
 | How a durable workflow engine like Temporal becomes a Go system of history, matching, and workers | [Temporal and Durable Execution](/production/temporal-durable-execution) |
 | How to combine event sourcing, erasure, retention, and audit constraints in a real Go system | [Regulated Go Systems](/production/regulated-systems) |
 | Why so many influential infrastructure projects ended up in Go in the first place | [Go Open-Source Histories](/production/go-open-source-histories) |
