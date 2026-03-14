@@ -145,6 +145,7 @@ features:
 | 왜 중요한 인프라 오픈소스들이 하필 Go를 많이 택했는지 | [Go 오픈소스 역사 읽기](/ko/production/go-open-source-histories) |
 | 토이 패턴을 넘어 대규모 Go 운영에서 무엇이 중요한지 | [대규모 Go 시스템](/ko/production/large-scale-go-systems) |
 | 주요 Go 오픈소스가 queue, transport loop, stopper lifetime, pool을 어떻게 구현하는지 | [오픈소스 사례](/ko/production/open-source-case-studies) |
+| `select`, typed nil, slice, context, stdlib contract 주변의 compile-clean footgun을 어떻게 피해야 하는지 | [Go 함정 부록](/ko/extras/go-pitfalls/) |
 | Go와 Rust Tokio의 async runtime 모델이 어떻게 다른지 | [Go CSP vs Rust Tokio](/ko/extras/go-csp-vs-rust-tokio) |
 | 언제 Go를 기본값으로 유지하고 언제 Rust로 좁게 옮겨야 하는지 | [Go vs Rust 결정 가이드](/ko/extras/go-vs-rust-decision-guide) |
 

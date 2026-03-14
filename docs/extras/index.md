@@ -16,8 +16,15 @@ This extra section exists for two reasons:
 
 | Topic | Why it matters |
 | --- | --- |
+| [Go Pitfalls Appendix](/extras/go-pitfalls/) | Turns 50 compile-clean but production-hostile Go mistakes into a repeatable review checklist with bad and better code |
 | [Go CSP vs Rust Tokio](/extras/go-csp-vs-rust-tokio) | Shows how similar high-level goals lead to very different runtime and language designs |
 | [Go vs Rust Decision Guide](/extras/go-vs-rust-decision-guide) | Turns language comparison into a practical call about when to keep a service in Go and when to move a subsystem to Rust |
+
+## Suggested reading order
+
+1. Read [Go Pitfalls Appendix](/extras/go-pitfalls/) when you want a cross-cutting checklist of mistakes that still compile.
+2. Read [Go CSP vs Rust Tokio](/extras/go-csp-vs-rust-tokio) when you want to compare concurrency models directly.
+3. Read [Go vs Rust Decision Guide](/extras/go-vs-rust-decision-guide) when language choice becomes a real architecture decision.
 
 ## Practical takeaway
 
