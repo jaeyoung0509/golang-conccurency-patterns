@@ -14,6 +14,7 @@ description: Go 코드가 실제 대규모 트래픽을 받을 때 중요해지�
 | 주제 | 왜 중요한가 |
 | --- | --- |
 | [대규모 Go 시스템](/ko/production/large-scale-go-systems) | 런타임 지식을 실제 latency, memory, overload, shutdown 규칙으로 바꿉니다 |
+| [Docker, containerd, 그리고 Kubernetes](/ko/production/docker-containerd-kubernetes) | Go daemon, runtime core, controller loop가 현대 컨테이너 플랫폼을 어떻게 이루는지 설명합니다 |
 | [규제 환경의 Go 시스템](/ko/production/regulated-systems) | event sourcing, cryptographic erase, retention, audit 제약이 Go 시스템 설계를 어떻게 바꾸는지 설명합니다 |
 | [Temporal과 Durable Execution](/ko/production/temporal-durable-execution) | 현대 workflow 엔진이 history shard, task queue, worker polling을 가진 Go 시스템으로 어떻게 구성되는지 보여줍니다 |
 | [오픈소스 사례](/ko/production/open-source-case-studies) | Kubernetes, etcd, Prometheus, NATS, gRPC-Go, CockroachDB, go-redis가 concurrency policy를 어떻게 코드에 드러내는지 봅니다 |

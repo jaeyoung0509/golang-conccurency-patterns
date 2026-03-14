@@ -92,6 +92,7 @@ const enSidebar = [
     items: [
       { text: "Overview", link: "/production/" },
       { text: "Large-Scale Go Systems", link: "/production/large-scale-go-systems" },
+      { text: "Docker, containerd, and Kubernetes", link: "/production/docker-containerd-kubernetes" },
       { text: "Regulated Go Systems", link: "/production/regulated-systems" },
       { text: "Temporal and Durable Execution", link: "/production/temporal-durable-execution" },
       { text: "Open-Source Case Studies", link: "/production/open-source-case-studies" },
@@ -212,6 +213,7 @@ const koSidebar = [
     items: [
       { text: "개요", link: "/ko/production/" },
       { text: "대규모 Go 시스템", link: "/ko/production/large-scale-go-systems" },
+      { text: "Docker, containerd, 그리고 Kubernetes", link: "/ko/production/docker-containerd-kubernetes" },
       { text: "규제 환경의 Go 시스템", link: "/ko/production/regulated-systems" },
       { text: "Temporal과 Durable Execution", link: "/ko/production/temporal-durable-execution" },
       { text: "오픈소스 사례", link: "/ko/production/open-source-case-studies" },

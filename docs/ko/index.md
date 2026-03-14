@@ -139,6 +139,7 @@ features:
 | AI가 만든 Go 코드가 컴파일은 되는데 여전히 위험할 때 어떻게 조기 발견하는지 | [AI 보조 Go 안전성](/ko/testing/ai-assisted-go-safety) |
 | timeout-heavy 코드를 실제 sleep 없이 어떻게 테스트하는지 | [synctest로 결정적 테스트](/ko/testing/synctest) |
 | Postgres, Redis, container-backed 통합 테스트를 어떻게 깨끗하고 결정적으로 유지하는지 | [Testcontainers로 통합 테스트하기](/ko/testing/integration-testcontainers) |
+| Docker, containerd, Kubernetes가 product UX, runtime lifecycle, control-plane ownership를 어떻게 나눠 갖는지 | [Docker, containerd, 그리고 Kubernetes](/ko/production/docker-containerd-kubernetes) |
 | Temporal 같은 durable workflow 엔진이 history, matching, worker를 가진 Go 시스템으로 어떻게 구성되는지 | [Temporal과 Durable Execution](/ko/production/temporal-durable-execution) |
 | event sourcing, erasure, retention, audit 제약을 실제 Go 시스템에서 어떻게 함께 풀어야 하는지 | [규제 환경의 Go 시스템](/ko/production/regulated-systems) |
 | 왜 중요한 인프라 오픈소스들이 하필 Go를 많이 택했는지 | [Go 오픈소스 역사 읽기](/ko/production/go-open-source-histories) |
