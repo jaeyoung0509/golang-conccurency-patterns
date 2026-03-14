@@ -145,6 +145,7 @@ features:
 | Why so many influential infrastructure projects ended up in Go in the first place | [Go Open-Source Histories](/production/go-open-source-histories) |
 | What large Go production systems care about beyond toy patterns | [Large-Scale Go Systems](/production/large-scale-go-systems) |
 | How major Go projects actually build queues, transport loops, stopper lifetimes, and pools | [Open-Source Case Studies](/production/open-source-case-studies) |
+| How to avoid compile-clean Go footguns around `select`, typed nil, slices, contexts, and stdlib contracts | [Go Pitfalls Appendix](/extras/go-pitfalls/) |
 | How Go differs from Rust Tokio's async runtime model | [Go CSP vs Rust Tokio](/extras/go-csp-vs-rust-tokio) |
 | When Go should stay the default and when a subsystem should move to Rust | [Go vs Rust Decision Guide](/extras/go-vs-rust-decision-guide) |
 
