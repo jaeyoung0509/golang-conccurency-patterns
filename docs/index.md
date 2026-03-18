@@ -133,6 +133,7 @@ features:
 | How process shutdown and runtime observability fit into Go services | [Process Signals and Runtime Observability](/stdlib/process-signals-and-observability) |
 | Why channels synchronize memory visibility | [Channels, Select, and the Memory Model](/fundamentals/channels-memory-model) |
 | How to cap parallelism across many independent tasks | [Worker Pool](/patterns/worker-pool) |
+| How to model nullable outputs and tri-state inputs across REST, gRPC, and messages | [Optional Values Across API Boundaries](/patterns/optional-values-across-boundaries) |
 | How to structure one request with several sibling tasks | [Structured Concurrency](/advanced/structured-concurrency) |
 | How to stop duplicate cache-miss fetches | [Singleflight](/advanced/singleflight) |
 | How to survive overload instead of just failing later | [Backpressure and Load Shedding](/advanced/backpressure-load-shedding) |
