@@ -21,6 +21,7 @@ description: Choose the right Go concurrency pattern based on workload shape, fa
 | One request needs answers from many backends | [Fan-Out / Fan-In](/patterns/fan-out-fan-in) |
 | Several goroutines belong to one request lifetime | [Context Cancellation](/patterns/context-cancellation) |
 | One broker handles many callers, and each caller needs its own reply path | [Channel of Channels](/patterns/channel-of-channels) |
+| Response DTOs and PATCH inputs must model absent, null, and concrete values safely | [Optional Values Across API Boundaries](/patterns/optional-values-across-boundaries) |
 | The process must stop cleanly without dropping admitted work blindly | [Graceful Shutdown](/patterns/graceful-shutdown) |
 | Channel-heavy pipelines need cancellation-safe composition helpers | [Or-Done, Tee, and Bridge](/patterns/or-done-tee-bridge) |
 

@@ -133,6 +133,7 @@ features:
 | 프로세스 shutdown과 runtime observability를 Go 서비스에 어떻게 붙이는지 | [프로세스 신호와 런타임 관측](/ko/stdlib/process-signals-and-observability) |
 | 채널이 왜 메모리 가시성 경계를 만드는지 | [Channels, Select, 그리고 Memory Model](/ko/fundamentals/channels-memory-model) |
 | 많은 독립 작업의 병렬 수를 어떻게 제한하는지 | [워커 풀](/ko/patterns/worker-pool) |
+| REST, gRPC, 메시지 경계에서 nullable output과 tri-state input을 어떻게 모델링해야 하는지 | [API 경계에서의 Optional 값 패턴](/ko/patterns/optional-values-across-boundaries) |
 | 하나의 요청 안에서 여러 sibling task를 어떻게 관리하는지 | [구조화된 동시성](/ko/advanced/structured-concurrency) |
 | 같은 cache miss 요청을 어떻게 하나로 합치는지 | [Singleflight](/ko/advanced/singleflight) |
 | 과부하를 늦게 터뜨리지 않고 초기에 제어하는 법 | [역압력과 로드 셰딩](/ko/advanced/backpressure-load-shedding) |
