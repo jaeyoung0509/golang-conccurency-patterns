@@ -40,6 +40,10 @@ description: Systems-level Go internals for compiler behavior, allocator design,
     <p>Profile-guided optimization, execution tracing, flight recording, and zero-copy I/O in modern Go releases.</p>
   </div>
   <div class="path-card">
+    <h3><a href="/internals/kernel-io-paths">Kernel I/O Paths</a></h3>
+    <p>Follow `pollDesc`, readiness waits, epoll/kqueue wakeups, and `sendfile` or `splice` fast paths through the runtime boundary.</p>
+  </div>
+  <div class="path-card">
     <h3><a href="/internals/stdlib-anatomy">Standard Library Anatomy</a></h3>
     <p>Study why `sync.Pool` scales, why `reflect` costs what it costs, and when code generation is the better trade.</p>
   </div>
@@ -52,7 +56,8 @@ description: Systems-level Go internals for compiler behavior, allocator design,
 3. Read [Layout, Padding, and False Sharing](/internals/layout-padding-false-sharing).
 4. Move to [Generics and Interfaces](/internals/generics-and-interfaces).
 5. Then read [unsafe, cgo, and Pinner](/internals/unsafe-cgo-pinner).
-6. Finish with [Modern Performance Tuning](/internals/modern-performance-tuning) and [Standard Library Anatomy](/internals/stdlib-anatomy).
+6. Continue with [Kernel I/O Paths: netpoll, epoll/kqueue, and Zero-Copy](/internals/kernel-io-paths) if you want the OS-facing view of networking and fast-copy behavior.
+7. Finish with [Modern Performance Tuning](/internals/modern-performance-tuning) and [Standard Library Anatomy](/internals/stdlib-anatomy).
 
 ## What you should be able to answer afterward
 
@@ -63,6 +68,7 @@ description: Systems-level Go internals for compiler behavior, allocator design,
 - Why can two correct atomic counters still fight each other on one cache line?
 - Why are Go generics neither pure C++-style monomorphization nor Java-style erasure?
 - Why is `uintptr` not a GC root?
+- Why does a ready socket not guarantee fast application-level throughput?
 - When does `io.Copy` reach a zero-copy fast path, and when does it silently fall back?
 - Why does `sync.Pool` pad its per-P shards?
 - When is reflection flexible enough, and when is it simply the wrong cost model?

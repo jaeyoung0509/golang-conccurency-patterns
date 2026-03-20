@@ -218,6 +218,12 @@ That throws away pooling, creates dial churn, and usually makes latency and reso
 - Test server shutdown with `Server.Shutdown` and in-flight requests.
 - Use `httptrace` when you need to confirm reuse, dial timing, or connection setup behavior.
 - Use runtime traces or socket-level metrics if you suspect connection churn rather than handler CPU.
+- See `examples/httptransportlab` for focused tests around response-body drain and connection reuse.
+
+## Networking track continuation
+
+- For multiplexed reuse and ALPN negotiation, continue with [HTTP/2, ALPN, and Stream Multiplexing](/stdlib/http2-alpn-stream-multiplexing).
+- For incident workflow, continue with [Debugging Go Network Services in Production](/production/debugging-go-network-services).
 
 ## Official reading
 

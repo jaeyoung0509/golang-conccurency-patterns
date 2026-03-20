@@ -189,6 +189,10 @@ Once a `Config` or returned certificate is in active use, treat it as immutable.
 - [Package docs for `crypto/tls`](https://pkg.go.dev/crypto/tls)
 - [Go security and FIPS docs](https://go.dev/doc/security/fips140)
 
+## Networking track continuation
+
+If you want to see how ALPN and multiplexed streams build on top of TLS, continue with [HTTP/2, ALPN, and Stream Multiplexing](/stdlib/http2-alpn-stream-multiplexing).
+
 ## Practical takeaway
 
 TLS in Go is mostly a configuration discipline problem. If you make handshake lifetime and verification policy explicit, the package behaves predictably. If you hand-wave those fields, it still behaves predictably, just not in your favor.

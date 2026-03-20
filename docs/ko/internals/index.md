@@ -40,6 +40,10 @@ description: 컴파일러, 할당기, 타입 메타데이터, unsafe 경계, 성
     <p>PGO, execution trace, flight recorder, zero-copy I/O를 최신 Go 기준으로 정리합니다.</p>
   </div>
   <div class="path-card">
+    <h3><a href="/ko/internals/kernel-io-paths">Kernel I/O Paths</a></h3>
+    <p>`pollDesc`, readiness wait, epoll/kqueue wakeup, `sendfile`/`splice` fast path를 runtime boundary 관점에서 설명합니다.</p>
+  </div>
+  <div class="path-card">
     <h3><a href="/ko/internals/stdlib-anatomy">표준 라이브러리 해부</a></h3>
     <p>`sync.Pool`이 왜 잘 확장되는지, `reflect`가 왜 느린지, code generation이 언제 더 나은지 봅니다.</p>
   </div>
@@ -52,7 +56,8 @@ description: 컴파일러, 할당기, 타입 메타데이터, unsafe 경계, 성
 3. [레이아웃, 패딩, false sharing](/ko/internals/layout-padding-false-sharing)으로 메모리 레벨 비용을 정리합니다.
 4. [제네릭과 인터페이스](/ko/internals/generics-and-interfaces)로 타입 시스템 내부를 봅니다.
 5. 그 다음 [unsafe, cgo, 그리고 Pinner](/ko/internals/unsafe-cgo-pinner)를 읽습니다.
-6. 마지막으로 [현대 Go 성능 튜닝](/ko/internals/modern-performance-tuning)과 [표준 라이브러리 해부](/ko/internals/stdlib-anatomy)를 마무리합니다.
+6. 네트워킹과 fast-copy의 OS-facing view가 필요하면 [Kernel I/O Paths: netpoll, epoll/kqueue, 그리고 Zero-Copy](/ko/internals/kernel-io-paths)를 읽습니다.
+7. 마지막으로 [현대 Go 성능 튜닝](/ko/internals/modern-performance-tuning)과 [표준 라이브러리 해부](/ko/internals/stdlib-anatomy)를 마무리합니다.
 
 ## 이 섹션을 읽고 답할 수 있어야 하는 질문
 
@@ -63,6 +68,7 @@ description: 컴파일러, 할당기, 타입 메타데이터, unsafe 경계, 성
 - race도 없고 lock bug도 없는데 왜 cache line 때문에 느려질 수 있는가?
 - 왜 Go 제네릭은 순수 monomorphization도 아니고 type erasure도 아닌가?
 - 왜 `uintptr`는 GC root가 아닌가?
+- 왜 ready socket이 곧 빠른 application throughput을 의미하지 않는가?
 - 언제 `io.Copy`가 zero-copy fast path를 타고, 언제 조용히 fallback 하는가?
 - 왜 `sync.Pool`은 per-P shard에 padding을 넣는가?
 - 언제 reflection은 충분히 유연하고, 언제 cost model 자체가 틀린 선택이 되는가?

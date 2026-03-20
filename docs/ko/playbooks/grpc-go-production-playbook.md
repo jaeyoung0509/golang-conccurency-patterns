@@ -149,6 +149,7 @@ typed internal API, streaming, deadline, cross-language protocol compatibility�
 - [`google.golang.org/grpc` 패키지 문서](https://pkg.go.dev/google.golang.org/grpc)
 - [gRPC keepalive guide](https://grpc.io/docs/guides/keepalive/)
 - [net/http 서버와 Transport 내부](/ko/stdlib/net-http-server-transport)
+- [HTTP/2, ALPN, 그리고 Stream Multiplexing](/ko/stdlib/http2-alpn-stream-multiplexing)
 
 ## Practical takeaway
 

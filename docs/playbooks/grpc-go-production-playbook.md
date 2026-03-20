@@ -149,6 +149,7 @@ If your traffic is simple HTTP/JSON and most complexity comes from human-facing 
 - [Package docs for `google.golang.org/grpc`](https://pkg.go.dev/google.golang.org/grpc)
 - [gRPC keepalive guide](https://grpc.io/docs/guides/keepalive/)
 - [net/http Server and Transport Internals](/stdlib/net-http-server-transport)
+- [HTTP/2, ALPN, and Stream Multiplexing](/stdlib/http2-alpn-stream-multiplexing)
 
 ## Practical takeaway
 

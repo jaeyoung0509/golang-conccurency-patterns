@@ -224,6 +224,11 @@ The moment you create `go handle(conn)` inside an accept loop, you also need a c
 - Example: `examples/dialbudget`
 - The tests verify fallback from an unreachable endpoint to a healthy one and show that post-connect probe I/O still needs its own deadline.
 
+## Networking track continuation
+
+- For the full socket lifecycle, continue with [TCP, DNS, and Connection Lifecycles in Go](/fundamentals/tcp-dns-connection-lifecycles).
+- For custom stream protocols, continue with [Protocol Design with `net.Conn` and `bufio`](/stdlib/protocol-design-net-conn-bufio).
+
 ## Official reading
 
 - [Package docs for `net`](https://pkg.go.dev/net)

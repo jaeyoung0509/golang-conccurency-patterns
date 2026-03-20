@@ -158,6 +158,12 @@ for {
 
 deadline과 admission limit이 없으면, 느리거나 멈춘 클라이언트는 여전히 file descriptor, heap, scheduler attention을 계속 잡아먹습니다.
 
+## 네트워킹 트랙 다음 읽을거리
+
+socket-level lifecycle이 궁금하면 [Go에서의 TCP, DNS, 그리고 Connection Lifecycle](/ko/fundamentals/tcp-dns-connection-lifecycles)로 이어가면 됩니다.
+
+readiness와 fast-copy의 OS-facing view가 궁금하면 [Kernel I/O Paths: netpoll, epoll/kqueue, 그리고 Zero-Copy](/ko/internals/kernel-io-paths)를 읽으십시오.
+
 ## Practical takeaway
 
 Netpoller는 Go I/O 구현의 부가 기능이 아니라 동시성 모델의 핵심입니다.

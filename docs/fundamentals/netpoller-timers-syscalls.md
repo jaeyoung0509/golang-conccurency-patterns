@@ -170,6 +170,12 @@ for {
 
 Without deadlines and admission limits, slow or stalled clients still consume file descriptors, heap, and scheduler attention.
 
+## Networking track continuation
+
+If you want the socket-level lifecycle that sits on top of netpoll, continue with [TCP, DNS, and Connection Lifecycles in Go](/fundamentals/tcp-dns-connection-lifecycles).
+
+If you want the OS-facing side of readiness and fast-copy behavior, continue with [Kernel I/O Paths: netpoll, epoll/kqueue, and Zero-Copy](/internals/kernel-io-paths).
+
 ## Practical takeaway
 
 The netpoller is a core part of Go's concurrency model, not an implementation footnote.

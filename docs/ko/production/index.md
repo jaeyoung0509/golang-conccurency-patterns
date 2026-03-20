@@ -15,6 +15,8 @@ description: Go 코드가 실제 대규모 트래픽을 받을 때 중요해지�
 | --- | --- |
 | [대규모 Go 시스템](/ko/production/large-scale-go-systems) | 런타임 지식을 실제 latency, memory, overload, shutdown 규칙으로 바꿉니다 |
 | [Docker, containerd, 그리고 Kubernetes](/ko/production/docker-containerd-kubernetes) | Go daemon, runtime core, controller loop가 현대 컨테이너 플랫폼을 어떻게 이루는지 설명합니다 |
+| [프로덕션에서 Go 네트워크 서비스 디버깅하기](/ko/production/debugging-go-network-services) | DNS, connect, TLS, request, body, socket-state 단위로 네트워크 incident를 분해하는 방법을 다룹니다 |
+| [Go 엔지니어를 위한 Kubernetes 서비스 네트워킹](/ko/production/kubernetes-service-networking) | pod DNS, Service, draining, proxy, cluster networking이 Go transport behavior를 어떻게 바꾸는지 설명합니다 |
 | [규제 환경의 Go 시스템](/ko/production/regulated-systems) | event sourcing, cryptographic erase, retention, audit 제약이 Go 시스템 설계를 어떻게 바꾸는지 설명합니다 |
 | [Temporal과 Durable Execution](/ko/production/temporal-durable-execution) | 현대 workflow 엔진이 history shard, task queue, worker polling을 가진 Go 시스템으로 어떻게 구성되는지 보여줍니다 |
 | [오픈소스 사례](/ko/production/open-source-case-studies) | Kubernetes, etcd, Prometheus, NATS, gRPC-Go, CockroachDB, go-redis가 concurrency policy를 어떻게 코드에 드러내는지 봅니다 |
@@ -29,6 +31,8 @@ description: Go 코드가 실제 대규모 트래픽을 받을 때 중요해지�
 - 이 goroutine의 lifetime owner는 누구인가
 - 어디서 load를 reject할 것인가
 - deploy와 shutdown 때 어떤 일이 일어나는가
+- latency가 DNS인지 connect인지 TLS인지 handler인지 body ownership인지 어떻게 증명할지
+- cluster networking과 proxy layer가 connection semantic을 어떻게 바꾸는지
 - heap pressure 아래에서 runtime이 어떻게 반응하는가
 - tail latency를 만드는 hot lock / hot queue는 무엇인가
 - 이걸 추측이 아니라 관측으로 어떻게 볼 것인가

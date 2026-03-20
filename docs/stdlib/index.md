@@ -45,12 +45,20 @@ This section focuses on the packages that quietly define how real systems behave
     <p>Understand dial budgets, DNS resolution, deadlines, listeners, and why `netip.Addr` is a better identity type than `net.IP` in new code.</p>
   </div>
   <div class="path-card">
+    <h3><a href="/stdlib/protocol-design-net-conn-bufio">Protocol Design</a></h3>
+    <p>Build framed protocols over `net.Conn` and `bufio` without assuming full reads, full writes, or free buffering.</p>
+  </div>
+  <div class="path-card">
     <h3><a href="/stdlib/crypto-tls">crypto/tls</a></h3>
     <p>Make handshake budgets, ALPN, hostname verification, certificate selection, and resumption behavior explicit instead of accidental.</p>
   </div>
   <div class="path-card">
     <h3><a href="/stdlib/process-signals-and-observability">signals and observability</a></h3>
     <p>Connect OS signals, graceful process shutdown, runtime metrics, and pprof-based incident investigation.</p>
+  </div>
+  <div class="path-card">
+    <h3><a href="/stdlib/http2-alpn-stream-multiplexing">HTTP/2 and ALPN</a></h3>
+    <p>See how `crypto/tls`, ALPN, `net/http`, and stream multiplexing reshape connection reuse and gRPC behavior.</p>
   </div>
   <div class="path-card">
     <h3><a href="/stdlib/os-exec-and-subprocesses">os/exec</a></h3>
@@ -72,11 +80,13 @@ This section focuses on the packages that quietly define how real systems behave
 2. Continue with [time, timers, and tickers](/stdlib/time-timers-tickers), because deadlines and retries depend on correct clock and timer usage.
 3. Read [sync and atomic primitives](/stdlib/sync-and-atomic) before deciding whether channels, mutexes, maps, or atomic snapshots are the right fit for a given state boundary.
 4. Read [net and netip](/stdlib/net-and-netip) before larger client or transport code so you budget connection establishment and represent endpoints deliberately.
-5. Continue with [crypto/tls in production](/stdlib/crypto-tls), where connection policy, hostname verification, ALPN, and handshake lifetime become explicit.
-6. Read [net/http server and transport internals](/stdlib/net-http-server-transport), where context, timers, dialing, and TLS meet real request traffic.
-7. Continue with [database/sql pool internals](/stdlib/database-sql-pool), where cancellation, waiting, and resource limits become operating concerns.
-8. Read [io, bufio, and bytes](/stdlib/io-bufio-bytes) and [encoding/json in production](/stdlib/encoding-json) together when you are working at streaming API or log boundaries.
-9. Finish with [process signals and runtime observability](/stdlib/process-signals-and-observability) and [os/exec and subprocess lifecycle](/stdlib/os-exec-and-subprocesses) so package-level design connects to process-level operations.
+5. Continue with [Protocol Design with `net.Conn` and `bufio`](/stdlib/protocol-design-net-conn-bufio) if you write custom TCP or streaming boundaries.
+6. Continue with [crypto/tls in production](/stdlib/crypto-tls), where connection policy, hostname verification, ALPN, and handshake lifetime become explicit.
+7. Read [HTTP/2, ALPN, and Stream Multiplexing](/stdlib/http2-alpn-stream-multiplexing) before treating one connection as equivalent to one request.
+8. Read [net/http server and transport internals](/stdlib/net-http-server-transport), where context, timers, dialing, and TLS meet real request traffic.
+9. Continue with [database/sql pool internals](/stdlib/database-sql-pool), where cancellation, waiting, and resource limits become operating concerns.
+10. Read [io, bufio, and bytes](/stdlib/io-bufio-bytes) and [encoding/json in production](/stdlib/encoding-json) together when you are working at streaming API or log boundaries.
+11. Finish with [process signals and runtime observability](/stdlib/process-signals-and-observability) and [os/exec and subprocess lifecycle](/stdlib/os-exec-and-subprocesses) so package-level design connects to process-level operations.
 
 ## What you should be able to answer afterward
 
@@ -84,6 +94,8 @@ This section focuses on the packages that quietly define how real systems behave
 - Why does `DialContext` not protect later `Read` and `Write` calls on an already-open socket?
 - Why is `netip.Addr` usually a better map key than `net.IP`?
 - Why should TLS handshake time be budgeted separately from the raw TCP dial?
+- Why does custom protocol code need explicit framing even when `bufio` is present?
+- Why can one HTTP/2 connection carry many requests without making budgets optional?
 - Why can `http.Client` reuse collapse if you mishandle response bodies?
 - Why is `sql.DB` a long-lived shared handle instead of a per-request object?
 - Why does `time.Time` carry both wall-clock and monotonic readings?
