@@ -2,9 +2,9 @@
 layout: home
 
 hero:
-  name: Go Concurrency Patterns
-  text: From compiler internals to production-safe concurrency
-  tagline: Learn Go through deep fundamentals, systems internals, tested examples, decision guides, and bilingual English/Korean docs.
+  name: Go Handbook
+  text: From compiler internals to production systems
+  tagline: Learn Go through runtime fundamentals, systems internals, standard library deep dives, tested examples, decision guides, and bilingual English/Korean docs.
   actions:
     - theme: brand
       text: Start With Fundamentals
@@ -57,8 +57,8 @@ features:
 
 <div class="lead-panel">
   <p>
-    This site is built for engineers who want to do more than memorize goroutines and channels.
-    The goal is to understand <strong>why Go concurrency works, when each pattern is the right fit, and how to keep it safe in production</strong>.
+    This site is built for engineers who want to do more than memorize syntax, goroutines, and package names.
+    The goal is to understand <strong>how Go works, how its runtime and libraries shape production systems, and how to use it safely at scale</strong>.
   </p>
 </div>
 

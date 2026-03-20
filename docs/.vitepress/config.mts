@@ -247,8 +247,8 @@ const koSidebar = [
 ] as const;
 
 export default defineConfig({
-  title: "Go Concurrency Patterns",
-  description: "Detailed, practical Go concurrency patterns with tests and Mermaid diagrams.",
+  title: "Go Handbook",
+  description: "Deep, practical Go handbook covering internals, standard library, patterns, testing, and production systems.",
   base: "/golang-handbook/",
   cleanUrls: true,
   lastUpdated: true,
@@ -289,8 +289,8 @@ export default defineConfig({
     root: {
       label: "English",
       lang: "en-US",
-      title: "Go Concurrency Patterns",
-      description: "Detailed, practical Go concurrency patterns with tests and Mermaid diagrams.",
+      title: "Go Handbook",
+      description: "Deep, practical Go handbook covering internals, standard library, patterns, testing, and production systems.",
       themeConfig: {
         nav: [
           { text: "Start", link: "/guide/getting-started" },
@@ -338,8 +338,8 @@ export default defineConfig({
       label: "한국어",
       lang: "ko-KR",
       link: "/ko/",
-      title: "Go Concurrency Patterns",
-      description: "테스트와 Mermaid 다이어그램까지 포함한 실전 Go 동시성 패턴 문서.",
+      title: "Go Handbook",
+      description: "기초 원리, 내부 구조, 표준 라이브러리, 패턴, 테스트, 프로덕션 시스템까지 다루는 실전 Go 핸드북.",
       themeConfig: {
         nav: [
           { text: "시작", link: "/ko/guide/getting-started" },
