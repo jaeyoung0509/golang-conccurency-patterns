@@ -218,6 +218,12 @@ pooling을 버리고 dial churn을 늘려서, 대개 latency와 자원 사용을
 - `Server.Shutdown`과 in-flight request로 graceful shutdown을 검증합니다.
 - reuse, dial timing, connection setup이 궁금하면 `httptrace`를 씁니다.
 - handler CPU가 아니라 connection churn이 의심되면 runtime trace나 socket-level metric을 봅니다.
+- `examples/httptransportlab`은 response body drain 여부에 따라 reuse가 어떻게 달라지는지 집중적으로 검증합니다.
+
+## 네트워킹 트랙 다음 읽을거리
+
+- multiplexed reuse와 ALPN은 [HTTP/2, ALPN, 그리고 Stream Multiplexing](/ko/stdlib/http2-alpn-stream-multiplexing)에서 이어집니다.
+- incident workflow는 [프로덕션에서 Go 네트워크 서비스 디버깅하기](/ko/production/debugging-go-network-services)에서 이어집니다.
 
 ## 공식 자료
 

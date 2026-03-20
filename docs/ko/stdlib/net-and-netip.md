@@ -224,6 +224,11 @@ remote service가 멀쩡해도 resolution이 tail latency를 지배할 수 있�
 - 예제: `examples/dialbudget`
 - 테스트는 unreachable endpoint에서 healthy endpoint로 fallback하는 경로와, connect 후 probe I/O에 별도 deadline이 필요하다는 점을 검증합니다.
 
+## 네트워킹 트랙 다음 읽을거리
+
+- 전체 socket lifecycle은 [Go에서의 TCP, DNS, 그리고 Connection Lifecycle](/ko/fundamentals/tcp-dns-connection-lifecycles)로 이어집니다.
+- custom stream protocol은 [net.Conn과 bufio로 프로토콜 설계하기](/ko/stdlib/protocol-design-net-conn-bufio)에서 이어집니다.
+
 ## 공식 자료
 
 - [`net` 패키지 문서](https://pkg.go.dev/net)

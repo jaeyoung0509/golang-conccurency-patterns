@@ -45,8 +45,16 @@ description: 실전 Go 서비스의 동시성, 수명 관리, I/O, 시간을 결
     <p>dial budget, DNS resolution, deadline, listener, 그리고 왜 새 코드에서 `net.IP`보다 `netip.Addr`가 더 나은 identity type인지 설명합니다.</p>
   </div>
   <div class="path-card">
+    <h3><a href="/ko/stdlib/protocol-design-net-conn-bufio">프로토콜 설계</a></h3>
+    <p>`net.Conn`과 `bufio` 위에서 full read/full write를 가정하지 않고 framed protocol을 만드는 법을 설명합니다.</p>
+  </div>
+  <div class="path-card">
     <h3><a href="/ko/stdlib/crypto-tls">crypto/tls</a></h3>
     <p>handshake budget, ALPN, hostname verification, certificate selection, session resumption을 명시적으로 다루는 법을 설명합니다.</p>
+  </div>
+  <div class="path-card">
+    <h3><a href="/ko/stdlib/http2-alpn-stream-multiplexing">HTTP/2와 ALPN</a></h3>
+    <p>`crypto/tls`, ALPN, `net/http`, stream multiplexing이 connection reuse와 gRPC behavior를 어떻게 바꾸는지 설명합니다.</p>
   </div>
   <div class="path-card">
     <h3><a href="/ko/stdlib/process-signals-and-observability">신호와 관측</a></h3>
@@ -72,11 +80,13 @@ description: 실전 Go 서비스의 동시성, 수명 관리, I/O, 시간을 결
 2. 다음으로 [time, timers, tickers](/ko/stdlib/time-timers-tickers)를 읽습니다. deadline과 retry는 시간 모델이 정확해야 안전합니다.
 3. 그 다음 [sync와 atomic 프리미티브](/ko/stdlib/sync-and-atomic)를 읽고, 특정 상태 경계에 channels, mutex, map, atomic snapshot 중 무엇이 맞는지 판단합니다.
 4. 그 다음 [net과 netip](/ko/stdlib/net-and-netip)를 읽어 connection establish budget과 endpoint representation을 먼저 정리합니다.
-5. 이어서 [프로덕션에서의 crypto/tls](/ko/stdlib/crypto-tls)를 읽습니다. 여기서 verification policy, ALPN, handshake lifetime이 명시적 설계가 됩니다.
-6. 그 다음 [net/http 서버와 transport 내부](/ko/stdlib/net-http-server-transport)를 읽습니다. 여기서 context, timer, dial, TLS가 실제 네트워크 I/O와 만납니다.
-7. 이어서 [database/sql pool 내부](/ko/stdlib/database-sql-pool)를 읽습니다. 여기서는 cancellation, waiting, resource limit이 운영 문제로 드러납니다.
-8. streaming API나 로그 경계를 다룰 때는 [io, bufio, bytes](/ko/stdlib/io-bufio-bytes)와 [프로덕션에서의 encoding/json](/ko/stdlib/encoding-json)을 같이 읽습니다.
-9. 마지막으로 [프로세스 신호와 런타임 관측](/ko/stdlib/process-signals-and-observability), [os/exec와 subprocess lifecycle](/ko/stdlib/os-exec-and-subprocesses)을 읽어 서비스 운영과 프로세스 수명 관리로 연결합니다.
+5. 커스텀 TCP나 streaming boundary가 있다면 [net.Conn과 bufio로 프로토콜 설계하기](/ko/stdlib/protocol-design-net-conn-bufio)를 읽습니다.
+6. 이어서 [프로덕션에서의 crypto/tls](/ko/stdlib/crypto-tls)를 읽습니다. 여기서 verification policy, ALPN, handshake lifetime이 명시적 설계가 됩니다.
+7. 한 connection을 한 request와 동일시하지 않으려면 [HTTP/2, ALPN, 그리고 Stream Multiplexing](/ko/stdlib/http2-alpn-stream-multiplexing)을 읽습니다.
+8. 그 다음 [net/http 서버와 transport 내부](/ko/stdlib/net-http-server-transport)를 읽습니다. 여기서 context, timer, dial, TLS가 실제 네트워크 I/O와 만납니다.
+9. 이어서 [database/sql pool 내부](/ko/stdlib/database-sql-pool)를 읽습니다. 여기서는 cancellation, waiting, resource limit이 운영 문제로 드러납니다.
+10. streaming API나 로그 경계를 다룰 때는 [io, bufio, bytes](/ko/stdlib/io-bufio-bytes)와 [프로덕션에서의 encoding/json](/ko/stdlib/encoding-json)을 같이 읽습니다.
+11. 마지막으로 [프로세스 신호와 런타임 관측](/ko/stdlib/process-signals-and-observability), [os/exec와 subprocess lifecycle](/ko/stdlib/os-exec-and-subprocesses)을 읽어 서비스 운영과 프로세스 수명 관리로 연결합니다.
 
 ## 읽고 나면 답할 수 있어야 하는 질문
 
@@ -84,6 +94,8 @@ description: 실전 Go 서비스의 동시성, 수명 관리, I/O, 시간을 결
 - 왜 `DialContext`는 이미 열린 socket의 이후 `Read`/`Write`를 보호하지 않는가?
 - 왜 `netip.Addr`가 `net.IP`보다 더 나은 map key가 되는 경우가 많은가?
 - 왜 TLS handshake 시간은 raw TCP dial과 별도로 budget을 잡아야 하는가?
+- 왜 `bufio`가 있어도 프로토콜에는 explicit framing이 필요한가?
+- 왜 HTTP/2 connection 하나가 생겼다고 budget이 사라지지는 않는가?
 - 왜 `http.Client`는 response body 처리를 잘못하면 reuse가 무너지는가?
 - 왜 `sql.DB`는 per-request 객체가 아니라 long-lived shared handle인가?
 - 왜 `time.Time`은 wall-clock과 monotonic reading을 같이 들고 있는가?

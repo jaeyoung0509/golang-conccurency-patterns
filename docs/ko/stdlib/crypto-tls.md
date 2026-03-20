@@ -193,6 +193,10 @@ certificate, ALPN, version, cipher, policy에서 handshake는 얼마든지 실�
 - [`crypto/tls` 패키지 문서](https://pkg.go.dev/crypto/tls)
 - [Go security and FIPS docs](https://go.dev/doc/security/fips140)
 
+## 네트워킹 트랙 다음 읽을거리
+
+ALPN과 multiplexed stream이 TLS 위에 어떻게 올라가는지 보려면 [HTTP/2, ALPN, 그리고 Stream Multiplexing](/ko/stdlib/http2-alpn-stream-multiplexing)으로 이어가면 됩니다.
+
 ## Practical takeaway
 
 Go에서 TLS는 대체로 configuration discipline 문제입니다. handshake lifetime과 verification policy를 명시하면 예측 가능하게 동작하고, 그렇지 않으면 그 나름대로 예측 가능하게 불리하게 동작합니다.

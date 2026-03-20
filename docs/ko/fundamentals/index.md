@@ -28,6 +28,10 @@ description: 패턴을 외우기 전에 왜 Go 동시성이 이런 식으로 동
     <p>network readiness, deadline, scheduler wakeup이 어떻게 하나의 체계로 이어지는지 봅니다.</p>
   </div>
   <div class="path-card">
+    <h3><a href="/ko/fundamentals/tcp-dns-connection-lifecycles">TCP, DNS, 그리고 Connection Lifecycle</a></h3>
+    <p>listener, DNS resolution, socket deadline, keepalive, half-close, request budget을 하나의 네트워크 mental model로 연결합니다.</p>
+  </div>
+  <div class="path-card">
     <h3><a href="/ko/fundamentals/channels-memory-model">채널과 메모리 모델</a></h3>
     <p>동기화 보장이 어디서 생기는지 보고, 채널이 단순 coordination이 아니라 correctness 경계가 되는 이유를 설명합니다.</p>
   </div>
@@ -54,15 +58,18 @@ description: 패턴을 외우기 전에 왜 Go 동시성이 이런 식으로 동
 1. 먼저 [런타임 진화](/ko/fundamentals/runtime-evolution)로 릴리스 타임라인을 잡습니다.
 2. [Go 런타임과 스케줄러](/ko/fundamentals/go-runtime-scheduler)를 읽습니다.
 3. [Netpoller, 타이머, 그리고 Syscall](/ko/fundamentals/netpoller-timers-syscalls)로 I/O wakeup 경로를 봅니다.
-4. [Channels, Select, 그리고 Memory Model](/ko/fundamentals/channels-memory-model)로 갑니다.
-5. [채널 내부 동작](/ko/fundamentals/channel-internals), [Mutex와 런타임 세마포어 내부](/ko/fundamentals/mutex-semaphore-internals)로 들어갑니다.
-6. [맵 내부 구조와 Swiss Tables](/ko/fundamentals/map-internals), [가비지 컬렉터와 Green Tea GC](/ko/fundamentals/garbage-collector)로 마무리합니다.
+4. 실제 socket lifecycle은 [Go에서의 TCP, DNS, 그리고 Connection Lifecycle](/ko/fundamentals/tcp-dns-connection-lifecycles)로 이어갑니다.
+5. [Channels, Select, 그리고 Memory Model](/ko/fundamentals/channels-memory-model)로 갑니다.
+6. [채널 내부 동작](/ko/fundamentals/channel-internals), [Mutex와 런타임 세마포어 내부](/ko/fundamentals/mutex-semaphore-internals)로 들어갑니다.
+7. [맵 내부 구조와 Swiss Tables](/ko/fundamentals/map-internals), [가비지 컬렉터와 Green Tea GC](/ko/fundamentals/garbage-collector)로 마무리합니다.
 
 ## 이 섹션을 읽고 답할 수 있어야 하는 질문
 
 - 왜 `GOMAXPROCS`는 CPU 병렬성만 바꾸고 외부 서비스 안전성은 보장하지 않는가?
 - 왜 Go 1.14 async preemption이 fairness를 실제로 바꿨는가?
 - 왜 netpoller가 goroutine-per-connection을 가능하게 만드는가?
+- 왜 DNS resolution도 connection lifetime 일부라고 봐야 하는가?
+- 왜 `DialContext`는 socket이 열린 뒤에는 더 이상 충분하지 않은가?
 - 왜 channel send/receive가 메모리 가시성 경계를 만들 수 있는가?
 - 왜 `select`는 유용하지만 그 자체로 correctness proof는 아닌가?
 - 왜 현대 Go map은 더 빨라졌지만 concurrent mutation에는 여전히 unsafe한가?

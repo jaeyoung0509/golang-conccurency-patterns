@@ -28,6 +28,10 @@ description: Start here if you want to understand why Go concurrency works befor
     <p>Follow how network readiness, deadlines, and scheduler wakeups make direct-style I/O practical.</p>
   </div>
   <div class="path-card">
+    <h3><a href="/fundamentals/tcp-dns-connection-lifecycles">TCP, DNS, and Connection Lifecycles</a></h3>
+    <p>Connect listeners, DNS resolution, socket deadlines, keepalive, half-close, and request budgeting into one usable network mental model.</p>
+  </div>
+  <div class="path-card">
     <h3><a href="/fundamentals/channels-memory-model">Channels and Memory Model</a></h3>
     <p>See where synchronization guarantees come from and how channel communication creates correctness, not just coordination.</p>
   </div>
@@ -54,15 +58,18 @@ description: Start here if you want to understand why Go concurrency works befor
 1. Read [Runtime Evolution](/fundamentals/runtime-evolution) first to get the release-history context.
 2. Continue with [Go Runtime and Scheduler](/fundamentals/go-runtime-scheduler).
 3. Read [Netpoller, Timers, and Syscalls](/fundamentals/netpoller-timers-syscalls).
-4. Move to [Channels, Select, and the Memory Model](/fundamentals/channels-memory-model).
-5. Go deeper with [Channel Internals](/fundamentals/channel-internals) and [Mutex and Runtime Semaphore Internals](/fundamentals/mutex-semaphore-internals).
-6. Finish with [Map Internals and Swiss Tables](/fundamentals/map-internals) and [Garbage Collector and Green Tea GC](/fundamentals/garbage-collector).
+4. Continue with [TCP, DNS, and Connection Lifecycles in Go](/fundamentals/tcp-dns-connection-lifecycles) to connect the runtime model to actual socket ownership.
+5. Move to [Channels, Select, and the Memory Model](/fundamentals/channels-memory-model).
+6. Go deeper with [Channel Internals](/fundamentals/channel-internals) and [Mutex and Runtime Semaphore Internals](/fundamentals/mutex-semaphore-internals).
+7. Finish with [Map Internals and Swiss Tables](/fundamentals/map-internals) and [Garbage Collector and Green Tea GC](/fundamentals/garbage-collector).
 
 ## What you should be able to answer afterward
 
 - Why does `GOMAXPROCS` affect CPU parallelism but not external-service safety?
 - Why did Go 1.14 async preemption materially change fairness under CPU-heavy load?
 - Why does the netpoller make goroutine-per-connection feasible?
+- Why is DNS resolution part of connection lifetime instead of a separate afterthought?
+- Why does `DialContext` stop mattering once the socket is already open?
 - Why can channel send/receive establish visibility guarantees?
 - Why is `select` helpful but not a correctness proof by itself?
 - Why are modern Go maps faster but still unsafe for concurrent mutation?

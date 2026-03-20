@@ -121,6 +121,9 @@ features:
 | When channels are the wrong tool for shared state | [sync and atomic Primitives](/stdlib/sync-and-atomic) |
 | How to budget connection establishment and represent endpoints without `net.IP` footguns | [net and netip](/stdlib/net-and-netip) |
 | How TLS handshake, verification, and ALPN fit into request lifetime | [crypto/tls in Production](/stdlib/crypto-tls) |
+| How TCP, DNS, deadlines, and connection teardown form one socket lifecycle | [TCP, DNS, and Connection Lifecycles in Go](/fundamentals/tcp-dns-connection-lifecycles) |
+| How to design framed socket protocols without short-read or short-write bugs | [Protocol Design with net.Conn and bufio](/stdlib/protocol-design-net-conn-bufio) |
+| How HTTP/2 and ALPN change reuse from sockets to multiplexed streams | [HTTP/2, ALPN, and Stream Multiplexing](/stdlib/http2-alpn-stream-multiplexing) |
 | How Go's HTTP server and client transport really own connections | [net/http Server and Transport](/stdlib/net-http-server-transport) |
 | How to operate `http.Client` and `Transport` with real timeout and reuse policy | [net/http Production Field Guide](/playbooks/net-http-production-field-guide) |
 | How to use gRPC channels without `Dial` and `WithBlock` footguns | [grpc-go Production Playbook](/playbooks/grpc-go-production-playbook) |
@@ -131,6 +134,7 @@ features:
 | How subprocess cancellation, pipes, and `WaitDelay` actually behave | [os/exec and Subprocess Lifecycle](/stdlib/os-exec-and-subprocesses) |
 | How to stream bytes and JSON without hidden buffering mistakes | [io, bufio, and bytes](/stdlib/io-bufio-bytes) |
 | How process shutdown and runtime observability fit into Go services | [Process Signals and Runtime Observability](/stdlib/process-signals-and-observability) |
+| How netpoll, epoll or kqueue, and zero-copy paths meet at the runtime boundary | [Kernel I/O Paths: netpoll, epoll/kqueue, and Zero-Copy](/internals/kernel-io-paths) |
 | Why channels synchronize memory visibility | [Channels, Select, and the Memory Model](/fundamentals/channels-memory-model) |
 | How to cap parallelism across many independent tasks | [Worker Pool](/patterns/worker-pool) |
 | How to model nullable outputs and tri-state inputs across REST, gRPC, and messages | [Optional Values Across API Boundaries](/patterns/optional-values-across-boundaries) |
@@ -141,6 +145,8 @@ features:
 | How to test timeout-heavy code without real sleeps | [Deterministic Tests with synctest](/testing/synctest) |
 | How to keep Postgres, Redis, and container-backed integration tests clean, isolated, and deterministic | [Integration Testing with Testcontainers](/testing/integration-testcontainers) |
 | How Docker, containerd, and Kubernetes divide product UX, runtime lifecycle, and control-plane ownership | [Docker, containerd, and Kubernetes](/production/docker-containerd-kubernetes) |
+| How to debug whether a network incident is DNS, connect, TLS, transport reuse, or the network itself | [Debugging Go Network Services in Production](/production/debugging-go-network-services) |
+| How Services, proxies, readiness, and draining change Go behavior inside Kubernetes | [Kubernetes and Service Networking for Go Engineers](/production/kubernetes-service-networking) |
 | How a durable workflow engine like Temporal becomes a Go system of history, matching, and workers | [Temporal and Durable Execution](/production/temporal-durable-execution) |
 | How to combine event sourcing, erasure, retention, and audit constraints in a real Go system | [Regulated Go Systems](/production/regulated-systems) |
 | Why so many influential infrastructure projects ended up in Go in the first place | [Go Open-Source Histories](/production/go-open-source-histories) |

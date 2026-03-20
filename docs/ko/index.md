@@ -121,6 +121,9 @@ features:
 | channel이 shared state에 맞지 않을 때 무엇을 써야 하는지 | [sync와 atomic 프리미티브](/ko/stdlib/sync-and-atomic) |
 | connection establish budget을 어떻게 잡고 `net.IP` footgun 없이 endpoint를 표현하는지 | [net과 netip](/ko/stdlib/net-and-netip) |
 | TLS handshake, verification, ALPN이 request lifetime과 어떻게 연결되는지 | [프로덕션에서의 crypto/tls](/ko/stdlib/crypto-tls) |
+| TCP, DNS, deadline, connection teardown이 어떻게 하나의 socket lifecycle을 이루는지 | [Go에서의 TCP, DNS, 그리고 Connection Lifecycle](/ko/fundamentals/tcp-dns-connection-lifecycles) |
+| short-read/short-write 버그 없이 framed socket protocol을 어떻게 설계하는지 | [net.Conn과 bufio로 프로토콜 설계하기](/ko/stdlib/protocol-design-net-conn-bufio) |
+| HTTP/2와 ALPN이 reuse를 socket에서 multiplexed stream으로 어떻게 바꾸는지 | [HTTP/2, ALPN, 그리고 Stream Multiplexing](/ko/stdlib/http2-alpn-stream-multiplexing) |
 | Go HTTP 서버와 클라이언트 transport가 connection을 어떻게 소유하는지 | [net/http 서버와 Transport 내부](/ko/stdlib/net-http-server-transport) |
 | `http.Client`와 `Transport`를 실제 timeout/reuse 정책으로 어떻게 운영하는지 | [net/http 실전 필드 가이드](/ko/playbooks/net-http-production-field-guide) |
 | `Dial`과 `WithBlock` 함정 없이 gRPC channel을 어떻게 운영하는지 | [grpc-go 실전 플레이북](/ko/playbooks/grpc-go-production-playbook) |
@@ -131,6 +134,7 @@ features:
 | subprocess cancellation, pipe, `WaitDelay`가 실제로 어떻게 동작하는지 | [os/exec와 subprocess lifecycle](/ko/stdlib/os-exec-and-subprocesses) |
 | byte stream과 JSON을 hidden buffering mistake 없이 다루는 법 | [io, bufio, bytes](/ko/stdlib/io-bufio-bytes) |
 | 프로세스 shutdown과 runtime observability를 Go 서비스에 어떻게 붙이는지 | [프로세스 신호와 런타임 관측](/ko/stdlib/process-signals-and-observability) |
+| netpoll, epoll/kqueue, zero-copy path가 runtime boundary에서 어떻게 만나는지 | [Kernel I/O Paths: netpoll, epoll/kqueue, 그리고 Zero-Copy](/ko/internals/kernel-io-paths) |
 | 채널이 왜 메모리 가시성 경계를 만드는지 | [Channels, Select, 그리고 Memory Model](/ko/fundamentals/channels-memory-model) |
 | 많은 독립 작업의 병렬 수를 어떻게 제한하는지 | [워커 풀](/ko/patterns/worker-pool) |
 | REST, gRPC, 메시지 경계에서 nullable output과 tri-state input을 어떻게 모델링해야 하는지 | [API 경계에서의 Optional 값 패턴](/ko/patterns/optional-values-across-boundaries) |
@@ -141,6 +145,8 @@ features:
 | timeout-heavy 코드를 실제 sleep 없이 어떻게 테스트하는지 | [synctest로 결정적 테스트](/ko/testing/synctest) |
 | Postgres, Redis, container-backed 통합 테스트를 어떻게 깨끗하고 결정적으로 유지하는지 | [Testcontainers로 통합 테스트하기](/ko/testing/integration-testcontainers) |
 | Docker, containerd, Kubernetes가 product UX, runtime lifecycle, control-plane ownership를 어떻게 나눠 갖는지 | [Docker, containerd, 그리고 Kubernetes](/ko/production/docker-containerd-kubernetes) |
+| 네트워크 incident가 DNS, connect, TLS, transport reuse, network 중 어디서 발생했는지 어떻게 증명하는지 | [프로덕션에서 Go 네트워크 서비스 디버깅하기](/ko/production/debugging-go-network-services) |
+| Service, proxy, readiness, draining이 Kubernetes 안에서 Go behavior를 어떻게 바꾸는지 | [Go 엔지니어를 위한 Kubernetes 서비스 네트워킹](/ko/production/kubernetes-service-networking) |
 | Temporal 같은 durable workflow 엔진이 history, matching, worker를 가진 Go 시스템으로 어떻게 구성되는지 | [Temporal과 Durable Execution](/ko/production/temporal-durable-execution) |
 | event sourcing, erasure, retention, audit 제약을 실제 Go 시스템에서 어떻게 함께 풀어야 하는지 | [규제 환경의 Go 시스템](/ko/production/regulated-systems) |
 | 왜 중요한 인프라 오픈소스들이 하필 Go를 많이 택했는지 | [Go 오픈소스 역사 읽기](/ko/production/go-open-source-histories) |
