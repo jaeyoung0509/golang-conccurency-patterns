@@ -1,6 +1,6 @@
-# Go Concurrency Patterns
+# Go Handbook
 
-Expert-level Go concurrency fundamentals, standard library deep dives, practical patterns, testing guidance, and bilingual English/Korean documentation built with VitePress.
+Expert-level Go fundamentals, runtime and compiler internals, standard library deep dives, practical patterns, testing guidance, production systems, and bilingual English/Korean documentation built with VitePress.
 
 ## Where to view it
 

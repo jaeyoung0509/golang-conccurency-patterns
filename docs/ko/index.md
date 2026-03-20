@@ -2,9 +2,9 @@
 layout: home
 
 hero:
-  name: Go Concurrency Patterns
-  text: 컴파일러 내부부터 실전 동시성 패턴까지
-  tagline: Go를 기초 원리, 시스템 내부 구조, 테스트된 예제, 패턴 선택 가이드, 영문/국문 동시 문서로 깊게 학습합니다.
+  name: Go Handbook
+  text: 컴파일러 내부부터 프로덕션 시스템까지
+  tagline: Go를 기초 원리, 시스템 내부 구조, 표준 라이브러리, 실전 패턴, 운영 가이드, 영문/국문 동시 문서로 깊게 학습합니다.
   actions:
     - theme: brand
       text: 기초 원리부터 시작
@@ -57,8 +57,8 @@ features:
 
 <div class="lead-panel">
   <p>
-    이 사이트는 goroutine과 channel 문법을 외우는 곳이 아니라,
-    <strong>왜 이런 패턴이 가능한지, 언제 어떤 패턴을 써야 하는지, 운영에서 어떻게 안전하게 유지할지</strong>를 배우는 곳입니다.
+    이 사이트는 Go 문법이나 goroutine/channel만 외우는 곳이 아니라,
+    <strong>Go가 왜 이런 식으로 동작하는지, 런타임과 표준 라이브러리가 실제 시스템을 어떻게 만들게 하는지, 운영에서 어떻게 안전하게 쓰는지</strong>를 배우는 곳입니다.
   </p>
 </div>
 
