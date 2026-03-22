@@ -6,6 +6,7 @@ const enSidebar = [
     items: [
       { text: "Getting Started", link: "/guide/getting-started" },
       { text: "How to Read the Examples", link: "/guide/how-to-read" },
+      { text: "Clean Go Service Basics", link: "/guide/clean-go-service-basics" },
     ],
   },
   {
@@ -135,6 +136,7 @@ const koSidebar = [
     items: [
       { text: "시작하기", link: "/ko/guide/getting-started" },
       { text: "예제 읽는 법", link: "/ko/guide/how-to-read" },
+      { text: "깔끔한 Go 서비스 기본기", link: "/ko/guide/clean-go-service-basics" },
     ],
   },
   {

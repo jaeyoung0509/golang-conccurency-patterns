@@ -33,6 +33,7 @@ That split matters because the site explains the patterns, but the Go packages p
 │   └── ko/
 ├── examples/
 │   ├── actor/
+│   ├── cleanservice/
 │   ├── contexttimeout/
 │   ├── errgroupbatch/
 │   ├── fanoutfanin/
@@ -66,10 +67,11 @@ Use the commands above before pushing changes. The first validates the static si
 ## Fast path for first-time readers
 
 1. Read [Fundamentals Overview](/fundamentals/).
-2. Move through [Patterns Overview](/patterns/) with the matching package under `examples/`.
-3. Read [Testing Overview](/testing/) before trusting any timeout or shutdown path.
-4. Read [Production Overview](/production/) once you care about operating rules and large-scale system tradeoffs.
-5. Only then move into [Advanced Overview](/advanced/) and [Extras Overview](/extras/).
+2. If you are preparing for interviews or basic backend service design, read [Clean Go Service Basics](/guide/clean-go-service-basics).
+3. Move through [Patterns Overview](/patterns/) with the matching package under `examples/`.
+4. Read [Testing Overview](/testing/) before trusting any timeout or shutdown path.
+5. Read [Production Overview](/production/) once you care about operating rules and large-scale system tradeoffs.
+6. Only then move into [Advanced Overview](/advanced/) and [Extras Overview](/extras/).
 
 ## What is inside each example
 
