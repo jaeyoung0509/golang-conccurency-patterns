@@ -5,25 +5,29 @@ description: Interview-friendly Go backend best practices for DTOs, service boun
 
 # Clean Go Service Basics
 
-If you are coming from FastAPI, Spring, or NestJS, the cleanest Go backend style is not “find the closest big framework and copy its magic.”
+If you are coming from FastAPI, Spring, or NestJS, the cleanest Go backend style is usually not “find a huge framework and hide everything.”
 
-The cleanest style is usually:
+The cleaner default is:
 
 - explicit wiring,
+- DTOs only at the edge,
+- thin handlers,
+- plain services,
 - small interfaces near their consumer,
-- DTOs only at the transport edge,
-- plain services with ordinary Go types,
-- graceful shutdown as part of the main program, not an afterthought.
+- graceful shutdown in the app boundary,
+- channels with obvious ownership.
 
 :::tip Quick takeaway
 For interviews, a strong default answer is: `handler -> service -> store`, DTOs at the edge, `context.Context` through the call chain, one owner per channel, and `http.Server.Shutdown` for graceful exit.
 :::
 
-## Mental model
+If you want a concrete version of this shape, see [`examples/cleanservice`](https://github.com/jaeyoung0509/golang-handbook/tree/develop/examples/cleanservice).
+
+## The default shape to memorize
 
 ```mermaid
 flowchart LR
-    A["HTTP request DTO"] --> B["handler"]
+    A["request DTO"] --> B["handler"]
     B --> C["service"]
     C --> D["store interface"]
     C --> E["send-only audit channel"]
@@ -31,17 +35,26 @@ flowchart LR
     C --> G["response DTO"]
 ```
 
-If you want a concrete version of this shape, see [`examples/cleanservice`](https://github.com/jaeyoung0509/golang-handbook/tree/develop/examples/cleanservice).
+If an interviewer asks, “How would you structure a Go API?”, this is already a good start.
 
 ## 1. Keep DTOs at the transport edge
 
-One of the most common design mistakes is passing HTTP or JSON-shaped structs through the entire application.
+Bad default:
 
-Cleaner boundary:
+```go
+type Payment struct {
+	PartnerID string `json:"partner_id"`
+	Amount    int    `json:"amount"`
+	Currency  string `json:"currency"`
+}
 
-- request DTO in the handler,
-- domain or service input inside the service,
-- response DTO back at the edge.
+func (s Service) CreatePayment(ctx context.Context, payment Payment) error {
+	// now JSON concerns leaked into the service
+	return nil
+}
+```
+
+Better:
 
 ```go
 type CreatePaymentRequest struct {
@@ -57,17 +70,47 @@ type Payment struct {
 	Currency  string
 	CreatedAt time.Time
 }
+
+type PaymentResponse struct {
+	ID        string `json:"id"`
+	PartnerID string `json:"partner_id"`
+	Amount    int    `json:"amount"`
+	Currency  string `json:"currency"`
+	CreatedAt string `json:"created_at"`
+}
 ```
 
-Why this is better:
+The handler owns `CreatePaymentRequest` and `PaymentResponse`.
 
-- transport concerns stay at the edge,
-- service code stops depending on JSON tags,
-- tests get simpler because they use plain types.
+The service owns `Payment`.
 
-## 2. Place interfaces near the consumer
+That separation keeps transport concerns from infecting the rest of the program.
 
-In Go, you usually define the interface where it is consumed, not where it is implemented.
+## 2. Map DTOs explicitly
+
+Do not be embarrassed by small mapping functions. They are one of the cleanest parts of Go service code.
+
+```go
+func toPaymentResponse(payment Payment) PaymentResponse {
+	return PaymentResponse{
+		ID:        payment.ID,
+		PartnerID: payment.PartnerID,
+		Amount:    payment.Amount,
+		Currency:  payment.Currency,
+		CreatedAt: payment.CreatedAt.Format(time.RFC3339),
+	}
+}
+```
+
+That is clearer than:
+
+- passing DB models directly to JSON,
+- leaking persistence fields into responses,
+- or hiding everything behind reflection magic.
+
+## 3. Place interfaces near the consumer
+
+In Go, interfaces usually belong to the package that consumes the dependency shape.
 
 ```go
 type PaymentStore interface {
@@ -79,54 +122,122 @@ type Service struct {
 }
 ```
 
-This is more idiomatic than creating a giant shared `repository` package full of speculative interfaces.
+This is cleaner than a giant shared `repository` package full of speculative interfaces.
 
-Interview answer worth remembering:
+Good interview sentence:
 
-“In Go, small interfaces usually belong to the consumer package because the consumer owns the dependency shape.”
+“In Go, I define small interfaces close to the consumer because the consumer owns the dependency contract.”
 
-## 3. Pass `context.Context` through the call chain
+## 4. Pass `context.Context` through the whole request path
 
 The clean default is:
 
-- request handler gets `r.Context()`,
-- service accepts `ctx` as its first parameter,
+- handler uses `r.Context()`,
+- service accepts `ctx` as the first parameter,
 - store and outbound calls receive that same context.
 
 ```go
+func (h Handler) createPayment(w http.ResponseWriter, r *http.Request) {
+	resp, err := h.service.CreatePayment(r.Context(), req)
+	_ = resp
+	_ = err
+}
+
 func (s Service) CreatePayment(ctx context.Context, req CreatePaymentRequest) (PaymentResponse, error) {
-	// validation
-	// store.Save(ctx, ...)
-	// outbound calls with ctx
+	if err := s.store.Save(ctx, payment); err != nil {
+		return PaymentResponse{}, err
+	}
+	return toPaymentResponse(payment), nil
 }
 ```
 
-Do not hide request lifetime behind globals or `context.Background()` in request-scoped code.
-
-## 4. Use channel direction to show ownership
-
-Channel direction is small, but it makes APIs easier to reason about.
+Avoid this in request-scoped code:
 
 ```go
-type Service struct {
-	audit chan<- AuditEvent
+func (s Service) CreatePayment(_ context.Context, req CreatePaymentRequest) error {
+	return s.store.Save(context.Background(), payment) // bad
+}
+```
+
+That throws away the caller's timeout and cancellation.
+
+## 5. Channel direction cheat sheet
+
+This is where many people stay confused longer than they should.
+
+### The three forms
+
+| Type | Meaning | What this side can do |
+| --- | --- | --- |
+| `chan T` | bidirectional | send and receive |
+| `chan<- T` | send-only | send only |
+| `<-chan T` | receive-only | receive only |
+
+### The easy memory trick
+
+- `chan<- T`: you push `T` values into it
+- `<-chan T`: you pull `T` values out of it
+
+### Minimal examples
+
+```go
+func producer(out chan<- int) {
+	out <- 1
 }
 
-func drainAudit(events <-chan AuditEvent, sink AuditSink) {
+func consumer(in <-chan int) int {
+	return <-in
+}
+
+func pipe() <-chan int {
+	out := make(chan int, 1)
+	out <- 42
+	close(out)
+	return out
+}
+```
+
+### Why this is useful
+
+Bad:
+
+```go
+func drainAudit(events chan AuditEvent) {
 	for event := range events {
-		_ = sink.Write(context.Background(), event)
+		_ = event
 	}
 }
 ```
 
-This communicates intent immediately:
+The reader cannot tell whether `drainAudit` is allowed to send, receive, or close.
 
-- the service may only send,
-- the worker may only receive.
+Better:
 
-That is much cleaner than passing `chan AuditEvent` everywhere and hoping ownership remains obvious.
+```go
+func drainAudit(events <-chan AuditEvent) {
+	for event := range events {
+		_ = event
+	}
+}
+```
 
-## 5. Keep handlers thin
+Now the API itself says:
+
+- this function only reads,
+- it should not write,
+- it should not own the sending side.
+
+### Practical rule
+
+Use channel direction in:
+
+- function parameters,
+- struct fields that express ownership,
+- return types for producer-style APIs.
+
+You do not need to force it onto every local variable.
+
+## 6. Keep handlers thin
 
 HTTP handlers should mostly do four things:
 
@@ -135,15 +246,96 @@ HTTP handlers should mostly do four things:
 3. map service errors to HTTP status,
 4. encode the response DTO.
 
-That is enough.
+Good shape:
 
-If the handler also performs business branching, persistence logic, retries, and background coordination, the boundary is already too wide.
+```go
+func (h Handler) createPayment(w http.ResponseWriter, r *http.Request) {
+	defer r.Body.Close()
 
-## 6. Graceful shutdown belongs in the app boundary
+	var req CreatePaymentRequest
+	decoder := json.NewDecoder(r.Body)
+	decoder.DisallowUnknownFields()
+	if err := decoder.Decode(&req); err != nil {
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": "invalid request body"})
+		return
+	}
 
-Graceful shutdown is usually not the service layer's job. It is the application's job.
+	resp, err := h.service.CreatePayment(r.Context(), req)
+	if err != nil {
+		writeServiceError(w, err)
+		return
+	}
 
-The clean shape is:
+	writeJSON(w, http.StatusCreated, resp)
+}
+```
+
+Bad shape:
+
+```go
+func createPayment(w http.ResponseWriter, r *http.Request) {
+	// decode JSON
+	// validate business rules
+	// build SQL
+	// call external API
+	// enqueue audit event
+	// map status codes
+}
+```
+
+That boundary is too wide.
+
+## 7. Validate early, map errors at the edge
+
+The service should return ordinary Go errors.
+
+The handler should translate them into protocol behavior.
+
+```go
+var ErrPartnerIDRequired = errors.New("partner_id is required")
+
+func writeServiceError(w http.ResponseWriter, err error) {
+	switch {
+	case errors.Is(err, ErrPartnerIDRequired):
+		writeJSON(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
+	default:
+		writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal server error"})
+	}
+}
+```
+
+This gives you:
+
+- readable service logic,
+- clear HTTP mapping,
+- less hidden framework behavior.
+
+## 8. Prefer explicit construction over framework magic
+
+Go services stay cleaner when dependencies are visible.
+
+```go
+app := NewApp(":8080", Dependencies{
+	Store:     store,
+	IDs:       ids,
+	AuditSink: auditSink,
+	Now:       time.Now,
+})
+```
+
+That is boring, and boring is good here.
+
+The reader can see:
+
+- what the app depends on,
+- what is injectable in tests,
+- where the wiring happens.
+
+## 9. Graceful shutdown belongs in the app boundary
+
+Graceful shutdown is usually not the service layer's job.
+
+It is the application's job:
 
 ```go
 ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
@@ -159,73 +351,115 @@ go func() {
 }()
 ```
 
-In the [`examples/cleanservice`](https://github.com/jaeyoung0509/golang-handbook/tree/develop/examples/cleanservice) package, shutdown also drains an audit worker after the HTTP server stops accepting new work.
-
-Read [Graceful Shutdown](/patterns/graceful-shutdown) next if you want the deeper concurrency version.
-
-## 7. Validate early, map errors at the edge
-
-Good Go service code usually validates near the boundary and returns ordinary errors upward.
+If you also own background workers, drain them after the server stops admitting new work:
 
 ```go
-var ErrPartnerIDRequired = errors.New("partner_id is required")
+func (a *App) Shutdown(ctx context.Context) error {
+	if err := a.server.Shutdown(ctx); err != nil {
+		return err
+	}
 
-switch {
-case errors.Is(err, ErrPartnerIDRequired):
-	writeJSON(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
-default:
-	writeJSON(w, http.StatusInternalServerError, map[string]string{"error": "internal server error"})
+	close(a.auditCh)
+	a.auditWg.Wait()
+	return nil
 }
 ```
 
-That gives you:
+Read [Graceful Shutdown](/patterns/graceful-shutdown) next if you want the deeper concurrency treatment.
 
-- readable business errors in the service,
-- clean protocol mapping in the handler,
-- less framework-style hidden behavior.
+## 10. Suggested package shape
 
-## 8. Prefer explicit construction over framework magic
-
-Go services stay clean when dependencies are visible:
-
-```go
-app := NewApp(":8080", Dependencies{
-	Store:     store,
-	IDs:       ids,
-	AuditSink: auditSink,
-	Now:       time.Now,
-})
-```
-
-This is one reason Go services often feel “lighter” than framework-heavy systems. Construction is boring and obvious, which is usually a feature.
-
-## Suggested package shape
-
-For a modest API service, a simple shape is enough:
+For a modest API service, this is already enough:
 
 ```text
 internal/
   payments/
-    service.go
-    handler.go
     dto.go
+    handler.go
+    service.go
     store.go
 cmd/api/
   main.go
 ```
 
-You do not need a huge hexagonal folder tree on day one.
+You do not need a giant folder taxonomy on day one.
 
 You need:
 
 - a clear edge,
 - a clear service boundary,
-- explicit dependency wiring,
+- explicit wiring,
 - tests that prove the important behavior.
 
-## Interview checklist
+## 11. Common basic mistakes
 
-If someone asks how you structure a Go backend service, a strong answer is:
+### Mistake: using `context.Background()` in request work
+
+```go
+func (s Service) CreatePayment(ctx context.Context, req CreatePaymentRequest) error {
+	return s.store.Save(context.Background(), payment) // bad
+}
+```
+
+Better:
+
+```go
+func (s Service) CreatePayment(ctx context.Context, req CreatePaymentRequest) error {
+	return s.store.Save(ctx, payment)
+}
+```
+
+### Mistake: giant bidirectional channels everywhere
+
+```go
+func startAudit(ch chan AuditEvent) { ... } // vague ownership
+```
+
+Better:
+
+```go
+func startAudit(in <-chan AuditEvent) { ... }
+func emitAudit(out chan<- AuditEvent, event AuditEvent) { out <- event }
+```
+
+### Mistake: DTOs leaking into business code
+
+```go
+func (s Service) CreatePayment(ctx context.Context, req http.Request) error { ... }
+```
+
+Better:
+
+```go
+func (s Service) CreatePayment(ctx context.Context, req CreatePaymentRequest) (PaymentResponse, error) { ... }
+```
+
+### Mistake: hidden globals for time and IDs
+
+```go
+func CreatePayment(...) Payment {
+	return Payment{ID: uuid.NewString(), CreatedAt: time.Now()}
+}
+```
+
+Better:
+
+```go
+type IDGenerator interface {
+	Next() string
+}
+
+type Service struct {
+	ids IDGenerator
+	now func() time.Time
+}
+```
+
+This is much easier to test.
+
+## 12. Interview checklist
+
+If someone asks how you would structure a Go backend service, a strong answer is:
 
 - DTOs live at the HTTP or message boundary.
 - Business logic lives in a service layer with plain Go types.
@@ -233,10 +467,11 @@ If someone asks how you structure a Go backend service, a strong answer is:
 - `context.Context` is passed through every request-scoped dependency.
 - Channels use direction when ownership matters.
 - Graceful shutdown uses `http.Server.Shutdown` with a deadline.
-- Errors are wrapped in the service and mapped to protocol status at the edge.
+- Errors are returned from the service and mapped to protocol status at the edge.
+- Constructors wire dependencies explicitly instead of hiding them in global state.
 
 ## Practical takeaway
 
 You do not need a Go equivalent of FastAPI magic to make a service feel clean.
 
-You need sharper boundaries, smaller interfaces, and explicit lifecycle ownership.
+You need sharper boundaries, smaller interfaces, explicit lifecycle ownership, and enough small code snippets that the design stays obvious under pressure.
