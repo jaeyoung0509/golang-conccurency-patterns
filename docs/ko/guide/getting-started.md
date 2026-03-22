@@ -33,6 +33,7 @@ description: VitePress 기반 Go 동시성 문서 저장소의 구조와 실행 
 │   └── ko/
 ├── examples/
 │   ├── actor/
+│   ├── cleanservice/
 │   ├── contexttimeout/
 │   ├── errgroupbatch/
 │   ├── fanoutfanin/
@@ -67,10 +68,11 @@ go test ./...
 ## 처음 읽는 사람을 위한 빠른 경로
 
 1. [기초 원리 개요](/ko/fundamentals/)부터 읽습니다.
-2. [패턴 개요](/ko/patterns/)와 `examples/` 대응 패키지를 같이 읽습니다.
-3. timeout과 shutdown 경로를 믿기 전에 [테스트 개요](/ko/testing/)를 읽습니다.
-4. 운영 규칙과 대규모 시스템 tradeoff가 중요해지면 [프로덕션 개요](/ko/production/)를 읽습니다.
-5. 그 다음에 [고급 주제 개요](/ko/advanced/), [비교 / 확장 개요](/ko/extras/)로 넘어갑니다.
+2. 인터뷰나 기본 백엔드 서비스 설계가 급하면 [깔끔한 Go 서비스 기본기](/ko/guide/clean-go-service-basics)를 먼저 읽습니다.
+3. [패턴 개요](/ko/patterns/)와 `examples/` 대응 패키지를 같이 읽습니다.
+4. timeout과 shutdown 경로를 믿기 전에 [테스트 개요](/ko/testing/)를 읽습니다.
+5. 운영 규칙과 대규모 시스템 tradeoff가 중요해지면 [프로덕션 개요](/ko/production/)를 읽습니다.
+6. 그 다음에 [고급 주제 개요](/ko/advanced/), [비교 / 확장 개요](/ko/extras/)로 넘어갑니다.
 
 ## 예제 패키지 구성 원칙
 
