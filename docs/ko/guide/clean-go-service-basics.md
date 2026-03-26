@@ -23,6 +23,8 @@ FastAPI, Spring, NestJS 쪽에 익숙하다면 Go에서도 “큰 프레임워�
 
 이 구조의 실제 예시는 [`examples/cleanservice`](https://github.com/jaeyoung0509/golang-handbook/tree/develop/examples/cleanservice)에서 볼 수 있습니다.
 
+그 다음 질문이 “한 use case 안에서 여러 다운스트림을 병렬로 불러야 하면 어떻게 하지?”라면 [애플리케이션 레이어 병렬 호출](/ko/guide/application-layer-parallelism)로 이어서 읽으면 됩니다.
+
 ## 먼저 외울 기본 구조
 
 ```mermaid

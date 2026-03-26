@@ -32,6 +32,7 @@ That split matters because the site explains the patterns, but the Go packages p
 │   ├── extras/
 │   └── ko/
 ├── examples/
+│   ├── appparallel/
 │   ├── actor/
 │   ├── cleanservice/
 │   ├── contexttimeout/
@@ -68,10 +69,11 @@ Use the commands above before pushing changes. The first validates the static si
 
 1. Read [Fundamentals Overview](/fundamentals/).
 2. If you are preparing for interviews or basic backend service design, read [Clean Go Service Basics](/guide/clean-go-service-basics).
-3. Move through [Patterns Overview](/patterns/) with the matching package under `examples/`.
-4. Read [Testing Overview](/testing/) before trusting any timeout or shutdown path.
-5. Read [Production Overview](/production/) once you care about operating rules and large-scale system tradeoffs.
-6. Only then move into [Advanced Overview](/advanced/) and [Extras Overview](/extras/).
+3. If one use case needs several downstream calls in parallel, continue with [Application-Layer Parallelism](/guide/application-layer-parallelism).
+4. Move through [Patterns Overview](/patterns/) with the matching package under `examples/`.
+5. Read [Testing Overview](/testing/) before trusting any timeout or shutdown path.
+6. Read [Production Overview](/production/) once you care about operating rules and large-scale system tradeoffs.
+7. Only then move into [Advanced Overview](/advanced/) and [Extras Overview](/extras/).
 
 ## What is inside each example
 
