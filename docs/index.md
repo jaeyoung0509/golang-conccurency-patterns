@@ -116,6 +116,7 @@ features:
 | --- | --- |
 | Why goroutines are cheap and how the scheduler actually runs them | [Go Runtime and Scheduler](/fundamentals/go-runtime-scheduler) |
 | How to structure a clean Go API service for interviews and day-to-day backend work | [Clean Go Service Basics](/guide/clean-go-service-basics) |
+| How to parallelize several downstream calls in one use case without turning service code into goroutine soup | [Application-Layer Parallelism](/guide/application-layer-parallelism) |
 | Why a local value still ends up on the heap | [Compiler and Toolchain](/internals/compiler-and-toolchain) |
 | Why one allocation pattern hurts GC more than another | [Allocator and Hybrid Write Barrier](/internals/allocator-and-write-barrier) |
 | How request-scoped cancellation actually propagates | [context Package Internals](/stdlib/context-internals) |

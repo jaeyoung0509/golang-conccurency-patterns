@@ -116,6 +116,7 @@ features:
 | --- | --- |
 | 고루틴이 왜 싸고, 스케줄러가 실제로 뭘 하는지 | [Go 런타임과 스케줄러](/ko/fundamentals/go-runtime-scheduler) |
 | 인터뷰와 실무에서 깔끔한 Go API 서비스를 어떻게 구조화하는지 | [깔끔한 Go 서비스 기본기](/ko/guide/clean-go-service-basics) |
+| 하나의 use case 안에서 여러 다운스트림 호출을 goroutine soup 없이 병렬화하는 법 | [애플리케이션 레이어 병렬 호출](/ko/guide/application-layer-parallelism) |
 | 지역 값이 왜 여전히 힙으로 가는지 | [컴파일러와 툴체인](/ko/internals/compiler-and-toolchain) |
 | 어떤 allocation 패턴이 왜 GC를 더 힘들게 하는지 | [할당기와 하이브리드 write barrier](/ko/internals/allocator-and-write-barrier) |
 | request-scoped cancellation이 실제로 어떻게 전파되는지 | [context 패키지 내부](/ko/stdlib/context-internals) |

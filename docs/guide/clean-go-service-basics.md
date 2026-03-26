@@ -23,6 +23,8 @@ For interviews, a strong default answer is: `handler -> service -> store`, DTOs 
 
 If you want a concrete version of this shape, see [`examples/cleanservice`](https://github.com/jaeyoung0509/golang-handbook/tree/develop/examples/cleanservice).
 
+If the next question is “what happens when one use case has to call several downstreams in parallel?”, continue with [Application-Layer Parallelism](/guide/application-layer-parallelism).
+
 ## The default shape to memorize
 
 ```mermaid

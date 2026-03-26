@@ -7,6 +7,7 @@ const enSidebar = [
       { text: "Getting Started", link: "/guide/getting-started" },
       { text: "How to Read the Examples", link: "/guide/how-to-read" },
       { text: "Clean Go Service Basics", link: "/guide/clean-go-service-basics" },
+      { text: "Application-Layer Parallelism", link: "/guide/application-layer-parallelism" },
     ],
   },
   {
@@ -137,6 +138,7 @@ const koSidebar = [
       { text: "시작하기", link: "/ko/guide/getting-started" },
       { text: "예제 읽는 법", link: "/ko/guide/how-to-read" },
       { text: "깔끔한 Go 서비스 기본기", link: "/ko/guide/clean-go-service-basics" },
+      { text: "애플리케이션 레이어 병렬 호출", link: "/ko/guide/application-layer-parallelism" },
     ],
   },
   {
