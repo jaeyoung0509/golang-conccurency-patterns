@@ -130,3 +130,17 @@ If you skip this pattern, the problems are predictable:
 - dropped in-flight work,
 - hanging deploys,
 - ambiguous failure states.
+
+## Full runnable example
+
+The blocks below render the exact files from `examples/gracefulshutdown`.
+
+::: code-group
+```go [gracefulshutdown.go]
+<<< ../../examples/gracefulshutdown/gracefulshutdown.go
+```
+
+```go [gracefulshutdown_test.go]
+<<< ../../examples/gracefulshutdown/gracefulshutdown_test.go
+```
+:::

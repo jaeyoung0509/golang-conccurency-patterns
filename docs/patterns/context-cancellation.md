@@ -115,3 +115,17 @@ If child goroutines have no buffered send path, no select on `ctx.Done()`, and n
 Use this pattern whenever multiple goroutines belong to the lifetime of one request, job, or CLI command.
 
 It is the safety net that keeps the rest of your concurrency patterns from leaking work.
+
+## Full runnable example
+
+The blocks below render the exact files from `examples/contexttimeout`.
+
+::: code-group
+```go [contexttimeout.go]
+<<< ../../examples/contexttimeout/contexttimeout.go
+```
+
+```go [contexttimeout_test.go]
+<<< ../../examples/contexttimeout/contexttimeout_test.go
+```
+:::

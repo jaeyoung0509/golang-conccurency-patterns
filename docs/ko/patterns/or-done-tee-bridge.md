@@ -100,3 +100,17 @@ func forward(in <-chan Item, out chan<- Item) {
 ## Practical takeaway
 
 이건 "작지만 고급인 패턴"입니다. 전체 아키텍처를 지배하진 않지만, channel-heavy 코드의 가장 까다로운 모서리를 정리하는 데 자주 쓰입니다.
+
+## 전체 실행 예제
+
+아래 블록은 `examples/ordoneteebridge`의 실제 파일을 그대로 렌더링합니다.
+
+::: code-group
+```go [ordoneteebridge.go]
+<<< ../../../examples/ordoneteebridge/ordoneteebridge.go
+```
+
+```go [ordoneteebridge_test.go]
+<<< ../../../examples/ordoneteebridge/ordoneteebridge_test.go
+```
+:::

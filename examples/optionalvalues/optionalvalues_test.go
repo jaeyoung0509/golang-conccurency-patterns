@@ -69,6 +69,7 @@ func TestFieldDistinguishesAbsentNullAndValue(t *testing.T) {
 	if !req.ExternalRef.Set || req.ExternalRef.Valid {
 		t.Fatalf("external_ref should be explicit null: %+v", req.ExternalRef)
 	}
+	// Unmentioned fields must stay absent so PATCH can distinguish "leave it alone".
 	if req.SettlementDelayDays.Set {
 		t.Fatalf("settlement_delay_days should remain absent: %+v", req.SettlementDelayDays)
 	}

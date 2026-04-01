@@ -114,3 +114,17 @@ one-shot request/reply라면 size-1 buffered reply channel이나 caller cancella
 per-call ownership이 분명한 brokered request/reply가 필요할 때 쓰면 좋습니다.
 
 bulk parallel work를 처리하려면 [워커 풀](/ko/patterns/worker-pool), mutable state ownership이 핵심이면 [액터 패턴](/ko/advanced/actor-pattern)과 비교해 보세요.
+
+## 전체 실행 예제
+
+아래 블록은 `examples/requestreply`의 실제 파일을 그대로 렌더링합니다.
+
+::: code-group
+```go [requestreply.go]
+<<< ../../../examples/requestreply/requestreply.go
+```
+
+```go [requestreply_test.go]
+<<< ../../../examples/requestreply/requestreply_test.go
+```
+:::

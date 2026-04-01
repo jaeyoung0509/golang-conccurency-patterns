@@ -146,3 +146,17 @@ worker가 shared context나 shutdown signal을 보지 않으면, caller가 이�
 핵심 목표가 "병렬 수 제한"이라면 워커 풀이 맞습니다.
 
 여러 단계가 서로 다른 책임을 가져야 한다면 [파이프라인](/ko/patterns/pipeline)으로 가는 편이 낫습니다.
+
+## 전체 실행 예제
+
+아래 블록은 `examples/workerpool`의 실제 파일을 그대로 렌더링합니다.
+
+::: code-group
+```go [workerpool.go]
+<<< ../../../examples/workerpool/workerpool.go
+```
+
+```go [workerpool_test.go]
+<<< ../../../examples/workerpool/workerpool_test.go
+```
+:::

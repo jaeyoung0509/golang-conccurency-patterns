@@ -49,7 +49,9 @@ func RunAlertPipeline(ctx context.Context, events []CheckoutEvent, workers int, 
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
 
+	// Stage 1 owns event emission from the input slice.
 	in := source(ctx, events)
+	// Stage 2 fans scoring work out across a bounded worker set.
 	out := parallelScore(ctx, workers, in, scorer)
 
 	alerts := make([]Alert, 0, len(events))
@@ -57,6 +59,7 @@ func RunAlertPipeline(ctx context.Context, events []CheckoutEvent, workers int, 
 
 	for result := range out {
 		if result.err != nil && firstErr == nil {
+			// The sink stage decides that one scorer failure aborts the pipeline.
 			firstErr = fmt.Errorf("score checkout %s: %w", result.checkoutID, result.err)
 			cancel()
 			continue
@@ -109,6 +112,8 @@ func source(ctx context.Context, events []CheckoutEvent) <-chan CheckoutEvent {
 }
 
 func parallelScore(ctx context.Context, workers int, in <-chan CheckoutEvent, scorer RiskScorer) <-chan scoreResult {
+	// Buffering by worker count prevents the fan-in side from becoming an
+	// accidental bottleneck when several scorers complete at once.
 	out := make(chan scoreResult, workers)
 
 	var workersWG sync.WaitGroup

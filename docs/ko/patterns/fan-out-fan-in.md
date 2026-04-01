@@ -124,3 +124,17 @@ if item.err != nil {
 ### worker가 shared results 채널을 닫아버리는 경우
 
 shared channel의 close 조건은 보통 aggregator가 소유해야 합니다. 여러 worker가 같은 채널을 닫을 수 있는 구조면 이미 위험합니다.
+
+## 전체 실행 예제
+
+아래 블록은 `examples/fanoutfanin`의 실제 파일을 그대로 렌더링합니다.
+
+::: code-group
+```go [fanoutfanin.go]
+<<< ../../../examples/fanoutfanin/fanoutfanin.go
+```
+
+```go [fanoutfanin_test.go]
+<<< ../../../examples/fanoutfanin/fanoutfanin_test.go
+```
+:::

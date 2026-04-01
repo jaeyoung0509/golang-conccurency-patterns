@@ -21,6 +21,7 @@ func Opt[T any](v T) Optional[T] {
 
 func (o Optional[T]) MarshalJSON() ([]byte, error) {
 	if !o.Valid {
+		// Response DTOs keep the field but make absence explicit with JSON null.
 		return []byte("null"), nil
 	}
 
@@ -53,6 +54,7 @@ func (f *Field[T]) UnmarshalJSON(data []byte) error {
 
 	trimmed := bytes.TrimSpace(data)
 	if bytes.Equal(trimmed, []byte("null")) {
+		// "present but null" is different from "not present at all".
 		var zero T
 		f.Value = zero
 		f.Valid = false
@@ -142,6 +144,7 @@ func ApplyPartnerPatch(dst *Partner, req UpdatePartnerRequest) error {
 
 	if req.ExternalRef.Set {
 		if !req.ExternalRef.Valid {
+			// Explicit null clears the stored optional value.
 			dst.ExternalRef = Optional[string]{}
 		} else {
 			dst.ExternalRef = Opt(req.ExternalRef.Value)

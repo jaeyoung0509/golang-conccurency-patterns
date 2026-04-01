@@ -34,6 +34,7 @@ func TestCollectInventoryReturnsBestOptionAndFailures(t *testing.T) {
 		t.Fatal("expected best option but got none")
 	}
 
+	// The best option should prefer immediate stock and lower ETA over raw quantity alone.
 	if best.Warehouse != "seoul" {
 		t.Fatalf("unexpected best option: %#v", best)
 	}

@@ -51,6 +51,8 @@ func GenerateQuotes(ctx context.Context, orders []Order, workers int, quoteFn Qu
 	}
 
 	jobs := make(chan job)
+	// Buffering by worker count lets finished workers report back without
+	// immediately blocking on a briefly slow collector.
 	results := make(chan result, workers)
 
 	var workersWG sync.WaitGroup
@@ -68,6 +70,8 @@ func GenerateQuotes(ctx context.Context, orders []Order, workers int, quoteFn Qu
 
 				quote, err := quoteFn(ctx, item.order)
 
+				// Every result carries the original index so the collector can
+				// reconstruct stable output order even if workers finish out of order.
 				select {
 				case results <- result{index: item.index, quote: quote, err: err}:
 				case <-ctx.Done():
@@ -107,6 +111,7 @@ func GenerateQuotes(ctx context.Context, orders []Order, workers int, quoteFn Qu
 		completed++
 
 		if item.err != nil && firstErr == nil {
+			// The collector owns failure policy: first hard error cancels the whole batch.
 			firstErr = fmt.Errorf("quote order %s: %w", orders[item.index].ID, item.err)
 			cancel()
 			continue

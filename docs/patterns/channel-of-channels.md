@@ -114,3 +114,17 @@ In one-shot request/reply flows, a size-1 buffered reply channel or a `select` o
 Use channel-of-channels when you need a brokered request/reply protocol with clear per-call ownership.
 
 If you need bulk parallel work rather than routed replies, use [Worker Pool](/patterns/worker-pool). If you need one goroutine to own mutable state, compare with [Actor Pattern](/advanced/actor-pattern).
+
+## Full runnable example
+
+The blocks below render the exact files from `examples/requestreply`.
+
+::: code-group
+```go [requestreply.go]
+<<< ../../examples/requestreply/requestreply.go
+```
+
+```go [requestreply_test.go]
+<<< ../../examples/requestreply/requestreply_test.go
+```
+:::

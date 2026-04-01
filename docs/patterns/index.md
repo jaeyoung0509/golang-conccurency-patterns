@@ -49,6 +49,6 @@ description: Choose the right Go concurrency pattern based on workload shape, fa
 ## Recommended flow
 
 1. Read the pattern page.
-2. Open the matching package in `examples/`.
-3. Read the tests before copying the implementation style.
+2. Copy or run the full example and full test blocks that are embedded in the page itself.
+3. Open the matching package in `examples/` if you want to modify the implementation locally.
 4. Decide the failure policy and ordering contract you need in your own service.
