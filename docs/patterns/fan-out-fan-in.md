@@ -129,11 +129,6 @@ The aggregator should usually own the receive loop and the final close condition
 The blocks below render the exact files from `examples/fanoutfanin`.
 
 ::: code-group
-```go [fanoutfanin.go]
-<<< ../../examples/fanoutfanin/fanoutfanin.go
-```
-
-```go [fanoutfanin_test.go]
-<<< ../../examples/fanoutfanin/fanoutfanin_test.go
-```
+<<< ../../examples/fanoutfanin/fanoutfanin.go [fanoutfanin.go]
+<<< ../../examples/fanoutfanin/fanoutfanin_test.go [fanoutfanin_test.go]
 :::

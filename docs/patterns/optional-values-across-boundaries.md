@@ -242,11 +242,6 @@ If a plain required value is enough, keep the field as plain `T` and avoid trans
 The blocks below render the exact files from `examples/optionalvalues`.
 
 ::: code-group
-```go [optionalvalues.go]
-<<< ../../examples/optionalvalues/optionalvalues.go
-```
-
-```go [optionalvalues_test.go]
-<<< ../../examples/optionalvalues/optionalvalues_test.go
-```
+<<< ../../examples/optionalvalues/optionalvalues.go [optionalvalues.go]
+<<< ../../examples/optionalvalues/optionalvalues_test.go [optionalvalues_test.go]
 :::

@@ -120,11 +120,6 @@ If you need bulk parallel work rather than routed replies, use [Worker Pool](/pa
 The blocks below render the exact files from `examples/requestreply`.
 
 ::: code-group
-```go [requestreply.go]
-<<< ../../examples/requestreply/requestreply.go
-```
-
-```go [requestreply_test.go]
-<<< ../../examples/requestreply/requestreply_test.go
-```
+<<< ../../examples/requestreply/requestreply.go [requestreply.go]
+<<< ../../examples/requestreply/requestreply_test.go [requestreply_test.go]
 :::

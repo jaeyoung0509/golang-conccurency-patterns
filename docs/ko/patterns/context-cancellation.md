@@ -124,11 +124,6 @@ child goroutine에 buffered send 경로도 없고 `ctx.Done()` 경로도 없고 
 아래 블록은 `examples/contexttimeout`의 실제 파일을 그대로 렌더링합니다.
 
 ::: code-group
-```go [contexttimeout.go]
-<<< ../../../examples/contexttimeout/contexttimeout.go
-```
-
-```go [contexttimeout_test.go]
-<<< ../../../examples/contexttimeout/contexttimeout_test.go
-```
+<<< ../../../examples/contexttimeout/contexttimeout.go [contexttimeout.go]
+<<< ../../../examples/contexttimeout/contexttimeout_test.go [contexttimeout_test.go]
 :::

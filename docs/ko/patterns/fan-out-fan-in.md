@@ -130,11 +130,6 @@ shared channel의 close 조건은 보통 aggregator가 소유해야 합니다. �
 아래 블록은 `examples/fanoutfanin`의 실제 파일을 그대로 렌더링합니다.
 
 ::: code-group
-```go [fanoutfanin.go]
-<<< ../../../examples/fanoutfanin/fanoutfanin.go
-```
-
-```go [fanoutfanin_test.go]
-<<< ../../../examples/fanoutfanin/fanoutfanin_test.go
-```
+<<< ../../../examples/fanoutfanin/fanoutfanin.go [fanoutfanin.go]
+<<< ../../../examples/fanoutfanin/fanoutfanin_test.go [fanoutfanin_test.go]
 :::

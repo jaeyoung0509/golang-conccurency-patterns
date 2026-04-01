@@ -134,11 +134,6 @@ if !p.closed {
 아래 블록은 `examples/gracefulshutdown`의 실제 파일을 그대로 렌더링합니다.
 
 ::: code-group
-```go [gracefulshutdown.go]
-<<< ../../../examples/gracefulshutdown/gracefulshutdown.go
-```
-
-```go [gracefulshutdown_test.go]
-<<< ../../../examples/gracefulshutdown/gracefulshutdown_test.go
-```
+<<< ../../../examples/gracefulshutdown/gracefulshutdown.go [gracefulshutdown.go]
+<<< ../../../examples/gracefulshutdown/gracefulshutdown_test.go [gracefulshutdown_test.go]
 :::
