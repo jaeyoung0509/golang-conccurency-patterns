@@ -104,11 +104,6 @@ These are "advanced small patterns." They do not dominate architecture decisions
 The blocks below render the exact files from `examples/ordoneteebridge`.
 
 ::: code-group
-```go [ordoneteebridge.go]
-<<< ../../examples/ordoneteebridge/ordoneteebridge.go
-```
-
-```go [ordoneteebridge_test.go]
-<<< ../../examples/ordoneteebridge/ordoneteebridge_test.go
-```
+<<< ../../examples/ordoneteebridge/ordoneteebridge.go [ordoneteebridge.go]
+<<< ../../examples/ordoneteebridge/ordoneteebridge_test.go [ordoneteebridge_test.go]
 :::

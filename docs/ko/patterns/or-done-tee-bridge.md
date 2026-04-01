@@ -106,11 +106,6 @@ func forward(in <-chan Item, out chan<- Item) {
 아래 블록은 `examples/ordoneteebridge`의 실제 파일을 그대로 렌더링합니다.
 
 ::: code-group
-```go [ordoneteebridge.go]
-<<< ../../../examples/ordoneteebridge/ordoneteebridge.go
-```
-
-```go [ordoneteebridge_test.go]
-<<< ../../../examples/ordoneteebridge/ordoneteebridge_test.go
-```
+<<< ../../../examples/ordoneteebridge/ordoneteebridge.go [ordoneteebridge.go]
+<<< ../../../examples/ordoneteebridge/ordoneteebridge_test.go [ordoneteebridge_test.go]
 :::

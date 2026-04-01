@@ -155,11 +155,6 @@ If you need multiple stages with different responsibilities, move to a [Pipeline
 The blocks below render the exact files from `examples/workerpool`.
 
 ::: code-group
-```go [workerpool.go]
-<<< ../../examples/workerpool/workerpool.go
-```
-
-```go [workerpool_test.go]
-<<< ../../examples/workerpool/workerpool_test.go
-```
+<<< ../../examples/workerpool/workerpool.go [workerpool.go]
+<<< ../../examples/workerpool/workerpool_test.go [workerpool_test.go]
 :::

@@ -145,11 +145,6 @@ func stage(in <-chan Event) <-chan Score {
 아래 블록은 `examples/pipeline`의 실제 파일을 그대로 렌더링합니다.
 
 ::: code-group
-```go [pipeline.go]
-<<< ../../../examples/pipeline/pipeline.go
-```
-
-```go [pipeline_test.go]
-<<< ../../../examples/pipeline/pipeline_test.go
-```
+<<< ../../../examples/pipeline/pipeline.go [pipeline.go]
+<<< ../../../examples/pipeline/pipeline_test.go [pipeline_test.go]
 :::
