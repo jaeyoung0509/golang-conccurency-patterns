@@ -145,11 +145,6 @@ If you mostly need to ask several backends the same question at once, the [Fan-O
 The blocks below render the exact files from `examples/pipeline`.
 
 ::: code-group
-```go [pipeline.go]
-<<< ../../examples/pipeline/pipeline.go
-```
-
-```go [pipeline_test.go]
-<<< ../../examples/pipeline/pipeline_test.go
-```
+<<< ../../examples/pipeline/pipeline.go [pipeline.go]
+<<< ../../examples/pipeline/pipeline_test.go [pipeline_test.go]
 :::

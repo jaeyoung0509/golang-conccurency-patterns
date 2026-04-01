@@ -152,11 +152,6 @@ worker가 shared context나 shutdown signal을 보지 않으면, caller가 이�
 아래 블록은 `examples/workerpool`의 실제 파일을 그대로 렌더링합니다.
 
 ::: code-group
-```go [workerpool.go]
-<<< ../../../examples/workerpool/workerpool.go
-```
-
-```go [workerpool_test.go]
-<<< ../../../examples/workerpool/workerpool_test.go
-```
+<<< ../../../examples/workerpool/workerpool.go [workerpool.go]
+<<< ../../../examples/workerpool/workerpool_test.go [workerpool_test.go]
 :::

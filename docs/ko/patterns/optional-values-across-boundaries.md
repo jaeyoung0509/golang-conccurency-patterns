@@ -242,11 +242,6 @@ plain required value로 충분하면 그냥 `T`를 유지하고 transport noise�
 아래 블록은 `examples/optionalvalues`의 실제 파일을 그대로 렌더링합니다.
 
 ::: code-group
-```go [optionalvalues.go]
-<<< ../../../examples/optionalvalues/optionalvalues.go
-```
-
-```go [optionalvalues_test.go]
-<<< ../../../examples/optionalvalues/optionalvalues_test.go
-```
+<<< ../../../examples/optionalvalues/optionalvalues.go [optionalvalues.go]
+<<< ../../../examples/optionalvalues/optionalvalues_test.go [optionalvalues_test.go]
 :::

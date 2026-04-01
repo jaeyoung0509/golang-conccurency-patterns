@@ -121,11 +121,6 @@ It is the safety net that keeps the rest of your concurrency patterns from leaki
 The blocks below render the exact files from `examples/contexttimeout`.
 
 ::: code-group
-```go [contexttimeout.go]
-<<< ../../examples/contexttimeout/contexttimeout.go
-```
-
-```go [contexttimeout_test.go]
-<<< ../../examples/contexttimeout/contexttimeout_test.go
-```
+<<< ../../examples/contexttimeout/contexttimeout.go [contexttimeout.go]
+<<< ../../examples/contexttimeout/contexttimeout_test.go [contexttimeout_test.go]
 :::

@@ -120,11 +120,6 @@ bulk parallel work를 처리하려면 [워커 풀](/ko/patterns/worker-pool), mu
 아래 블록은 `examples/requestreply`의 실제 파일을 그대로 렌더링합니다.
 
 ::: code-group
-```go [requestreply.go]
-<<< ../../../examples/requestreply/requestreply.go
-```
-
-```go [requestreply_test.go]
-<<< ../../../examples/requestreply/requestreply_test.go
-```
+<<< ../../../examples/requestreply/requestreply.go [requestreply.go]
+<<< ../../../examples/requestreply/requestreply_test.go [requestreply_test.go]
 :::

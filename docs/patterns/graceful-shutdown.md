@@ -136,11 +136,6 @@ If you skip this pattern, the problems are predictable:
 The blocks below render the exact files from `examples/gracefulshutdown`.
 
 ::: code-group
-```go [gracefulshutdown.go]
-<<< ../../examples/gracefulshutdown/gracefulshutdown.go
-```
-
-```go [gracefulshutdown_test.go]
-<<< ../../examples/gracefulshutdown/gracefulshutdown_test.go
-```
+<<< ../../examples/gracefulshutdown/gracefulshutdown.go [gracefulshutdown.go]
+<<< ../../examples/gracefulshutdown/gracefulshutdown_test.go [gracefulshutdown_test.go]
 :::
