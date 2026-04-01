@@ -118,3 +118,17 @@ child goroutine에 buffered send 경로도 없고 `ctx.Done()` 경로도 없고 
 여러 고루틴이 하나의 요청, 잡, CLI 실행 수명 주기에 묶여 있다면 이 패턴은 거의 필수입니다.
 
 다른 동시성 패턴을 안전하게 운영하기 위한 기본 안전장치라고 보면 됩니다.
+
+## 전체 실행 예제
+
+아래 블록은 `examples/contexttimeout`의 실제 파일을 그대로 렌더링합니다.
+
+::: code-group
+```go [contexttimeout.go]
+<<< ../../../examples/contexttimeout/contexttimeout.go
+```
+
+```go [contexttimeout_test.go]
+<<< ../../../examples/contexttimeout/contexttimeout_test.go
+```
+:::

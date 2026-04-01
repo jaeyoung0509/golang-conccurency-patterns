@@ -46,6 +46,8 @@ func NewProcessor(workers, queue int, handler Handler) (*Processor, error) {
 		jobs:    make(chan Event, queue),
 	}
 
+	// The worker fleet is fixed at construction time, so shutdown can wait for
+	// a known set of goroutines to drain.
 	p.wg.Add(workers)
 	for range workers {
 		go p.worker()
@@ -66,6 +68,7 @@ func (p *Processor) Submit(ctx context.Context, event Event) error {
 	p.mu.RLock()
 	defer p.mu.RUnlock()
 
+	// Once shutdown begins, the processor stops admitting new work immediately.
 	if p.closed {
 		return ErrClosed
 	}
@@ -85,6 +88,7 @@ func (p *Processor) Shutdown(ctx context.Context) error {
 		return nil
 	}
 	p.closed = true
+	// Closing the jobs channel tells workers to drain admitted work and exit.
 	close(p.jobs)
 	p.mu.Unlock()
 

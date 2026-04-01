@@ -82,6 +82,7 @@ func TestRunAlertPipelineCancelsWorkersOnError(t *testing.T) {
 			return RiskSignal{}, errors.New("risk engine timeout")
 		}
 
+		// Healthy workers should notice the shared cancellation signal.
 		<-ctx.Done()
 		select {
 		case cancelObserved <- struct{}{}:

@@ -46,6 +46,8 @@ func CollectInventory(ctx context.Context, sku string, lookups map[string]Wareho
 		err   error
 	}
 
+	// One buffered slot per lookup means every warehouse can report back once
+	// even if the caller stops reading slightly later.
 	results := make(chan result, len(lookups))
 
 	var workersWG sync.WaitGroup
@@ -79,6 +81,7 @@ func CollectInventory(ctx context.Context, sku string, lookups map[string]Wareho
 
 	for item := range results {
 		if item.err != nil {
+			// Fan-in keeps partial failure details instead of dropping them on the floor.
 			report.Failures[item.name] = item.err.Error()
 			continue
 		}

@@ -57,6 +57,8 @@ func (service DashboardService) Build(ctx context.Context, userID string) (Dashb
 		err             error
 	}
 
+	// One slot per sibling call lets each goroutine report exactly once without
+	// depending on the collector being scheduled immediately.
 	results := make(chan result, 3)
 
 	go func() {
@@ -97,6 +99,7 @@ func (service DashboardService) Build(ctx context.Context, userID string) (Dashb
 			return Dashboard{}, ctx.Err()
 		case result := <-results:
 			if result.err != nil {
+				// First failure cancels the rest of the request-scoped work.
 				cancel()
 				return Dashboard{}, result.err
 			}

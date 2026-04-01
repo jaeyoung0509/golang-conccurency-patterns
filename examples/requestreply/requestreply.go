@@ -39,6 +39,7 @@ type Broker struct {
 
 type request struct {
 	check FraudCheck
+	// Each caller supplies its own reply path, which keeps response ownership explicit.
 	reply chan result
 }
 
@@ -78,6 +79,8 @@ func (b *Broker) Run(ctx context.Context) {
 		case <-ctx.Done():
 			return
 		case req := <-b.requests:
+			// The broker serializes engine access and routes the result back through
+			// the caller-owned reply channel.
 			decision, err := b.engine(ctx, req.check)
 
 			select {
@@ -90,6 +93,8 @@ func (b *Broker) Run(ctx context.Context) {
 }
 
 func (b *Broker) Check(ctx context.Context, check FraudCheck) (Decision, error) {
+	// Buffer 1 ensures the broker can finish replying even if the caller times out
+	// after the request was already admitted.
 	reply := make(chan result, 1)
 
 	req := request{

@@ -46,6 +46,7 @@ func TestGenerateQuotesRespectsWorkerLimit(t *testing.T) {
 	var maxInFlight atomic.Int32
 
 	_, err := GenerateQuotes(context.Background(), orders, 4, func(_ context.Context, order Order) (ShipmentQuote, error) {
+		// Track the high-water mark so the test proves the worker cap, not just completion.
 		current := inFlight.Add(1)
 		defer inFlight.Add(-1)
 
@@ -83,6 +84,7 @@ func TestGenerateQuotesCancelsSlowJobsAfterError(t *testing.T) {
 			return ShipmentQuote{}, errors.New("carrier API unavailable")
 		}
 
+		// Slow jobs should not keep running after the batch is already doomed.
 		<-ctx.Done()
 		select {
 		case cancelObserved <- struct{}{}:

@@ -236,3 +236,17 @@ Use a tri-state input field type when write semantics must distinguish:
 - set.
 
 If a plain required value is enough, keep the field as plain `T` and avoid transport noise.
+
+## Full runnable example
+
+The blocks below render the exact files from `examples/optionalvalues`.
+
+::: code-group
+```go [optionalvalues.go]
+<<< ../../examples/optionalvalues/optionalvalues.go
+```
+
+```go [optionalvalues_test.go]
+<<< ../../examples/optionalvalues/optionalvalues_test.go
+```
+:::

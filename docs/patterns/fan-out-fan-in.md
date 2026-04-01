@@ -123,3 +123,17 @@ This example fans out once per warehouse. That is usually small and known. If th
 ### Closing the shared results channel from a worker
 
 The aggregator should usually own the receive loop and the final close condition. If multiple workers might close the same shared channel, the design is already in danger.
+
+## Full runnable example
+
+The blocks below render the exact files from `examples/fanoutfanin`.
+
+::: code-group
+```go [fanoutfanin.go]
+<<< ../../examples/fanoutfanin/fanoutfanin.go
+```
+
+```go [fanoutfanin_test.go]
+<<< ../../examples/fanoutfanin/fanoutfanin_test.go
+```
+:::

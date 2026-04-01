@@ -38,6 +38,7 @@ func TestShutdownDrainsAcceptedEvents(t *testing.T) {
 		}
 	}
 
+	// Shutdown should wait for already-admitted work instead of dropping it.
 	if err := processor.Shutdown(context.Background()); err != nil {
 		t.Fatalf("Shutdown returned error: %v", err)
 	}

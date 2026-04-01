@@ -139,3 +139,17 @@ If a stage performs expensive remote work or CPU work and never checks `ctx.Done
 Use a pipeline when you need explicit stage boundaries, different scaling characteristics per stage, or a streaming mental model.
 
 If you mostly need to ask several backends the same question at once, the [Fan-Out / Fan-In](/patterns/fan-out-fan-in) pattern is a better fit.
+
+## Full runnable example
+
+The blocks below render the exact files from `examples/pipeline`.
+
+::: code-group
+```go [pipeline.go]
+<<< ../../examples/pipeline/pipeline.go
+```
+
+```go [pipeline_test.go]
+<<< ../../examples/pipeline/pipeline_test.go
+```
+:::

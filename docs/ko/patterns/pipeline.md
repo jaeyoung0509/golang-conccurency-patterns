@@ -139,3 +139,17 @@ func stage(in <-chan Event) <-chan Score {
 단계별 책임이 분명하거나, 단계별 확장 방식이 다르거나, 스트리밍 모델로 생각하는 편이 자연스러울 때 파이프라인이 좋습니다.
 
 같은 질문을 여러 백엔드에 동시에 던지고 합치는 문제라면 [팬아웃 / 팬인](/ko/patterns/fan-out-fan-in)이 더 잘 맞습니다.
+
+## 전체 실행 예제
+
+아래 블록은 `examples/pipeline`의 실제 파일을 그대로 렌더링합니다.
+
+::: code-group
+```go [pipeline.go]
+<<< ../../../examples/pipeline/pipeline.go
+```
+
+```go [pipeline_test.go]
+<<< ../../../examples/pipeline/pipeline_test.go
+```
+:::

@@ -98,3 +98,17 @@ func forward(in <-chan Item, out chan<- Item) {
 ## Practical takeaway
 
 These are "advanced small patterns." They do not dominate architecture decisions, but they often clean up the hardest edges in channel-heavy code.
+
+## Full runnable example
+
+The blocks below render the exact files from `examples/ordoneteebridge`.
+
+::: code-group
+```go [ordoneteebridge.go]
+<<< ../../examples/ordoneteebridge/ordoneteebridge.go
+```
+
+```go [ordoneteebridge_test.go]
+<<< ../../examples/ordoneteebridge/ordoneteebridge_test.go
+```
+:::

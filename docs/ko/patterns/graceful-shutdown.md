@@ -128,3 +128,17 @@ if !p.closed {
 - in-flight work drop,
 - hanging deploy,
 - 모호한 실패 상태.
+
+## 전체 실행 예제
+
+아래 블록은 `examples/gracefulshutdown`의 실제 파일을 그대로 렌더링합니다.
+
+::: code-group
+```go [gracefulshutdown.go]
+<<< ../../../examples/gracefulshutdown/gracefulshutdown.go
+```
+
+```go [gracefulshutdown_test.go]
+<<< ../../../examples/gracefulshutdown/gracefulshutdown_test.go
+```
+:::

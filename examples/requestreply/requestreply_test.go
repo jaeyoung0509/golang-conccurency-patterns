@@ -105,6 +105,7 @@ func TestBrokerDoesNotBlockIfCallerTimesOutAfterSend(t *testing.T) {
 		t.Fatalf("broker.Check error = %v, want deadline exceeded", err)
 	}
 
+	// A timed-out caller must not leave the broker wedged for the next request.
 	close(release)
 
 	decision, err := broker.Check(context.Background(), FraudCheck{OrderID: "fast"})

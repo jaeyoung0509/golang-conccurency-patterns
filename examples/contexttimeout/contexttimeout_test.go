@@ -42,6 +42,7 @@ func TestDashboardServiceCancelsSiblingCallsAfterFailure(t *testing.T) {
 			return Profile{}, errors.New("profile service unavailable")
 		},
 		LoadUsage: func(ctx context.Context, _ string) (UsageSnapshot, error) {
+			// The slow sibling should be interrupted instead of running to completion.
 			<-ctx.Done()
 			cancelObserved <- struct{}{}
 			return UsageSnapshot{}, ctx.Err()
